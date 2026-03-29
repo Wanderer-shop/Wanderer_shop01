@@ -1,1219 +1,1071 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pinkjulieland</title>
-    <!-- นำเข้า Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Mitr:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <style>
-        /* --- Color Variables (ตีมสีจากรูปที่ 1) --- */
-        :root {
-            --bg-main: #FFFDE7;       /* สีพื้นหลังหลัก เหลืองอ่อน */
-            --bg-sidebar: #38C2B3;    /* สีแถบด้านข้าง ฟ้าอมเขียว */
-            --bg-card: #FFFFFF;       /* สีพื้นหลังการ์ด */
-            --banner-color: #B5E57A;  /* สีแบนเนอร์ เขียวอ่อนสดใส */
-            --banner-pattern: #E3F8B3; 
-            
-            --text-dark: #2A4C48;     /* สีข้อความหลัก */
-            --text-light: #6C8E8A;    /* สีข้อความรอง */
-            --text-white: #FFFFFF;    
-            
-            --accent-pink: #FFB3D9;   /* สีชมพูตกแต่ง */
-            --accent-yellow: #FFD54F; /* สีเหลืองตกแต่ง */
-            --accent-green: #AEE26C;  /* สีเขียวปุ่ม */
-            --accent-teal: #38C2B3;   /* สีปุ่ม/ไอคอน */
-            
-            --border-radius-lg: 30px;
-            --border-radius-md: 20px;
-            --border-radius-sm: 12px;
-            
-            --shadow-card: 0 10px 30px rgba(56, 194, 179, 0.08);
-            --shadow-hover: 0 15px 35px rgba(56, 194, 179, 0.15);
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Wanderer_Shop</title>
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Mitr:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+:root {
+  --primary: #3B96F5;
+  --secondary: #FF4B7E;
+  --bg-main: #0A1D3A;
+  --bg-card: #E1E8EE;
+  --border-color: #C49646;
+  --text-muted: #666; 
+}
+body {
+  font-family: 'Kanit', sans-serif;
+  background: var(--bg-main); color: #fff;
+  overflow-x: hidden;
+  padding-bottom: 110px;
+}
 
-        /* --- Global Reset & Typography --- */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+/* Background Particles & Glow */
+.bg-glow-1 { position: fixed; top: -100px; left: -100px; width: 300px; height: 300px; background: radial-gradient(circle, rgba(176,38,255,0.15) 0%, rgba(0,0,0,0) 70%); z-index: -1; pointer-events: none; }
+.bg-glow-2 { position: fixed; bottom: 20%; right: -150px; width: 400px; height: 400px; background: radial-gradient(circle, rgba(0,210,255,0.1) 0%, rgba(0,0,0,0) 70%); z-index: -1; pointer-events: none; }
+#pts { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+.pt { position: absolute; animation: ptUp linear infinite; opacity: 0; }
+@keyframes ptUp { 0% { transform: translateY(105vh); opacity: 0; } 10% { opacity: 0.6; } 90% { opacity: 0.6; } 100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; } }
 
-        body {
-            font-family: 'Mitr', sans-serif !important;
-            background-color: var(--bg-main);
-            color: var(--text-dark);
-            line-height: 1.6;
-            overflow-x: hidden;
-            background-image: radial-gradient(var(--banner-pattern) 2px, transparent 2px);
-            background-size: 30px 30px;
-        }
+/* Shop Status Pill */
+.status { position: fixed; top: 12px; left: 12px; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: bold; color: #fff; z-index: 999; animation: pulse 1.5s infinite; }
+.status.open { background: #00c853; }
+.status.closed { background: #ff1744; }
+.status.slow { background: #ffea00; color: #000; }
+.status.pause { background: #ff9100; }
+@keyframes pulse { 0% { transform: scale(1); opacity:1;} 50% { transform: scale(1.05); opacity:0.8;} 100% { transform: scale(1); opacity:1;} }
 
-        h1, h2, h3, h4, h5, .english-text {
-            font-family: 'Fredoka', 'Mitr', sans-serif !important;
-        }
+/* HERO */
+.hero { display: flex; flex-direction: column; align-items: center; gap: 15px; background: linear-gradient(135deg, rgba(10,29,58,0.9) 0%, rgba(59,150,245,0.2) 100%); padding: 60px 20px 40px; text-align: center; border-bottom: 2px solid var(--border-color); position: relative; z-index: 2; margin-bottom: 30px; }
+.hero-logo-container { margin-top: -20px; }
+.hero-logo-frame { width: 180px; height: 180px; background: var(--bg-card); border: 4px solid var(--border-color); border-radius: 50%; display: flex; justify-content: center; align-items: center; box-shadow: 0 0 25px rgba(59,150,245,0.4); overflow: hidden; position: relative; z-index: 2; }
+.hero-logo-img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+.hero-title-container { text-align: center; }
+.hero-title { font-family: 'Mitr', sans-serif; font-size: 32px; font-weight: 700; color: #fff; text-shadow: 0 0 15px rgba(59,150,245,0.6); margin-bottom: 5px; cursor: pointer; }
+.hero-sub { font-size: 14px; color: #ddd; margin-top: 5px; }
 
-        a { text-decoration: none; color: inherit; }
-        ul { list-style: none; }
-        button { cursor: pointer; border: none; font-family: inherit; }
+/* Tabs Navigation */
+.tab-nav { display: flex; overflow-x: auto; gap: 10px; padding: 0 20px 15px; justify-content: center; scrollbar-width: none; position: relative; z-index: 10; margin-top: -15px; }
+.tab-nav::-webkit-scrollbar { display: none; }
+.tab-btn { background: var(--bg-card); color: var(--text-muted); border: 1px solid var(--border-color); padding: 8px 20px; border-radius: 20px; font-family: inherit; font-size: 14px; font-weight: 600; cursor: pointer; white-space: nowrap; transition: 0.3s; }
+.tab-btn.active { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: #fff; border-color: transparent; }
 
-        /* --- Custom Scrollbar --- */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: var(--accent-pink); border-radius: 10px; }
+/* Sorting & Search Box */
+.sort-container { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; flex-wrap: wrap; gap: 10px; }
+.sort-title { font-size: 18px; font-weight: 700; color: #fff; border-left: 4px solid var(--primary); padding-left: 10px; line-height: 1; display: flex; align-items: center; }
+.sort-dropdown { background: var(--bg-card); color: var(--text-muted); border: 1px solid var(--border-color); padding: 8px 20px; border-radius: 20px; font-family: inherit; font-size: 14px; font-weight: 600; outline: none; cursor: pointer; transition: 0.3s; }
+.sort-dropdown:hover { border-color: var(--primary); color: #333; }
+.search-box { width: 100%; padding: 10px 15px; border-radius: 20px; border: 1px solid var(--border-color); background: var(--bg-card); color: #333; font-family: inherit; font-size: 14px; outline: none; margin-bottom: 15px; transition: 0.3s; }
+.search-box:focus { border-color: var(--primary); box-shadow: 0 0 10px rgba(59,150,245,0.3); }
 
-        /* --- Layout Structure --- */
-        .app-container {
-            display: flex;
-            min-height: 100vh;
-            max-width: 1200px; /* ปรับขนาดให้พอดีเมื่อไม่มี Sidebar */
-            margin: 0 auto;
-            position: relative;
-        }
+/* Slider */
+.slider-container { position: relative; width: 100%; border-radius: 12px; overflow: hidden; background: #000; display: flex; align-items: center; justify-content: center; aspect-ratio: 16/9; margin-bottom: 10px; }
+.slider-img { width: 100%; height: 100%; display: none; object-fit: cover; }
+.slider-img.active { display: block; animation: fadeSlide 0.5s ease-in-out; }
+@keyframes fadeSlide { from { opacity: 0.5; } to { opacity: 1; } }
+.slider-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.6); color: #fff; border: none; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; z-index: 10; transition: 0.2s; }
+.slider-btn:hover { background: var(--primary); }
+.slider-btn.left { left: 10px; }
+.slider-btn.right { right: 10px; }
 
-        /* --- Gimmick: Floating Animations --- */
-        @keyframes float {
-            0% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-15px) rotate(10deg); }
-            100% { transform: translateY(0px) rotate(0deg); }
-        }
-        
-        .bg-shape {
-            position: fixed; /* fixed เพื่อให้อยู่ตลอดเวลาเลื่อนจอ */
-            z-index: 0;
-            animation: float 6s ease-in-out infinite;
-            pointer-events: none;
-        }
-        .shape-1 { top: 10%; left: 2%; width: 80px; height: 80px; fill: var(--accent-pink); opacity: 0.5; animation-delay: 0s; }
-        .shape-2 { top: 50%; right: 2%; width: 60px; height: 60px; fill: var(--accent-yellow); opacity: 0.5; animation-delay: 1.5s; }
-        .shape-3 { bottom: 20%; left: 5%; width: 50px; height: 50px; fill: var(--accent-teal); opacity: 0.3; animation-delay: 3s; }
+/* Content & Grid */
+.content { max-width: 600px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 5; }
+.app-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 15px; }
+.app-card { background: var(--bg-card); border-radius: 12px; padding: 15px; text-align: center; cursor: pointer; transition: transform 0.2s; color: #000; border: 2px solid transparent; display: flex; flex-direction: column; align-items: center; position: relative; }
+.app-card:hover { transform: translateY(-3px); border-color: var(--primary); }
+.app-card img { width: 70px; height: 70px; border-radius: 15px; object-fit: cover; margin-bottom: 10px; }
+.app-card h4 { font-size: 16px; margin-bottom: 5px; }
+.app-card .app-desc { font-size: 12px; color: var(--text-muted); line-height: 1.3; white-space: pre-line; }
+/* Product Status Badge */
+.app-badge { position: absolute; top: 8px; right: 8px; font-size: 10px; padding: 3px 8px; border-radius: 12px; color: #fff; font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.2); z-index: 5; }
+.app-badge.ready { background: #00c853; }
+.app-badge.not-ready { background: #ff1744; }
 
-        /* --- Main Content Area --- */
-        .main-content {
-            flex: 1;
-            padding: 40px 20px;
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-            position: relative;
-            z-index: 1;
-        }
+/* OS Buttons */
+.os-btn-group { display: flex; flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 10px; width: 100%; }
+.os-btn { background: #fff; border: 1px solid var(--primary); color: var(--primary); padding: 6px 12px; border-radius: 6px; font-size: 12px; cursor: pointer; font-weight: bold; width: fit-content; }
+.os-btn.outstock { background: #eee; border-color: #ccc; color: #999; cursor: not-allowed; }
+.os-btn.selected { background: var(--primary); color: #fff; border-color: var(--primary); }
+.os-btn:hover:not(.outstock) { background: var(--primary); color: #fff; }
 
-        /* --- Banner --- */
-        .banner {
-            height: 250px;
-            background-color: #F2FAEE; /* เปลี่ยนเป็นสีเรียบๆ สบายตา */
-            border-radius: var(--border-radius-lg);
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            padding: 40px;
-        }
+.back-btn { background: var(--text-muted); color: #fff; border: none; padding: 8px 15px; border-radius: 8px; margin-bottom: 15px; cursor: pointer; }
+.package-group-title { background: #2a3d59; color: #fff; padding: 8px 15px; border-radius: 8px; margin: 20px 0 10px 0; font-size: 15px; }
 
-        /* SVG ตกแต่งใน Banner */
-        .banner-svg-decor {
-            position: absolute;
-            animation: float 4s ease-in-out infinite;
-            opacity: 0.6;
-        }
-        .bsd-1 { top: 30px; left: 10%; width: 80px; height: 80px; fill: var(--accent-pink); }
-        .bsd-2 { bottom: -20px; left: 30%; width: 120px; height: 120px; fill: var(--accent-yellow); animation-delay: 1.5s; }
-        /* ขยับหัวใจมาทางซ้าย ไม่ให้บังชื่อร้านที่อยู่ฝั่งขวา */
-        .bsd-3 { top: 50px; right: 65%; width: 50px; height: 50px; fill: var(--bg-sidebar); animation-delay: 2.5s; opacity: 0.4; }
-        
-        .banner-text {
-            position: relative;
-            z-index: 1;
-            text-align: right;
-            color: var(--text-dark);
-        }
-        .banner-text h1 {
-            font-size: 48px;
-            color: var(--bg-sidebar);
-            text-shadow: 2px 2px 0px #fff;
-            letter-spacing: 2px;
-        }
-        .banner-text p {
-            font-size: 18px;
-            font-weight: 500;
-            background: rgba(255,255,255,0.7);
-            padding: 5px 15px;
-            border-radius: 20px;
-            display: inline-block;
-            margin-top: 10px;
-        }
+/* Cart Details Panel */
+.cart-panel { position: fixed; bottom: 75px; left: 50%; transform: translateX(-50%) translateY(150%); width: 90%; max-width: 500px; background: #fff; color: #000; border: 2px solid var(--border-color); border-radius: 12px; z-index: 999; transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); display: flex; flex-direction: column; max-height: 50vh; box-shadow: 0 -5px 25px rgba(0,0,0,0.4); visibility: hidden; }
+.cart-panel.open { transform: translateX(-50%) translateY(0); visibility: visible; }
+.cart-panel-header { background: var(--border-color); color: #fff; padding: 10px; text-align: center; font-weight: bold; border-radius: 9px 9px 0 0; }
+.cart-panel-list { padding: 5px 15px; overflow-y: auto; }
+.cart-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px dashed #ddd; align-items: center; }
+.cart-item:last-child { border-bottom: none; }
+.cart-item-remove { background: #ff4b7e; color: #fff; border: none; padding: 5px 10px; border-radius: 6px; font-size: 11px; font-weight: bold; cursor: pointer; }
 
-        /* --- Dashboard Grid (Profile + Cards) --- */
-        .dashboard-grid {
-            display: flex;
-            gap: 30px;
-            margin-top: -80px; /* Pull up to overlap banner like ref */
-            position: relative;
-            z-index: 10;
-        }
+/* Bottom Bar */
+.bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(10, 29, 58, 0.95); backdrop-filter: blur(10px); border-top: 1px solid var(--primary); padding: 15px 24px; display: flex; justify-content: space-between; align-items: center; transform: translateY(100%); transition: transform 0.3s; z-index: 1000; }
+.bottom-bar.active { transform: translateY(0); }
+.bb-total { font-size: 20px; font-weight: 700; color: #fff; }
+.bb-btn { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: #fff; border: none; border-radius: 25px; padding: 10px 24px; font-weight: 600; cursor: pointer; }
 
-        /* --- Left Column (Profile Card) --- */
-        .left-col {
-            width: 320px;
-            flex-shrink: 0;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
+/* Contacts Info Tab */
+.info-card { background: var(--bg-card); color:#000; border-radius: 16px; padding: 20px; text-align:center; margin-bottom: 15px; }
+.copy-btn { background: var(--primary); color:#fff; border:none; padding:4px 10px; border-radius:6px; font-size:12px; cursor:pointer; }
 
-        .profile-card {
-            background-color: var(--bg-card);
-            border-radius: var(--border-radius-lg);
-            padding: 40px 20px 30px;
-            box-shadow: var(--shadow-card);
-            text-align: center;
-            position: relative;
-        }
+/* Modals */
+.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 10001; display: none; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(5px); }
+.modal-box { background: #fff; color: #000; padding: 24px; border-radius: 16px; width: 100%; max-width: 380px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+.modal-details { text-align: left; background: #f0f5fa; padding: 15px; border-radius: 8px; max-height: 250px; overflow-y: auto; font-size: 14px; margin: 15px 0; white-space: pre-wrap; line-height: 1.6; border: 1px solid #dce4ec; color: #333; }
+.btn-confirm { background: #00c853; color: #fff; padding: 12px; border-radius: 8px; border: none; font-weight: bold; width: 100%; cursor: pointer; font-size: 16px; margin-bottom: 10px; }
+.btn-cancel { background: #f5f5f5; color: #555; padding: 12px; border-radius: 8px; border: 1px solid #ccc; font-weight: bold; width: 100%; cursor: pointer; font-size: 16px; }
 
-        /* Gimmick: Floating Premium Badge */
-        .badge-premium-new {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background-color: var(--accent-yellow);
-            color: var(--text-dark);
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            box-shadow: 0 4px 10px rgba(255, 213, 79, 0.4);
-            animation: float 4s ease-in-out infinite;
-        }
-        .badge-premium-new svg { width: 12px; height: 12px; fill: currentColor; }
-
-        .profile-avatar {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            background-color: var(--text-white); /* พื้นหลังโลโก้สีขาวเรียบๆ */
-            border: 6px solid var(--bg-card);
-            margin: -90px auto 15px; /* Overlap effect */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        /* ตัวไอคอนโลโก้หลัก */
-        .profile-avatar .main-avatar {
-            width: 65px;
-            height: 65px;
-            fill: var(--bg-sidebar); /* สีตัดกับพื้นหลัง */
-            position: relative;
-            z-index: 5;
-        }
-
-        /* SVG ตกแต่งรอบๆ โลโก้ */
-        .logo-decor {
-            position: absolute;
-            z-index: 10;
-            animation: float 3s ease-in-out infinite;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
-        }
-        .ld-1 { top: -10px; right: 0px; width: 28px; height: 28px; fill: var(--accent-yellow); animation-delay: 0s; }
-        .ld-2 { bottom: 10px; left: -15px; width: 22px; height: 22px; fill: var(--accent-pink); animation-delay: 0.8s; }
-        .ld-3 { top: 30px; left: -10px; width: 18px; height: 18px; fill: var(--accent-green); animation-delay: 1.6s; }
-        
-        .status-dot {
-            width: 15px;
-            height: 15px;
-            background-color: var(--accent-green);
-            border: 3px solid var(--bg-card);
-            border-radius: 50%;
-            position: absolute;
-            bottom: 5px;
-            right: 15px;
-        }
-
-        .profile-name {
-            font-size: 28px;
-            color: var(--text-dark);
-            margin-bottom: 5px;
-        }
-
-        .profile-title {
-            font-size: 14px;
-            color: var(--text-light);
-            margin-bottom: 20px;
-            padding: 0 10px;
-        }
-
-        .profile-stats {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin-bottom: 10px;
-            padding-bottom: 15px;
-        }
-        .stat-item h4 { font-size: 18px; color: var(--text-dark); }
-        .stat-item p { font-size: 12px; color: var(--text-light); }
-
-        /* --- Quick Nav in Profile --- */
-        .quick-nav {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            justify-content: center;
-            margin-bottom: 25px;
-            padding-bottom: 25px;
-            border-bottom: 1px dashed #eee;
-        }
-        .quick-nav-item {
-            padding: 8px 14px;
-            background-color: var(--bg-main);
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: 500;
-            color: var(--text-dark);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            transition: all 0.3s ease;
-            border: 1px solid transparent;
-        }
-        .quick-nav-item:hover {
-            background-color: var(--bg-sidebar);
-            color: var(--text-white);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 10px rgba(56, 194, 179, 0.2);
-        }
-        .quick-nav-item svg { width: 14px; height: 14px; fill: currentColor; }
-
-        /* Contact Buttons (Minimal, Theme Colors) */
-        .contact-group {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .btn-contact {
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            transition: all 0.3s ease;
-            text-decoration: none;
-        }
-
-        .btn-primary {
-            background-color: var(--bg-sidebar);
-            color: var(--text-white);
-            border: 1px solid var(--bg-sidebar);
-        }
-        .btn-primary:hover { background-color: #2da396; }
-
-        .btn-outline {
-            background-color: transparent;
-            color: var(--bg-sidebar);
-            border: 1px solid var(--bg-sidebar);
-        }
-        .btn-outline:hover {
-            background-color: var(--bg-sidebar);
-            color: var(--text-white);
-        }
-        
-        .btn-contact svg { width: 14px; height: 14px; fill: currentColor; }
-
-        .contact-links {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            text-align: left;
-            background: #f9fdfc;
-            padding: 15px;
-            border-radius: var(--border-radius-sm);
-        }
-        .contact-link-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 13px;
-            color: var(--text-dark);
-            text-decoration: none;
-        }
-        .contact-link-item svg { width: 16px; height: 16px; fill: var(--bg-sidebar); }
-
-        /* --- Right Column (Content Cards) --- */
-        .right-col {
-            flex: 1;
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            grid-auto-rows: min-content;
-            gap: 25px;
-        }
-
-        .content-card {
-            background-color: var(--bg-card);
-            border-radius: var(--border-radius-lg);
-            padding: 30px;
-            box-shadow: var(--shadow-card);
-            transition: transform 0.3s ease;
-        }
-        .content-card:hover { transform: translateY(-3px); }
-        
-        /* Gimmick: ไอคอนหัวข้อเด้งดึ๋งเมื่อชี้ที่การ์ด */
-        .content-card:hover .card-header svg {
-            animation: bounce-icon 1s ease infinite;
-        }
-        @keyframes bounce-icon {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
-        }
-
-        /* Gimmick: เอฟเฟกต์โปรไฟล์เด้ง */
-        .profile-avatar {
-            transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-        }
-        .profile-avatar:hover {
-            transform: scale(1.05) translateY(-5px);
-        }
-        
-        /* Gimmick: ป้ายพรีเมียมหมุน */
-        .badge-premium-new:hover svg {
-            animation: spin 2s linear infinite;
-        }
-        @keyframes spin { 100% { transform: rotate(360deg); } }
-
-        /* Full width cards */
-        .card-full { grid-column: span 2; }
-
-        .card-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid var(--bg-main);
-        }
-        .card-header svg {
-            width: 24px;
-            height: 24px;
-            fill: var(--accent-teal);
-        }
-        .card-title {
-            font-size: 20px;
-            color: var(--bg-sidebar);
-        }
-
-        /* --- ✨ Gimmicks & Fake Buttons ✨ --- */
-        .btn-fake {
-            width: 100%;
-            padding: 12px;
-            border-radius: var(--border-radius-md);
-            background-color: var(--accent-pink);
-            color: white;
-            font-family: 'Fredoka', 'Mitr', sans-serif !important;
-            font-weight: 600;
-            font-size: 15px;
-            margin-top: 15px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 10px rgba(255, 179, 217, 0.4);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 8px;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        /* Gimmick: แสงวิ้งค์ๆ วิ่งพาดผ่านปุ่ม */
-        .btn-fake::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 50%;
-            height: 100%;
-            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%);
-            transform: skewX(-25deg);
-            animation: shine 3s infinite;
-        }
-        @keyframes shine {
-            0% { left: -100%; }
-            20% { left: 200%; }
-            100% { left: 200%; }
-        }
-
-        .btn-fake:hover {
-            transform: scale(1.03) translateY(-3px);
-            background-color: #ff99cc;
-            box-shadow: 0 6px 15px rgba(255, 179, 217, 0.6);
-        }
-        .btn-fake svg { width: 18px; height: 18px; fill: currentColor; }
-
-        .btn-fake-yellow { background-color: var(--accent-yellow); color: var(--text-dark); box-shadow: 0 4px 10px rgba(255, 213, 79, 0.4); }
-        .btn-fake-yellow:hover { background-color: #ffc107; box-shadow: 0 6px 15px rgba(255, 213, 79, 0.6); }
-
-        .btn-fake-teal { background-color: var(--bg-sidebar); box-shadow: 0 4px 10px rgba(56, 194, 179, 0.4); }
-        .btn-fake-teal:hover { background-color: #2da396; box-shadow: 0 6px 15px rgba(56, 194, 179, 0.6); }
-
-        @keyframes pulse-badge {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1) rotate(5deg); }
-            100% { transform: scale(1); }
-        }
-        .badge-hot {
-            background-color: #ff6b6b;
-            color: white;
-            font-size: 10px;
-            padding: 2px 8px;
-            border-radius: 10px;
-            margin-left: 8px;
-            display: inline-block;
-            animation: pulse-badge 2s infinite;
-        }
-
-        /* --- Specific Card Styles --- */
-        
-        /* Intro Card */
-        .list-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-            margin-bottom: 10px;
-            font-size: 14px;
-            color: var(--text-dark);
-        }
-        .list-icon {
-            flex-shrink: 0;
-            width: 20px;
-            height: 20px;
-            fill: var(--accent-pink);
-            margin-top: 2px;
-        }
-        .highlight-box {
-            background-color: #f0fbf9;
-            border-left: 4px solid var(--bg-sidebar);
-            padding: 15px;
-            border-radius: 0 var(--border-radius-sm) var(--border-radius-sm) 0;
-            font-size: 14px;
-            margin-top: 15px;
-        }
-
-        /* Portfolio Card (3 Popups) */
-        .portfolio-group {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-        .btn-portfolio {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 15px 20px;
-            background-color: var(--bg-main);
-            border-radius: var(--border-radius-md);
-            font-size: 16px;
-            font-weight: 500;
-            color: var(--text-dark);
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-        }
-        .btn-portfolio:hover {
-            border-color: var(--accent-teal);
-            background-color: white;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-        }
-        .port-icon-group {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .port-icon { width: 24px; height: 24px; }
-        .color-bright { fill: var(--accent-yellow); }
-        .color-dark { fill: var(--text-dark); }
-        .color-pastel { fill: var(--accent-pink); }
-        .arrow-icon { width: 16px; height: 16px; fill: var(--text-light); }
-
-        /* Pricing Card */
-        .price-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 0;
-            border-bottom: 1px dashed #eee;
-            font-size: 14px;
-        }
-        .price-row:last-child { border-bottom: none; }
-        .price-tag {
-            font-family: 'Fredoka', sans-serif;
-            font-weight: 600;
-            color: var(--bg-sidebar);
-            font-size: 16px;
-        }
-        .promo-box {
-            background: linear-gradient(135deg, #fff0f5, #ffe6f0);
-            padding: 20px;
-            border-radius: var(--border-radius-md);
-            margin-top: 20px;
-            border: 1px solid var(--accent-pink);
-        }
-        .promo-title {
-            color: #d84b8b;
-            font-weight: 600;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .promo-title svg { width: 18px; height: 18px; fill: #d84b8b; }
-
-        /* Goodnote Card */
-        .goodnote-packages {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-        .gn-pkg {
-            border: 1px solid #eee;
-            border-radius: var(--border-radius-md);
-            padding: 15px;
-        }
-        .gn-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-        .gn-name { font-weight: 600; color: var(--bg-sidebar); font-size: 16px;}
-        .gn-desc { font-size: 12px; color: var(--text-light); margin-bottom: 10px;}
-        .gn-feature { font-size: 13px; margin-bottom: 5px; padding-left: 15px; position: relative; }
-        .gn-feature::before {
-            content: ''; position: absolute; left: 0; top: 8px;
-            width: 5px; height: 5px; border-radius: 50%; background-color: var(--accent-teal);
-        }
-        .gn-prices {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-            flex-wrap: wrap;
-        }
-        .gn-price-badge {
-            background-color: var(--bg-main);
-            padding: 5px 10px;
-            border-radius: 15px;
-            font-size: 12px;
-            font-weight: 500;
-        }
-
-        /* Process & Rules Card */
-        .rule-text { font-size: 13px; color: var(--text-dark); margin-bottom: 15px; line-height: 1.8; }
-        .rule-important { color: #d9534f; font-weight: 500; }
-
-        /* Course Card */
-        .course-box {
-            text-align: center;
-            padding: 20px;
-            background: linear-gradient(to bottom right, #f2fcfb, #e0f7f4);
-            border-radius: var(--border-radius-md);
-        }
-        .course-box h3 { color: var(--bg-sidebar); margin-bottom: 10px; }
-        .course-price { font-size: 24px; font-family: 'Fredoka', sans-serif; color: var(--accent-pink); font-weight: 700; }
-        .course-old-price { text-decoration: line-through; color: var(--text-light); font-size: 14px; }
-        
-        .btn-course {
-            display: inline-block;
-            background-color: var(--accent-yellow);
-            color: var(--text-dark);
-            padding: 10px 25px;
-            border-radius: 20px;
-            font-weight: 600;
-            margin-top: 15px;
-            box-shadow: 0 4px 10px rgba(255, 213, 79, 0.3);
-        }
-
-        /* --- Modals (Popups) --- */
-        .modal-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-color: rgba(42, 76, 72, 0.5);
-            backdrop-filter: blur(5px);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            opacity: 0;
-            pointer-events: none;
-            transition: all 0.3s ease;
-        }
-        .modal-overlay.active {
-            opacity: 1;
-            pointer-events: all;
-        }
-        .modal-content {
-            background-color: var(--bg-card);
-            width: 90%;
-            max-width: 500px;
-            border-radius: var(--border-radius-lg);
-            padding: 30px;
-            transform: translateY(20px);
-            transition: all 0.3s ease;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-            position: relative;
-            max-height: 80vh;
-            overflow-y: auto;
-        }
-        .modal-overlay.active .modal-content {
-            transform: translateY(0);
-        }
-        .btn-close-modal {
-            position: absolute;
-            top: 20px; right: 20px;
-            background: #f0f0f0;
-            width: 30px; height: 30px;
-            border-radius: 50%;
-            display: flex; justify-content: center; align-items: center;
-            transition: background 0.2s;
-        }
-        .btn-close-modal:hover { background: #e0e0e0; }
-        .btn-close-modal svg { width: 12px; height: 12px; fill: var(--text-dark); }
-        
-        .modal-header { text-align: center; margin-bottom: 25px; }
-        .modal-header h3 { color: var(--bg-sidebar); font-size: 22px; }
-        
-        .link-list { display: flex; flex-direction: column; gap: 10px; }
-        .link-item {
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 12px 20px;
-            background-color: #f9fdfc;
-            border: 1px solid #eee;
-            border-radius: var(--border-radius-sm);
-            font-size: 14px;
-            transition: all 0.2s;
-        }
-        .link-item:hover {
-            border-color: var(--bg-sidebar);
-            background-color: white;
-            color: var(--bg-sidebar);
-        }
-
-        /* --- Responsive Design (Mobile) --- */
-        @media (max-width: 1024px) {
-            .right-col { grid-template-columns: 1fr; }
-            .card-full { grid-column: span 1; }
-        }
-
-        @media (max-width: 768px) {
-            .app-container { flex-direction: column; overflow: hidden; }
-            
-            /* Main content adjustments */
-            .main-content { 
-                padding: 15px; 
-            }
-            
-            /* Fix banner text overlapping */
-            .banner { 
-                height: 220px; 
-                padding: 20px; 
-                align-items: flex-start; /* Move text up */
-                justify-content: center;
-            }
-            .banner-text { 
-                text-align: center; 
-                width: 100%; 
-                margin-top: 10px; 
-            }
-            .banner-text h1 { font-size: 32px; }
-            .banner-text p { font-size: 14px; margin-top: 5px; }
-            
-            .dashboard-grid { 
-                flex-direction: column; 
-                padding: 0; 
-                gap: 20px; 
-                margin-top: -60px; /* Adjust overlap */
-            }
-            .left-col { width: 100%; }
-            .profile-avatar { 
-                width: 100px; height: 100px; 
-                margin: -60px auto 15px; 
-            }
-
-            /* Hide background shapes on mobile to keep it clean */
-            .bg-shape { display: none; }
-        }
-    </style>
+/* Admin Panel */
+#adminBtn { position: fixed; bottom: 80px; right: 20px; width: 50px; height: 50px; border-radius: 50%; background: #C49646; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 24px; cursor: pointer; z-index: 9999; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+.admin-panel { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 10000; display: flex; align-items: center; justify-content: center; overflow-y: auto; padding: 20px; }
+.admin-box { background: #fff; color: #000; padding: 20px; width: 100%; max-width: 450px; border-radius: 15px; position: relative; max-height: 90vh; overflow-y: auto; }
+.admin-box input[type="text"], .admin-box input[type="number"], .admin-box select, .admin-box textarea { width: 100%; padding: 10px; margin-bottom: 12px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; background: #fff; }
+.admin-nav { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 15px; border-bottom: 2px solid #eee; padding-bottom: 15px; position: sticky; top: 0; background: #fff; z-index: 10; padding-top: 10px; }
+.admin-nav-btn { flex: 1; padding: 8px; border: none; background: #f0f0f0; border-radius: 8px; font-weight: bold; cursor: pointer; color: #555; font-family: inherit; font-size: 13px; transition: 0.2s; min-width: 30%; }
+.admin-nav-btn.active { background: var(--primary); color: #fff; box-shadow: 0 4px 10px rgba(59,150,245,0.3); }
+.admin-group-title { background: #eef5ff; color: var(--primary); padding: 8px 12px; border-radius: 6px; font-weight: bold; margin-top: 15px; margin-bottom: 5px; font-size: 14px; border-left: 4px solid var(--primary); }
+white-space: pre-line; /* คำสั่งนี้จะทำให้หน้าเว็บรับรู้การกด Enter */
+</style>
 </head>
 <body>
 
-    <div class="app-container">
-        
-        <!-- Gimmick: Floating Shapes Background -->
-        <svg class="bg-shape shape-1" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-        <svg class="bg-shape shape-2" viewBox="0 0 24 24"><path d="M12 2.5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 12 2.5Zm0 17a7.5 7.5 0 1 1 7.5-7.5 7.51 7.51 0 0 1-7.5 7.5Z"/></svg>
-        <svg class="bg-shape shape-3" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+<div class="bg-glow-1"></div><div class="bg-glow-2"></div><div id="pts"></div>
 
-        <!-- Main Content -->
-        <main class="main-content">
-            
-            <!-- Banner Section -->
-            <div class="banner">
-                <!-- SVG Decorations for Banner -->
-                <svg class="banner-svg-decor bsd-1" viewBox="0 0 24 24"><path d="M12 2l2.4 7.6L22 12l-7.6 2.4L12 22l-2.4-7.6L2 12l7.6-2.4L12 2z"/></svg> <!-- วิ้งค์ๆ -->
-                <svg class="banner-svg-decor bsd-2" viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"/></svg> <!-- ก้อนเมฆ -->
-                <svg class="banner-svg-decor bsd-3" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> <!-- หัวใจ -->
+<div id="shopStatus" class="status open">OPEN</div>
 
-                <div class="banner-text">
-                    <h1 class="english-text">Pinkjulieland</h1>
-                    <p>Welcome to my shop</p>
-                </div>
-            </div>
-
-            <!-- Dashboard Grid -->
-            <div class="dashboard-grid">
-                
-                <!-- Left Column (Profile & Contact) -->
-                <div class="left-col">
-                    <div class="profile-card">
-                        
-                        <!-- Premium Badge Gimmick -->
-                        <div class="badge-premium-new">
-                            <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-                            PREMIUM
-                        </div>
-
-                        <div class="profile-avatar">
-                            <!-- SVG Decorations Around Avatar -->
-                            <svg class="logo-decor ld-1" viewBox="0 0 24 24"><path d="M12 2l2.4 7.6L22 12l-7.6 2.4L12 22l-2.4-7.6L2 12l7.6-2.4L12 2z"/></svg> <!-- ดาววิ้งค์ -->
-                            <svg class="logo-decor ld-2" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> <!-- หัวใจ -->
-                            <svg class="logo-decor ld-3" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg> <!-- ดาว -->
-
-                            <!-- SVG Character Placeholder -->
-                            <svg class="main-avatar" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-                            <div class="status-dot"></div>
-                        </div>
-                        <h2 class="profile-name english-text">Pinkjulie</h2>
-                        <p class="profile-title">ร้านจูรับทำเว็บไซต์ครบวงจร และจำหน่ายแอป Goodnote</p>
-                        
-                        <div class="profile-stats">
-                            <div class="stat-item">
-                                <h4 class="english-text">20.-</h4>
-                                <p>ราคาแอปเริ่มต้น</p>
-                            </div>
-                            <div class="stat-item">
-                                <h4 class="english-text">129.-</h4>
-                                <p>ราคาเว็บเริ่มต้น</p>
-                            </div>
-                        </div>
-
-                        <!-- Quick Menu instead of Sidebar -->
-                        <div class="quick-nav">
-                            <a href="#services" class="quick-nav-item">
-                                <svg viewBox="0 0 24 24"><path d="M19 4H5c-1.11 0-2 .9-2 2v12c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-8 11H5v-2h6v2zm-2-4H5V9h4v2zm6 4h-2V9h2v6zm4 0h-2V9h2v6z"/></svg>
-                                บริการ
-                            </a>
-                            <a href="#portfolio" class="quick-nav-item">
-                                <svg viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-.99 0-.83.67-1.5 1.5-1.5H16c2.76 0 5-2.24 5-5 0-4.42-4.03-8-9-8zm-5.5 9c-.83 0-1.5-.67-1.5-1.5S5.67 9 6.5 9 8 9.67 8 10.5 7.33 12 6.5 12zm3-4C8.67 8 8 7.33 8 6.5S8.67 5 9.5 5s1.5.67 1.5 1.5S10.33 8 9.5 8zm5 0c-.83 0-1.5-.67-1.5-1.5S13.67 5 14.5 5s1.5.67 1.5 1.5S15.33 8 14.5 8zm3 4c-.83 0-1.5-.67-1.5-1.5S15.67 9 16.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
-                                ผลงาน
-                            </a>
-                            <a href="#goodnote" class="quick-nav-item">
-                                <svg viewBox="0 0 24 24"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></svg>
-                                แอป
-                            </a>
-                        </div>
-
-                        <div class="contact-group">
-                            <a href="#" class="btn-contact btn-primary">
-                                <!-- Line Icon -->
-                                <svg viewBox="0 0 24 24"><path d="M24 10.3c0-4.4-4.5-8-10.1-8S3.8 5.9 3.8 10.3c0 3.9 3.5 7.3 8.3 7.9.3.1.8.2 1 .7.1.3 0 .8-.1 1.1-.1.3-.2.8-.2.8-.1.5.3.7.6.6.9-.3 4.9-2.9 6.8-5 1.7-1.7 2.6-3.8 2.6-6.1zM9.5 12.3c-.1.1-.3.2-.5.2s-.4-.1-.5-.2l-1.4-1.4V13c0 .3-.2.5-.5.5s-.5-.2-.5-.5V9.4c0-.3.2-.5.5-.5s.4.1.5.2l1.4 1.4V8.6c0-.3.2-.5.5-.5s.5.2.5.5v3.7zm3.3.5c0 .3-.2.5-.5.5h-2c-.3 0-.5-.2-.5-.5V8.6c0-.3.2-.5.5-.5s.5.2.5.5v3.7h1.5c.3 0 .5.2.5.5zm3.5-1.5h-1.5V13c0 .3-.2.5-.5.5s-.5-.2-.5-.5V8.6c0-.3.2-.5.5-.5s.5.2.5.5v1.2h1.5c.3 0 .5.2.5.5s-.2.5-.5.5zm3.2.9c-.3.4-1.2 1.6-1.2 1.6v-3.7c0-.3-.2-.5-.5-.5s-.5.2-.5.5v4.2c0 .2.1.3.2.4.1.1.3.1.4 0 .1 0 1.3-1.6 1.3-1.6v1.3c0 .3.2.5.5.5s.5-.2.5-.5V8.6c0-.3-.2-.5-.5-.5s-.4.2-.5.4z"/></svg>
-                                ติดต่อสั่งทำ
-                            </a>
-                        </div>
-
-                        <div class="contact-links">
-                            <a href="https://www.facebook.com/profile.php?id=61554192600355" target="_blank" class="contact-link-item">
-                                <!-- FB Icon -->
-                                <svg viewBox="0 0 24 24"><path d="M12 2.04C6.5 2.04 2 6.53 2 12.06C2 17.06 5.66 21.21 10.44 21.96V14.96H7.9V12.06H10.44V9.85C10.44 7.34 11.93 5.96 14.22 5.96C15.31 5.96 16.45 6.15 16.45 6.15V8.62H15.19C13.95 8.62 13.56 9.39 13.56 10.18V12.06H16.34L15.89 14.96H13.56V21.96A10 10 0 0 0 22 12.06C22 6.53 17.5 2.04 12 2.04Z"/></svg>
-                                Pinkjulieland
-                            </a>
-                            <a href="https://lin.ee/t0qYbAl" target="_blank" class="contact-link-item">
-                                <!-- Link Icon -->
-                                <svg viewBox="0 0 24 24"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg>
-                                @Pinkjulie
-                            </a>
-                            <a href="https://www.instagram.com/pinkjulie.land" target="_blank" class="contact-link-item">
-                                <!-- IG Icon -->
-                                <svg viewBox="0 0 24 24"><path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/></svg>
-                                pinkjulie.land
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Right Column (Content Cards) -->
-                <div class="right-col">
-                    
-                    <!-- 1. บริการรับทำเว็บ -->
-                    <section class="content-card" id="services">
-                        <div class="card-header">
-                            <svg viewBox="0 0 24 24"><path d="M19 4H5c-1.11 0-2 .9-2 2v12c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-8 11H5v-2h6v2zm-2-4H5V9h4v2zm6 4h-2V9h2v6zm4 0h-2V9h2v6z"/></svg>
-                            <h3 class="card-title">เว็บที่รับทำ</h3>
-                        </div>
-                        <p style="font-size: 14px; margin-bottom: 15px; color: var(--text-light);">หลากหลายประเภท สารพัดประโยชน์ไม่จำกัดข้อมูลในการใส่ อยากให้แสดงอะไรบนหน้าเว็บ ใส่มาได้เลย ทางเราออกแบบจัดวางให้ฟรี</p>
-                        <ul>
-                            <li class="list-item">
-                                <svg class="list-icon" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-                                เว็บเรทราคาแอปพรีเมียม
-                            </li>
-                            <li class="list-item">
-                                <svg class="list-icon" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-                                เว็บเรทราคารับเติมเกมส์ <span class="badge-hot">ฮิตมาก!</span>
-                            </li>
-                            <li class="list-item">
-                                <svg class="list-icon" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-                                เว็บเรทราคารับทำป้าย
-                            </li>
-                            <li class="list-item">
-                                <svg class="list-icon" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-                                เว็บอื่น ๆ สอบถามเพิ่มเติมได้ค่ะ
-                            </li>
-                        </ul>
-                        <!-- Fake Button Gimmick (เปลี่ยนอิโมจิเป็น SVG และแก้คำ) -->
-                        <button class="btn-fake btn-fake-yellow">
-                            <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-                            ทักแชทมาปรึกษาได้เลยนะคะ
-                            <svg viewBox="0 0 24 24" width="16" height="16" style="margin-left: 2px; fill: currentColor;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3.5 8c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5-1.5-.67-1.5-1.5.67-1.5 1.5-1.5zm-7 0c.83 0 1.5.67 1.5 1.5S9.33 13 8.5 13 7 12.33 7 11.5 7.67 10 8.5 10zm3.5 8c-2.33 0-4.31-1.46-5.11-3.5h10.22c-.8 2.04-2.78 3.5-5.11 3.5z"/></svg>
-                        </button>
-                    </section>
-
-                    <!-- 2. Portfolio (Popups) -->
-                    <section class="content-card" id="portfolio">
-                        <div class="card-header">
-                            <svg viewBox="0 0 24 24"><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 9H9V9h10v2zm-4 4H9v-2h6v2zm4-8H9V5h10v2z"/></svg>
-                            <h3 class="card-title">ตัวอย่างงานเว็บ</h3>
-                        </div>
-                        <p style="font-size: 13px; color: var(--text-light); margin-bottom: 15px;">คลิกเพื่อดูหมวดหมู่ตัวอย่างงาน</p>
-                        
-                        <div class="portfolio-group">
-                            <button class="btn-portfolio" onclick="openModal('modal-bright')">
-                                <div class="port-icon-group">
-                                    <svg class="port-icon color-bright" viewBox="0 0 24 24"><path d="M12 2.5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 12 2.5Zm0 17a7.5 7.5 0 1 1 7.5-7.5 7.51 7.51 0 0 1-7.5 7.5Z"/><path d="M12 6.5a1 1 0 0 0-1 1v2a1 1 0 0 0 2 0v-2a1 1 0 0 0-1-1ZM12 14.5a1 1 0 0 0-1 1v2a1 1 0 0 0 2 0v-2a1 1 0 0 0-1-1ZM7.5 12a1 1 0 0 0-1-1h-2a1 1 0 0 0 0 2h2a1 1 0 0 0 1-1ZM19.5 11h-2a1 1 0 0 0 0 2h2a1 1 0 0 0 0-2ZM9.17 9.17a1 1 0 0 0 1.42-1.42l-1.42-1.41a1 1 0 0 0-1.41 1.41ZM17.66 16.24a1 1 0 0 0-1.41 1.41l1.41 1.42a1 1 0 0 0 1.42-1.42ZM16.24 7.76a1 1 0 0 0 1.42-1.42l-1.42-1.41a1 1 0 0 0-1.41 1.41ZM7.76 16.24a1 1 0 0 0-1.42 1.42l1.42 1.41a1 1 0 0 0 1.41-1.41Z"/></svg>
-                                    หมวดหมู่: สดใส
-                                </div>
-                                <svg class="arrow-icon" viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
-                            </button>
-
-                            <button class="btn-portfolio" onclick="openModal('modal-dark')">
-                                <div class="port-icon-group">
-                                    <svg class="port-icon color-dark" viewBox="0 0 24 24"><path d="M9.37 5.51A7.35 7.35 0 0 0 9.1 7.5c0 4.08 3.32 7.4 7.4 7.4.68 0 1.35-.09 1.99-.27A7.014 7.014 0 0 1 12 19c-3.86 0-7-3.14-7-7 0-2.93 1.81-5.45 4.37-6.49zM12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 1.36 5.4 5.4 0 0 1-4.4-4.4 5.389 5.389 0 0 1 1.36-4.4C12.92 3.04 12.46 3 12 3z"/></svg>
-                                    หมวดหมู่: โทนมืด
-                                </div>
-                                <svg class="arrow-icon" viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
-                            </button>
-
-                            <button class="btn-portfolio" onclick="openModal('modal-pastel')">
-                                <div class="port-icon-group">
-                                    <svg class="port-icon color-pastel" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-                                    หมวดหมู่: พาสเทล
-                                </div>
-                                <svg class="arrow-icon" viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
-                            </button>
-                        </div>
-                    </section>
-
-                    <!-- 3. Web Pricing & Promo -->
-                    <section class="content-card card-full" id="pricing">
-                        <div class="card-header">
-                            <svg viewBox="0 0 24 24"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg>
-                            <h3 class="card-title">ราคาบริการทำเว็บ</h3>
-                        </div>
-                        
-                        <div class="price-row">
-                            <span>เริ่มต้น (รายละเอียดไม่เกิน 200 lines + ใส่โลโก้อย่างเดียว)</span>
-                            <span class="price-tag">129.- 
-                                <span class="badge-hot" style="background-color: var(--accent-pink); display: inline-flex; align-items: center; gap: 4px;">
-                                    ขายดี 
-                                    <svg viewBox="0 0 24 24" width="10" height="10" style="fill: currentColor;"><path d="M12 2l2.4 7.6L22 12l-7.6 2.4L12 22l-2.4-7.6L2 12l7.6-2.4L12 2z"/></svg>
-                                </span>
-                            </span>
-                        </div>
-                        <p style="font-size: 12px; color: var(--text-light); margin: 10px 0;">กรณีรายละเอียดเพิ่มขึ้น:</p>
-                        <div class="price-row">
-                            <span>• เกิน 200 lines</span>
-                            <span class="price-tag">เริ่มที่ 139.-</span>
-                        </div>
-                        <div class="price-row">
-                            <span>• เกิน 400 lines</span>
-                            <span class="price-tag">เริ่มที่ 189.-</span>
-                        </div>
-                        <div class="price-row">
-                            <span>• เกิน 600 lines</span>
-                            <span class="price-tag">เริ่มที่ 249.-</span>
-                        </div>
-                        
-                        <div class="highlight-box">
-                            <strong>Add on:</strong> รูปแบนเนอร์ 1-2 รูป +29.-<br>
-                            แก้ไขข้อมูลหลังส่งตรวจสอบ ฟรี 1 ครั้ง<br>
-                            หลังส่งลิงก์งานแล้ว หากมีการแก้ไขเพิ่มเติม คิดค่าปรับแก้จุดละ 5.- (ข้อความ) เปลี่ยนรูปจุดละ 29.-<br>
-                            <span style="font-size: 11px; color: var(--text-light);">หมายเหตุ: ราคาขึ้นอยู่กับความละเอียดของข้อมูลและปริมาณเนื้อหา ทางร้านขอสงวนสิทธิ์ในการประเมินราคาตามความเหมาะสมนะคะ</span>
-                        </div>
-
-                        <!-- Promotion -->
-                        <div class="promo-box">
-                            <div class="promo-title">
-                                <svg viewBox="0 0 24 24"><path d="M21.41 11.58l-9-9C12.05 2.22 11.55 2 11 2H4c-1.1 0-2 .9-2 2v7c0 .55.22 1.05.59 1.41l9 9c.36.36.86.58 1.41.58.55 0 1.05-.22 1.41-.59l7-7c.37-.36.59-.86.59-1.41 0-.55-.23-1.06-.59-1.41zM5.5 7C4.67 7 4 6.33 4 5.5S4.67 4 5.5 4 7 4.67 7 5.5 6.33 7 5.5 7z"/></svg>
-                                โปรโมชั่นจัดเซ็ต สามเว็บในราคา 359 บาท
-                            </div>
-                            <ul style="font-size: 13px; color: var(--text-dark);">
-                                <li><strong>เว็บที่ 1:</strong> portfolio แนะนำตัว (ระบุว่าขายอะไร มีคอนแทคชัดเจน)</li>
-                                <li><strong>เว็บที่ 2:</strong> ป้ายบัญชี (มีปุ่มให้ลูกค้าคัดลอกเลขบัญชีได้)</li>
-                                <li><strong>เว็บที่ 3:</strong> สามารถเลือกเองได้ (เลือกจากเท็มเพลทที่มีเท่านั้น)</li>
-                            </ul>
-                            <p style="font-size: 12px; margin-top: 5px; color: #d84b8b;">ตกเว็บละ 100 นิดๆ คุ้มมาก!</p>
-                            
-                            <!-- Fake Button Gimmick (เปลี่ยนอิโมจิเป็น SVG และแก้คำ) -->
-                            <button class="btn-fake" style="margin-top: 15px;">
-                                <svg viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
-                                รับโปรนี้เลย คุ้มสุดๆ!
-                                <svg viewBox="0 0 24 24" width="14" height="14" style="margin-left: 2px; fill: currentColor;"><path d="M12 2l2.4 7.6L22 12l-7.6 2.4L12 22l-2.4-7.6L2 12l7.6-2.4L12 2z"/></svg>
-                            </button>
-                        </div>
-                    </section>
-
-                    <!-- 4. Course -->
-                    <section class="content-card">
-                        <div class="course-box">
-                            <h3>คอร์สสอนทำเว็บร้าน สไตล์พิ้งจู</h3>
-                            <p style="font-size: 13px; margin-bottom: 10px; color: var(--text-dark);">
-                                สำหรับใครที่อยากทำเว็บเป็นแล้วนำไปสร้างรายได้ สอนตั้งแต่ 0 → ทำเป็นเว็บใช้งานได้จริง มีเทมเพลตมากกว่า 20 แบบ แทบจะจับมือสอน สามารถสอบถาม รีเควสต์ได้ตามใจ
-                            </p>
-                            <div>
-                                <span class="course-old-price">ปกติ 399.-</span><br>
-                                <span class="course-price">299.-</span>
-                            </div>
-                            <a href="https://purple-wind-aced.cozyw75.workers.dev/" target="_blank" class="btn-course" style="transition: transform 0.3s; display: inline-flex; align-items: center; gap: 6px;">
-                                อ่านกฎ / สมัครเรียน
-                                <svg viewBox="0 0 24 24" width="14" height="14" style="fill: currentColor;"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-                            </a>
-                        </div>
-                    </section>
-
-                    <!-- 5. Goodnote -->
-                    <section class="content-card" id="goodnote">
-                        <div class="card-header">
-                            <svg viewBox="0 0 24 24"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></svg>
-                            <h3 class="card-title english-text">Goodnote</h3>
-                        </div>
-                        
-                        <div class="goodnote-packages">
-                            <!-- Package 1 -->
-                            <div class="gn-pkg">
-                                <div class="gn-header">
-                                    <span class="gn-name">รุ่นพิเศษ (ถาวร)</span>
-                                </div>
-                                <p class="gn-desc">ใช้ได้เฉพาะไอโอเอส</p>
-                                <div class="gn-feature">สมุดโน๊ต ไวท์บอร์ด และเอกสารข้อความไม่จำกัด</div>
-                                <div class="gn-feature">แชร์ลิ้งค์แบบสาธารณะ</div>
-                                <div class="gn-feature">การถอดเสียงแบบไม่จำกัด</div>
-                                <div class="gn-prices">
-                                    <span class="gn-price-badge">เมลรวม 20.-</span>
-                                    <span class="gn-price-badge">หาร 5 คน 149.-</span>
-                                    <span class="gn-price-badge" style="background:var(--accent-pink);color:white;">ส่วนตัว 490.-</span>
-                                </div>
-                                <!-- Fake Button Gimmick (เปลี่ยนอิโมจินิ้วชี้เป็น SVG รูปนิ้วชี้) -->
-                                <button class="btn-fake btn-fake-teal" style="padding: 6px 12px; font-size: 13px; margin-top: 10px;">
-                                    <svg viewBox="0 0 24 24"><path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"/></svg>
-                                    สนใจแพ็กเกจนี้
-                                    <svg viewBox="0 0 24 24" width="14" height="14" style="margin-left: 2px; fill: currentColor;"><path d="M9 11.24V7.5C9 6.12 10.12 5 11.5 5S14 6.12 14 7.5v3.74c1.21-.81 2-2.18 2-3.74C16 5.01 13.99 3 11.5 3S7 5.01 7 7.5c0 1.56.79 2.93 2 3.74zm9.84 4.63l-4.54-2.26c-.17-.07-.35-.11-.54-.11H13v-6c0-.83-.67-1.5-1.5-1.5S10 6.67 10 7.5v10.74l-3.43-.72c-.08-.01-.15-.03-.24-.03-.31 0-.59.13-.79.33l-.79.8 4.94 4.94c.27.27.65.44 1.06.44h6.79c.75 0 1.33-.55 1.44-1.28l.75-5.27c.01-.07.02-.14.02-.2 0-.62-.38-1.16-.91-1.38z"/></svg>
-                                </button>
-                            </div>
-
-                            <!-- Package 2 -->
-                            <div class="gn-pkg">
-                                <div class="gn-header">
-                                    <span class="gn-name">แบบ essential (รายปี)</span>
-                                </div>
-                                <div class="gn-feature">สมุดโน๊ต ไวท์บอร์ด และเอกสารข้อความไม่จำกัด</div>
-                                <div class="gn-feature">ค้นคว้าคณิตศาสตร์ด้วย ai (525 เครดิต)</div>
-                                <div class="gn-feature">เข้าถึงได้ Android, Windows, Web, iOS</div>
-                                <div class="gn-prices">
-                                    <span class="gn-price-badge">เมลรวม 20.-</span>
-                                    <span class="gn-price-badge">หาร 5 คน 79.-</span>
-                                    <span class="gn-price-badge" style="background:var(--accent-pink);color:white;">ส่วนตัว 229.-</span>
-                                </div>
-                                <button class="btn-fake btn-fake-teal" style="padding: 6px 12px; font-size: 13px; margin-top: 10px;">
-                                    <svg viewBox="0 0 24 24"><path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"/></svg>
-                                    สนใจแพ็กเกจนี้
-                                    <svg viewBox="0 0 24 24" width="14" height="14" style="margin-left: 2px; fill: currentColor;"><path d="M9 11.24V7.5C9 6.12 10.12 5 11.5 5S14 6.12 14 7.5v3.74c1.21-.81 2-2.18 2-3.74C16 5.01 13.99 3 11.5 3S7 5.01 7 7.5c0 1.56.79 2.93 2 3.74zm9.84 4.63l-4.54-2.26c-.17-.07-.35-.11-.54-.11H13v-6c0-.83-.67-1.5-1.5-1.5S10 6.67 10 7.5v10.74l-3.43-.72c-.08-.01-.15-.03-.24-.03-.31 0-.59.13-.79.33l-.79.8 4.94 4.94c.27.27.65.44 1.06.44h6.79c.75 0 1.33-.55 1.44-1.28l.75-5.27c.01-.07.02-.14.02-.2 0-.62-.38-1.16-.91-1.38z"/></svg>
-                                </button>
-                            </div>
-
-                            <!-- Package 3 -->
-                            <div class="gn-pkg">
-                                <div class="gn-header">
-                                    <span class="gn-name">Pro (รายปี)</span>
-                                </div>
-                                <div class="gn-feature">มีครบทุกอย่างใน essential</div>
-                                <div class="gn-feature">จดบันทึกโน๊ตอัตโนมัติและสรุปแบบเรียลไทม์</div>
-                                <div class="gn-feature">เชื่อมต่อ Google ปฏิทิน</div>
-                                <div class="gn-feature">แชร์ลิ้งค์ส่วนตัว & ทำงานร่วมกันเรียลไทม์</div>
-                                <div class="gn-prices">
-                                    <span class="gn-price-badge">เมลรวม 20.-</span>
-                                    <span class="gn-price-badge">หาร 5 คน 149.-</span>
-                                    <span class="gn-price-badge" style="background:var(--accent-pink);color:white;">ส่วนตัว 490.-</span>
-                                </div>
-                                <button class="btn-fake btn-fake-teal" style="padding: 6px 12px; font-size: 13px; margin-top: 10px;">
-                                    <svg viewBox="0 0 24 24"><path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"/></svg>
-                                    สนใจแพ็กเกจนี้
-                                    <svg viewBox="0 0 24 24" width="14" height="14" style="margin-left: 2px; fill: currentColor;"><path d="M9 11.24V7.5C9 6.12 10.12 5 11.5 5S14 6.12 14 7.5v3.74c1.21-.81 2-2.18 2-3.74C16 5.01 13.99 3 11.5 3S7 5.01 7 7.5c0 1.56.79 2.93 2 3.74zm9.84 4.63l-4.54-2.26c-.17-.07-.35-.11-.54-.11H13v-6c0-.83-.67-1.5-1.5-1.5S10 6.67 10 7.5v10.74l-3.43-.72c-.08-.01-.15-.03-.24-.03-.31 0-.59.13-.79.33l-.79.8 4.94 4.94c.27.27.65.44 1.06.44h6.79c.75 0 1.33-.55 1.44-1.28l.75-5.27c.01-.07.02-.14.02-.2 0-.62-.38-1.16-.91-1.38z"/></svg>
-                                </button>
-                            </div>
-                            <p style="font-size: 11px; color: var(--text-light); text-align: center; margin-top: 5px;">* ถ้าจะใช้งานในระบบ Android/Windows/Web แนะนำเป็นแบบส่วนตัว</p>
-                        </div>
-                    </section>
-
-                    <!-- 6. Rules & Process -->
-                    <section class="content-card card-full" id="rules">
-                        <div class="card-header">
-                            <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>
-                            <h3 class="card-title">ขั้นตอน & เงื่อนไข</h3>
-                        </div>
-
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
-                            <div>
-                                <h4 style="color: var(--bg-sidebar); margin-bottom: 10px; font-size: 15px;">ขั้นตอนการสั่ง</h4>
-                                <ul style="padding-left: 15px;">
-                                    <li style="list-style-type: disc; font-size: 13px; margin-bottom: 5px;">เขียนรายละเอียดร้านค้า หรือพิมพ์ข้อมูลร้านค้าส่งมาได้เลย</li>
-                                    <li style="list-style-type: disc; font-size: 13px; margin-bottom: 5px;">ใส่ลิงก์ตัวอย่างงานมาเลย หากมีโลโก้ให้แนบมาทีหลังใส่ Google Drive เท่านั้น</li>
-                                    <li style="list-style-type: disc; font-size: 13px; margin-bottom: 5px;">ชำระเงินราคาเริ่มต้น ส่งงานให้เช็ค หากเกินจะแจ้งยอดที่เหลือ</li>
-                                </ul>
-                            </div>
-                            <div>
-                                <h4 style="color: var(--bg-sidebar); margin-bottom: 10px; font-size: 15px;">เงื่อนไขการทำงาน</h4>
-                                <p class="rule-text">• ตามปกติรองาน 4-8 ชั่วโมง (แล้วแต่คิว)<br>
-                                • งานเร่ง *2 ของราคา<br>
-                                • สามารถแคปหน้าเว็บที่อยากได้ของร้านเรา มาเป็นเรฟได้<br>
-                                • รีเช็คและตอบกลับภายใน 30 นาที<br>
-                                • หากให้ออกแบบใหม่แนวเฉพาะร้าน +200 บาท</p>
-                            </div>
-                        </div>
-
-                        <div class="highlight-box" style="background-color: #fff5f5; border-left-color: #ff9999;">
-                            <h4 style="color: #d9534f; margin-bottom: 5px; font-size: 14px;">กฎของร้าน (สำคัญ)</h4>
-                            <p class="rule-text rule-important" style="margin-bottom: 0;">
-                                - โอนเงินแล้วไม่คืนเงินทุกกรณี<br>
-                                - ยกเลิกหลังตรวจงานแล้ว ไม่คืนเงิน<br>
-                                - ทางร้านไม่รับเปลี่ยนโดเมนนะคะ หากนำลิงก์ไปเปลี่ยนโดเมนแล้วมีค่าใช้จ่าย ทางร้านไม่รับผิดชอบทุกกรณี<br>
-                                - งดจิกงดเร่งทุกกรณีนะคะ
-                            </p>
-                        </div>
-                    </section>
-
-                </div>
-            </div>
-        </main>
+<div class="hero">
+  <div class="hero-logo-container">
+    <div class="hero-logo-frame">
+      <img src="https://via.placeholder.com/180" alt="Shop Logo" class="hero-logo-img" onerror="this.src='https://via.placeholder.com/180'">
     </div>
+  </div>
+  <div class="hero-title-container">
+    <h1 class="hero-title" onclick="checkAdminLogin()">Wanderer_Shop</h1>
+    <p id="welcomeMsg" class="hero-sub">ยินดีต้อนรับสู่ร้าน Wanderer_Shop รับอะไรดีคะ</p>
+  </div>
+</div>
 
-    <!-- Modals Structure -->
+<div class="tab-nav" id="tab-navigation"></div>
+
+<div class="content" id="main-content">
+  <div style="text-align:center; padding: 40px 20px; color:#fff;">
+    <h3 style="color:var(--primary);">กำลังเชื่อมต่อฐานข้อมูล... ⏳</h3>
+    <p style="font-size:14px; color:#aaa; margin-top:10px;">(หากหน้านี้หมุนนานเกิน 10 วินาที แสดงว่ามีปัญหาที่ลิงก์ API)</p>
+  </div>
+</div>
+
+<div id="cartPanel" class="cart-panel">
+  <div class="cart-panel-header">🛒 รายการที่เลือก (กดซ้ำเพื่อเอาออก)</div>
+  <div id="cartPanelList" class="cart-panel-list"></div>
+</div>
+
+<div class="bottom-bar" id="bottomBar">
+  <div style="cursor: pointer; flex: 1;" onclick="toggleCartPanel()">
+    <div style="font-size:12px; color:#ccc;" id="cartCount">เลือก 0 รายการ <span style="font-size:10px; margin-left:5px; color:#fff;">▲</span></div>
+    <div class="bb-total" id="cartTotal">0฿ <span id="cartPromoBadge" style="font-size:12px; font-weight:normal; background:rgba(255,255,255,0.2); padding:2px 8px; border-radius:10px; margin-left:5px;">ราคาปกติ</span></div>
+  </div>
+  <button class="bb-btn" onclick="openCheckoutModal()">สั่งซื้อสินค้า</button>
+</div>
+
+<div id="checkoutModal" class="modal-overlay">
+  <div class="modal-box">
+    <h3 style="color:var(--primary); font-size:20px;">🛒 สรุปรายการสั่งซื้อ</h3>
+    <div id="modalOrderDetails" class="modal-details"></div>
+    <button class="btn-confirm" onclick="confirmCheckout()">คัดลอกและไปที่ไลน์</button>
+    <button class="btn-cancel" onclick="closeCheckoutModal()">ยกเลิก</button>
+  </div>
+</div>
+
+<div id="alertPopupModal" class="modal-overlay">
+  <div class="modal-box">
+    <h3 style="color:var(--secondary); font-size:20px; margin-bottom:10px;">📢 ประกาศ / แจ้งเตือน</h3>
+    <p id="alertPopupText" style="font-size:14px; color:#333; line-height:1.6; white-space:pre-wrap; text-align:left; background:#f0f5fa; padding:15px; border-radius:8px; margin-bottom:15px;"></p>
+    <button class="btn-confirm" onclick="document.getElementById('alertPopupModal').style.display='none'">รับทราบ</button>
+  </div>
+</div>
+
+<script>
+// ⭐ เปลี่ยนเป็นลิงก์ API ของคุณ
+const API_URL = "https://script.google.com/macros/s/AKfycbxFaCmfmkzO_3WloeSeddrhGSVeX2My38JH2RomATxIXQ6kpYzuRJkLK8oBISYIpVuC/exec"; 
+
+let products = [];
+let storeInfo = { status: 'open', welcome: 'ยินดีต้อนรับสู่ร้าน Wanderer_Shop รับอะไรดีคะ', line: '@wanderer', customCards: [], popups: [] };
+let cart = [];
+let currentTab = "IOS-ANDROID";
+let currentView = "main";
+let currentCat = "";
+let currentSort = "name"; 
+let currentSearch = ""; 
+
+let adminMode = false;
+let tapCount = 0;
+let currentTabList = []; 
+let orderTextToCopy = ""; 
+let tempCustomCards = []; 
+let tempPopups = []; 
+let editingProductId = null; 
+let shownPopups = []; 
+
+const hiddenSystemTabs = ["Orders", "StoreInfo", "ข้อมูลร้าน", "popups", "Popups", "ตั้งค่าร้าน", "ออเดอร์", "Products", "Database"];
+
+try {
+  const P = document.getElementById('pts');
+  ['🎐','🍃','🌌'].forEach(e => {
+    for (let j = 0; j < 5; j++) {
+      const d = document.createElement('div');
+      d.className = 'pt'; d.textContent = e;
+      d.style.cssText = `left:${Math.random()*100}vw; font-size:${12+Math.random()*15}px; animation-duration:${10+Math.random()*15}s; animation-delay:${-Math.random()*20}s;`;
+      if(P) P.appendChild(d);
+    }
+  });
+} catch(e) {}
+
+async function loadData() {
+  try {
+    const res = await fetch(API_URL);
+    if (!res.ok) throw new Error(`HTTP Error Status: ${res.status}`);
     
-    <!-- Modal: สดใส -->
-    <div class="modal-overlay" id="modal-bright">
-        <div class="modal-content">
-            <button class="btn-close-modal" onclick="closeModal('modal-bright')">
-                <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
-            </button>
-            <div class="modal-header">
-                <h3>หมวดหมู่: สดใส</h3>
-            </div>
-            <div class="link-list">
-                <a href="https://jeans.cozyw75.workers.dev/" target="_blank" class="link-item">V.1 ยีนส์กระดุม <svg viewBox="0 0 24 24" width="16" height="16"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></a>
-                <a href="https://playing.cozyw75.workers.dev/" target="_blank" class="link-item">V.2 กดเข้าสู่ร้าน <svg viewBox="0 0 24 24" width="16" height="16"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></a>
-                <a href="https://note.cozyw75.workers.dev/" target="_blank" class="link-item">V.3 โน้ตเหลี่ยม 1 <svg viewBox="0 0 24 24" width="16" height="16"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></a>
-                <a href="https://sodsai.cozyw75.workers.dev/" target="_blank" class="link-item">V.4 โน้ตเหลี่ยม 2 <svg viewBox="0 0 24 24" width="16" height="16"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></a>
-            </div>
+    const textData = await res.text();
+    let data;
+    try { data = JSON.parse(textData); } catch (parseError) { throw new Error(`API Parse Error`); }
+
+    products = data.products || [];
+    storeInfo = data.storeInfo || storeInfo;
+    if(!storeInfo.customCards) storeInfo.customCards = [];
+    if(!storeInfo.popups) storeInfo.popups = [];
+    currentTabList = data.tabs || [];
+    
+    applyStoreInfo();
+    renderTabsNav(); 
+    switchMainTab('ข้อมูลร้าน'); 
+
+  } catch (err) {
+    document.getElementById('main-content').innerHTML = `<p style="text-align:center; color:#FF4B7E; padding:20px;">โหลดข้อมูลไม่สำเร็จ กรุณาตรวจสอบลิงก์ API</p>`;
+  }
+}
+
+function applyStoreInfo() {
+  const st = document.getElementById('shopStatus');
+  if(st) { st.className = `status ${storeInfo.status || 'open'}`; st.innerText = (storeInfo.status || 'open').toUpperCase(); }
+  const logoEl = document.querySelector('.hero-logo-img');
+  if(storeInfo.logo && logoEl) logoEl.src = storeInfo.logo;
+  const welcomeEl = document.getElementById('welcomeMsg');
+  if(welcomeEl) welcomeEl.innerText = storeInfo.welcome || "ยินดีต้อนรับสู่ร้าน Wanderer_Shop รับอะไรดีคะ";
+}
+
+function renderTabsNav() {
+  const tabNav = document.getElementById('tab-navigation'); 
+  let html = `<button class="tab-btn active" id="btn_tab_ข้อมูลร้าน" onclick="switchMainTab('ข้อมูลร้าน')">ข้อมูลร้าน</button>`;
+  const priorityTabs = ["แอพพรีเมี่ยม", "เติมเกม", "แอพ-เกม iOS/Android"];
+  priorityTabs.forEach(t => { html += `<button class="tab-btn" id="btn_tab_${t}" onclick="switchMainTab('${t}')">${t}</button>`; });
+  
+  if(currentTabList && Array.isArray(currentTabList)) {
+    currentTabList.forEach(t => {
+      if(!priorityTabs.includes(t) && t !== "ข้อมูลร้าน" && !hiddenSystemTabs.includes(t)) {
+        html += `<button class="tab-btn" id="btn_tab_${t}" onclick="switchMainTab('${t}')">${t}</button>`;
+      }
+    });
+  }
+  tabNav.innerHTML = html;
+}
+
+function buildSliderHtml(linksStr, sliderId) {
+  if(!linksStr) return '';
+  let links = String(linksStr).split(',').map(s=>s.trim()).filter(s=>s);
+  if(links.length === 0) return '';
+  if(links.length === 1) {
+    let link = links[0];
+    if(link.includes('youtube') || link.includes('youtu.be')){
+        let ytid = link.split('v=')[1] || link.split('/').pop();
+        if(ytid && ytid.includes('&')) ytid = ytid.split('&')[0];
+        return `<iframe width="100%" height="200" src="https://www.youtube.com/embed/${ytid}" frameborder="0" allowfullscreen style="border-radius:12px; margin-bottom:10px;"></iframe>`;
+    } else if (link.match(/\.(mp4|mov)$/i)) {
+        return `<video width="100%" controls style="border-radius:12px; margin-bottom:10px;"><source src="${link}" type="video/mp4"></video>`;
+    } else {
+        return `<img src="${link}" style="width:100%; border-radius:12px; margin-bottom:10px; object-fit:cover;">`;
+    }
+  }
+  let slides = links.map((lnk, idx) => `<img class="slider-img ${idx===0?'active':''}" src="${lnk}">`).join('');
+  return `<div class="slider-container" id="${sliderId}">${slides}<button class="slider-btn left" onclick="changeSlide('${sliderId}', -1)">❮</button><button class="slider-btn right" onclick="changeSlide('${sliderId}', 1)">❯</button></div>`;
+}
+
+function changeSlide(sliderId, direction) {
+  const container = document.getElementById(sliderId);
+  if(!container) return;
+  const imgs = container.querySelectorAll('.slider-img');
+  if(imgs.length <= 1) return;
+  let activeIdx = Array.from(imgs).findIndex(img => img.classList.contains('active'));
+  imgs[activeIdx].classList.remove('active');
+  activeIdx = (activeIdx + direction + imgs.length) % imgs.length;
+  imgs[activeIdx].classList.add('active');
+}
+
+function changeSort(val) { currentSort = val; refreshView(); }
+function handleSearch(val) { currentSearch = val.toLowerCase(); refreshView(); }
+function refreshView() {
+  if (currentView === 'package') openPackageView(currentTab, currentCat);
+  else switchMainTab(currentTab);
+}
+
+function checkAndShowPopup(targetName) {
+  if(shownPopups.includes(targetName)) return; 
+  if(!storeInfo.popups || !Array.isArray(storeInfo.popups)) return;
+  const popup = storeInfo.popups.find(p => p.target === targetName || p.target === 'all');
+  if(popup) {
+    document.getElementById('alertPopupText').innerText = popup.message;
+    document.getElementById('alertPopupModal').style.display = 'flex';
+    shownPopups.push(targetName);
+    if(popup.target === 'all') shownPopups.push('all');
+  }
+}
+
+function switchMainTab(tabName) {
+  currentTab = tabName; currentView = 'main'; currentCat = '';
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  let activeBtn = document.getElementById('btn_tab_' + tabName);
+  if(activeBtn) activeBtn.classList.add('active');
+
+  const contentArea = document.getElementById('main-content'); 
+  checkAndShowPopup(tabName); 
+  
+  if (tabName === 'ข้อมูลร้าน') {
+    let html = `
+      <div class="info-card">
+        <h3 style="color:var(--primary); margin-bottom:15px;">ติดต่อเรา</h3>
+        <div style="display:flex; justify-content:space-between; margin-bottom:10px; border-bottom:1px solid #ddd; padding-bottom:10px;">
+          <span>Line: ${storeInfo.line || '@wanderer'}</span>
+          <button class="copy-btn" onclick="copyText('${storeInfo.line || '@wanderer'}')">คัดลอก</button>
         </div>
-    </div>
-
-    <!-- Modal: โทนมืด -->
-    <div class="modal-overlay" id="modal-dark">
-        <div class="modal-content">
-            <button class="btn-close-modal" onclick="closeModal('modal-dark')">
-                <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
-            </button>
-            <div class="modal-header">
-                <h3>หมวดหมู่: โทนมืด</h3>
-            </div>
-            <div class="link-list">
-                <a href="https://pinkdark.cozyw75.workers.dev/" target="_blank" class="link-item">V.1 โทนมืดทั่วไป <svg viewBox="0 0 24 24" width="16" height="16"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></a>
-                <a href="https://pinkblue.cozyw75.workers.dev/" target="_blank" class="link-item">V.2 โทนมืดฟ้า <svg viewBox="0 0 24 24" width="16" height="16"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></a>
-                <a href="https://dd3.cozyw75.workers.dev/" target="_blank" class="link-item">V.3 โทนมืด 3 <svg viewBox="0 0 24 24" width="16" height="16"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></a>
-                <a href="https://jugame.cozyw75.workers.dev/" target="_blank" class="link-item">V.4 เกม <svg viewBox="0 0 24 24" width="16" height="16"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></a>
-                <a href="https://moonpink.cozyw75.workers.dev/" target="_blank" class="link-item">V.5 พระจันทร์ <svg viewBox="0 0 24 24" width="16" height="16"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></a>
-                <a href="https://shiny-thunder-d71e.cozyw75.workers.dev/" target="_blank" class="link-item">V.6 start <svg viewBox="0 0 24 24" width="16" height="16"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></a>
-                <a href="https://blue.cozyw75.workers.dev/" target="_blank" class="link-item">V.7 สีฟ้า <svg viewBox="0 0 24 24" width="16" height="16"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></a>
-                <a href="https://lix.cozyw75.workers.dev/" target="_blank" class="link-item">V.8 ดูดวง <svg viewBox="0 0 24 24" width="16" height="16"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></a>
-            </div>
+        <div style="font-size:14px; text-align:left; line-height:1.6; color:#555;">
+          เวลาทำการ: ${storeInfo.hours || '11:00 - 00:00 น.'}<br>
+          การรับประกัน: ตามแพ็กเกจที่เลือก
         </div>
-    </div>
+      </div>
+    `;
 
-    <!-- Modal: พาสเทล -->
-    <div class="modal-overlay" id="modal-pastel">
-        <div class="modal-content">
-            <button class="btn-close-modal" onclick="closeModal('modal-pastel')">
-                <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
-            </button>
-            <div class="modal-header">
-                <h3>หมวดหมู่: พาสเทล</h3>
-            </div>
-            <div class="link-list">
-                <a href="https://wish-uwu.cozyw75.workers.dev/" target="_blank" class="link-item">V.1 พาสเทล 1 <svg viewBox="0 0 24 24" width="16" height="16"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></a>
-                <a href="https://regal-torrone-46c94f.netlify.app/" target="_blank" class="link-item">V.2 พาสเทล 2 <svg viewBox="0 0 24 24" width="16" height="16"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></a>
-                <a href="https://cawaei.cozyw75.workers.dev/" target="_blank" class="link-item">V.3 สติกเกอร์ <svg viewBox="0 0 24 24" width="16" height="16"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></a>
-                <a href="https://meww.cozyw75.workers.dev/" target="_blank" class="link-item">V.4 แมวดำ <svg viewBox="0 0 24 24" width="16" height="16"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></a>
-                <a href="https://duduw.cozyw75.workers.dev/" target="_blank" class="link-item">V.5 เปเปอร์ <svg viewBox="0 0 24 24" width="16" height="16"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></a>
-                <a href="https://pinks.cozyw75.workers.dev/" target="_blank" class="link-item">V.6 หมีกระดุม <svg viewBox="0 0 24 24" width="16" height="16"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></a>
-                <a href="https://small-wind-001f.cozyw75.workers.dev/" target="_blank" class="link-item">V.7 โลโก้เหลี่ยม <svg viewBox="0 0 24 24" width="16" height="16"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></a>
-                <a href="https://sweetie.cozyw75.workers.dev/" target="_blank" class="link-item">V.8 โพลารอยด์ <svg viewBox="0 0 24 24" width="16" height="16"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></a>
-                <a href="https://pmju.cozyw75.workers.dev/" target="_blank" class="link-item">V.9 payment <svg viewBox="0 0 24 24" width="16" height="16"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></a>
-            </div>
+    if(storeInfo.mediaLink && String(storeInfo.mediaLink).trim() !== '') {
+      html += `<div class="info-card" style="padding:15px;">${buildSliderHtml(storeInfo.mediaLink, 'slider_main')}${storeInfo.mediaText ? `<div style="font-size:14px; text-align:left; color:#333; white-space:pre-wrap; line-height:1.5;">${storeInfo.mediaText}</div>` : ''}</div>`;
+    }
+
+    if(storeInfo.customCards && Array.isArray(storeInfo.customCards) && storeInfo.customCards.length > 0) {
+      storeInfo.customCards.forEach((card, idx) => {
+        let iconHtml = '';
+        if(card.icon) {
+          let iconLinks = String(card.icon).split(',').map(s=>s.trim()).filter(s=>s);
+          if(iconLinks.length > 1) iconHtml = buildSliderHtml(card.icon, `slider_card_${idx}`);
+          else if(iconLinks.length === 1) iconHtml = `<img src="${iconLinks[0]}" style="width:40px; height:40px; border-radius:8px; object-fit:cover; flex-shrink:0;">`;
+        }
+        html += `
+          <div class="info-card" style="display:flex; flex-direction:column; gap:10px; text-align:left; padding:15px;">
+            ${iconHtml.includes('slider-container') ? iconHtml : `<div style="display:flex; gap:15px; align-items:flex-start;">${iconHtml}<div><h4 style="color:var(--primary); margin-bottom:5px;">${card.title}</h4></div></div>`}
+            ${!iconHtml.includes('slider-container') ? '' : `<h4 style="color:var(--primary); margin-bottom:5px;">${card.title}</h4>`}
+            <div style="font-size:13px; color:#555; white-space:pre-wrap; line-height:1.5;">${card.desc}</div>
+          </div>
+        `;
+      });
+    }
+    contentArea.innerHTML = html;
+  }
+  else {
+    let searchAndSortHeader = `
+      <input type="text" class="search-box" id="searchInput" placeholder="🔍 ค้นหาชื่อสินค้า..." value="${currentSearch}" oninput="handleSearch(this.value)">
+      <div class="sort-container">
+        <div class="sort-title">รายการสินค้า</div>
+        <select class="sort-dropdown" onchange="changeSort(this.value)">
+          <option value="name" ${currentSort==='name'?'selected':''}>เรียงตามอักษร</option>
+          <option value="price" ${currentSort==='price'?'selected':''}>เรียงตามราคา</option>
+        </select>
+      </div>
+    `;
+
+    let apps = {};
+    if (tabName === 'แอพ-เกม iOS/Android') {
+      products.filter(p => p.tab === tabName).forEach(p => {
+        if(!apps[p.name]) apps[p.name] = { icon: p.icon, desc: p.desc, osList: [] };
+        apps[p.name].osList.push(p);
+      });
+      let appsArr = Object.keys(apps).map(key => ({ name: key, ...apps[key] }));
+      if (currentSearch) appsArr = appsArr.filter(app => app.name.toLowerCase().includes(currentSearch));
+      if (currentSort === 'name') appsArr.sort((a, b) => a.name.localeCompare(b.name, 'th'));
+      else if (currentSort === 'price') appsArr.sort((a, b) => Math.min(...a.osList.map(p => p.price)) - Math.min(...b.osList.map(p => p.price)));
+
+      if(appsArr.length === 0) { contentArea.innerHTML = searchAndSortHeader + `<p style="text-align:center; margin-top:30px;">ไม่พบสินค้า</p>`; return; }
+
+      let html = searchAndSortHeader + `<div class="app-grid">`;
+      appsArr.forEach(app => {
+        let isReady = app.osList.some(p => p.status !== 'outstock' && p.status !== 'not_ready');
+        html += `
+          <div class="app-card">
+            ${isReady ? `<div class="app-badge ready">พร้อมส่ง</div>` : `<div class="app-badge not-ready">เมลไม่พร้อม</div>`}
+            <img src="${app.icon || 'https://via.placeholder.com/70'}" alt="icon" onerror="this.src='https://via.placeholder.com/70'">
+            <h4>${app.name}</h4><p class="app-desc">${app.desc}</p>
+            <div class="os-btn-group">`;
+              let osListSorted = [...app.osList];
+              if(currentSort === 'price') osListSorted.sort((a,b) => a.price - b.price);
+              osListSorted.forEach(pkg => {
+                const outstock = pkg.status === 'outstock' ? 'outstock' : '';
+                const inCart = cart.some(c => c.id === pkg.id) ? 'selected' : '';
+                html += `<button id="btn_${pkg.id}" class="os-btn ${outstock} ${inCart}" onclick="${outstock ? '' : `addToCart('${pkg.id}')`}">${pkg.os} - ${pkg.price}฿</button>`;
+              });
+        html += `</div></div>`;
+      });
+      contentArea.innerHTML = html + `</div>`;
+    } else {
+      products.filter(p => p.tab === tabName).forEach(p => {
+        if(!apps[p.cat]) apps[p.cat] = { icon: p.icon, desc: p.appDesc };
+      });
+      let appsArr = Object.keys(apps).map(key => ({ cat: key, ...apps[key] }));
+      if (currentSearch) appsArr = appsArr.filter(app => app.cat.toLowerCase().includes(currentSearch));
+      if (currentSort === 'name') appsArr.sort((a, b) => a.cat.localeCompare(b.cat, 'th'));
+      else if (currentSort === 'price') {
+        appsArr.sort((a, b) => Math.min(...products.filter(p => p.tab === tabName && p.cat === a.cat).map(p => p.price)) - Math.min(...products.filter(p => p.tab === tabName && p.cat === b.cat).map(p => p.price)));
+      }
+
+      if(appsArr.length === 0) { contentArea.innerHTML = searchAndSortHeader + `<p style="text-align:center; margin-top:30px;">ไม่พบสินค้า</p>`; return; }
+
+      let html = searchAndSortHeader + `<div class="app-grid">`;
+      appsArr.forEach(app => {
+        html += `
+          <div class="app-card" onclick="openPackageView('${tabName}', '${app.cat}')">
+            <img src="${app.icon || 'https://via.placeholder.com/70'}" alt="icon" onerror="this.src='https://via.placeholder.com/70'">
+            <h4>${app.cat}</h4><p class="app-desc">${app.desc}</p>
+          </div>`;
+      });
+      contentArea.innerHTML = html + `</div>`;
+    }
+    let searchInp = document.getElementById('searchInput');
+    if(searchInp && currentSearch) { searchInp.focus(); searchInp.setSelectionRange(currentSearch.length, currentSearch.length); }
+  }
+}
+
+function openPackageView(tabName, catName) {
+  currentView = 'package'; currentCat = catName;
+  const contentArea = document.getElementById('main-content');
+  checkAndShowPopup(catName); 
+
+  const appProducts = products.filter(p => p.tab === tabName && p.cat === catName);
+  let subCats = {};
+  appProducts.forEach(p => { let sCat = p.subCat || 'แพ็กเกจทั่วไป'; if(!subCats[sCat]) subCats[sCat] = []; subCats[sCat].push(p); });
+
+  let html = `<button class="back-btn" onclick="switchMainTab('${tabName}')">⬅ กลับหน้ารวมแอป</button>
+    <input type="text" class="search-box" id="searchInput" placeholder="🔍 ค้นหาชื่อแพ็กเกจ..." value="${currentSearch}" oninput="handleSearch(this.value)">
+    <div class="sort-container">
+      <div class="sort-title">${catName}</div>
+      <select class="sort-dropdown" onchange="changeSort(this.value)">
+        <option value="name" ${currentSort==='name'?'selected':''}>เรียงตามอักษร</option>
+        <option value="price" ${currentSort==='price'?'selected':''}>เรียงตามราคา</option>
+      </select>
+    </div>`;
+
+  Object.keys(subCats).map(key => ({ name: key, items: subCats[key] })).forEach(sub => {
+    let items = [...sub.items];
+    if (currentSearch) items = items.filter(i => i.name.toLowerCase().includes(currentSearch));
+    if (items.length === 0) return; 
+
+    if (currentSort === 'name') items.sort((a, b) => a.name.localeCompare(b.name, 'th'));
+    else if (currentSort === 'price') items.sort((a, b) => a.price - b.price);
+
+    html += `<div class="package-group-title">${sub.name}</div>`;
+    items.forEach(item => {
+      const isOutstock = item.status === 'outstock';
+      const inCart = cart.some(c => c.id === item.id) ? 'background:#FF4B7E;' : (isOutstock ? 'background:#ccc; cursor:not-allowed;' : 'background:var(--primary);');
+      const btnText = isOutstock ? 'หมด' : (cart.some(c => c.id === item.id) ? 'ลบออก' : `${item.price} ฿`);
+      html += `
+      html += `
+      <div style="background:#fff; color:#000; padding:12px; border-radius:8px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center; border:1px solid #ddd; width: 100%;">
+        <div style="flex: 1; min-width: 0; padding-right: 15px; word-break: break-word;">
+          <strong style="display: block; font-size: 1.05em; color: #333;">${item.name}</strong>
+          <small style="display: block; color:#666; white-space: pre-line; margin-top: 4px; line-height: 1.4;">${item.desc}</small>
         </div>
+        <div style="flex-shrink: 0;">
+          <button id="btn_${item.id}" onclick="${isOutstock ? '' : `addToCart('${item.id}')`}" style="${inCart} color:#fff; border:none; padding:8px 16px; border-radius:6px; font-weight:bold; transition:0.2s;">${btnText}</button>
+        </div>
+      </div>`;
+    });
+  });
+  
+  if(!html.includes('package-group-title')) html += `<p style="text-align:center; margin-top:20px;">ไม่พบแพ็กเกจ</p>`;
+  contentArea.innerHTML = html;
+  let searchInp = document.getElementById('searchInput');
+  if(searchInp && currentSearch) { searchInp.focus(); searchInp.setSelectionRange(currentSearch.length, currentSearch.length); }
+}
+
+function copyText(txt) { navigator.clipboard.writeText(txt); alert("คัดลอกแล้ว!"); }
+
+function addToCart(id) {
+  const product = products.find(p => p.id === id);
+  if (!product) return;
+  if(product.status === 'outstock') return alert('สินค้านี้หมดชั่วคราวค่ะ');
+
+  const index = cart.findIndex(item => item.id === id);
+  if (index > -1) cart.splice(index, 1); else cart.push(product); 
+  updateBottomBar();
+  updateButtonUI(id);
+}
+
+function updateButtonUI(id) {
+  const btn = document.getElementById(`btn_${id}`);
+  if(btn) {
+    if(currentTab === 'แอพ-เกม iOS/Android') {
+      if(cart.some(c => c.id === id)) btn.classList.add('selected'); else btn.classList.remove('selected');
+    } else {
+      const inCart = cart.some(c => c.id === id);
+      btn.style.background = inCart ? '#FF4B7E' : 'var(--primary)';
+      btn.innerText = inCart ? 'ลบออก' : `${products.find(p => p.id === id).price} ฿`;
+    }
+  }
+}
+
+function calculateTotal() {
+  if(cart.length === 0) return { total: 0, isPromo: false };
+  let promoItems = cart.filter(i => i.price >= 20 && i.price <= 25 && i.tab === 'แอพ-เกม iOS/Android');
+  let otherItems = cart.filter(i => !(i.price >= 20 && i.price <= 25 && i.tab === 'แอพ-เกม iOS/Android'));
+  
+  let count = promoItems.length; let promoTotal = 0; let isPromo = false;
+
+  if (count >= 30) { promoTotal = 360; isPromo = true; }
+  else if (count >= 15) { promoTotal = 210; isPromo = true; }
+  else if (count >= 8) { promoTotal = 80; isPromo = true; }
+  else if (count >= 3) { promoTotal = 45; isPromo = true; }
+  else if (count === 2 && promoItems.every(i => i.price === 25)) { promoTotal = 45; isPromo = true; }
+  else { promoTotal = promoItems.reduce((sum, i) => sum + i.price, 0); isPromo = false; }
+
+  let othersTotal = otherItems.reduce((sum, i) => sum + i.price, 0);
+  return { total: promoTotal + othersTotal, isPromo: isPromo };
+}
+
+function updateBottomBar() {
+  const bar = document.getElementById('bottomBar');
+  if (cart.length > 0) {
+    bar.classList.add('active');
+    document.getElementById('cartCount').innerHTML = `เลือก ${cart.length} รายการ <span style="font-size:10px; margin-left:5px; color:#fff;">▲</span>`;
+    let calc = calculateTotal();
+    document.getElementById('cartTotal').innerHTML = `${calc.total}฿ <span id="cartPromoBadge" style="font-size:10px; font-weight:normal; background:${calc.isPromo ? '#00c853' : 'rgba(255,255,255,0.2)'}; padding:2px 8px; border-radius:10px; margin-left:5px;">${calc.isPromo ? 'จัดโปรโมชั่น' : 'ราคาปกติ'}</span>`;
+  } else {
+    bar.classList.remove('active');
+    document.getElementById('cartPanel').classList.remove('open'); 
+  }
+  updateCartPanel();
+}
+
+function toggleCartPanel() {
+  const panel = document.getElementById('cartPanel');
+  if(panel.classList.contains('open')) panel.classList.remove('open'); else if(cart.length > 0) panel.classList.add('open');
+}
+
+function updateCartPanel() {
+  const list = document.getElementById('cartPanelList');
+  if(cart.length === 0) { list.innerHTML = ''; return; }
+  let html = '';
+  cart.forEach(item => {
+    html += `
+      <div class="cart-item">
+        <div style="font-size:14px; line-height:1.3;">
+          <strong>${item.name}</strong> <span style="color:#666; font-size:12px;">${item.os || item.desc || ''}</span><br>
+          <span style="color:var(--primary); font-weight:bold;">${item.price} ฿</span>
+        </div>
+        <button class="cart-item-remove" onclick="addToCart('${item.id}')">ลบออก</button>
+      </div>`;
+  });
+  list.innerHTML = html;
+}
+
+function openCheckoutModal() {
+  if (cart.length === 0) return;
+  document.getElementById('cartPanel').classList.remove('open'); 
+  
+  let calc = calculateTotal(); let total = calc.total; orderTextToCopy = "";
+
+  if (currentTab === "เติมเกม") {
+    orderTextToCopy = `🛒 *รายการสั่งซื้อ (Wanderer Shop)*\n---------------------------\n`;
+    cart.forEach((i, idx) => { orderTextToCopy += `${idx + 1}. ${i.name}\n   แพ็กเกจ: ${i.os || i.desc || '-'}\n   ราคา: ${i.price} บาท\n`; });
+    orderTextToCopy += `---------------------------\n*ยอดรวมทั้งสิ้น: ${total} บาท*\n---------------------------\n*แจ้งไอดี ได้เลยค่ะ*`;
+  } else if (currentTab === "แอพพรีเมี่ยม") {
+    orderTextToCopy = `🛒 รายการสั่งซื้อ (Wanderer Shop)\n---------------------------\n`;
+    cart.forEach((i, idx) => { orderTextToCopy += `${idx + 1}. ${i.name}\n   แพ็กเกจ: ${i.os || i.desc || '-'}\n   ราคา: ${i.price} บาท\n`; });
+    orderTextToCopy += `---------------------------\n*ยอดรวมทั้งสิ้น: ${total} บาท*\n---------------------------\nรบกวนรอแอดมินตอบก่อนค่อยโอนนะคะ`;
+  } else {
+    orderTextToCopy = `🛒 *รายการสั่งซื้อ (Wanderer Shop)*\n---------------------------\n`;
+    orderTextToCopy += `✿  𓈒  รวมยอด    ꒰  ${total}฿  ꒱  ݂🎐\n`;
+    cart.forEach(i => { orderTextToCopy += `♡ 🍃 ݂  ${i.name} (${i.os || ''}) 𓈒\n`; });
+    orderTextToCopy += `---------------------------\nรบกวนรอแม่ค้าเช็คเมล-ยอดและส่งเลขบัญชีให้ทีครับ/ค่ะ 🙏`;
+  }
+
+  document.getElementById('modalOrderDetails').innerText = orderTextToCopy;
+  document.getElementById('checkoutModal').style.display = 'flex';
+}
+
+function closeCheckoutModal() { document.getElementById('checkoutModal').style.display = 'none'; }
+
+async function confirmCheckout() {
+  let calc = calculateTotal();
+  fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: "add_order", items: orderTextToCopy, total: calc.total }) });
+  const tempInput = document.createElement("textarea");
+  tempInput.value = orderTextToCopy; document.body.appendChild(tempInput);
+  tempInput.select(); document.execCommand("copy"); document.body.removeChild(tempInput);
+  closeCheckoutModal(); window.location.href = "https://lin.ee/twgRJSxV";
+}
+
+// --- Admin System ---
+function checkAdminLogin() {
+  if(adminMode) return;
+  tapCount++;
+  if(tapCount >= 5) {
+    let pass = prompt("รหัสแอดมิน:");
+    if(pass === "170647") {
+      adminMode = true;
+      document.body.insertAdjacentHTML("beforeend", `<div id="adminBtn" onclick="openAdmin()">⚙️</div>`);
+      alert("เข้าสู่โหมดแอดมิน");
+    }
+    tapCount = 0;
+  }
+}
+
+function openAdmin() {
+  if(document.getElementById('adminPanel')) document.getElementById('adminPanel').remove();
+  
+  tempCustomCards = storeInfo.customCards ? JSON.parse(JSON.stringify(storeInfo.customCards)) : [];
+  tempPopups = storeInfo.popups ? JSON.parse(JSON.stringify(storeInfo.popups)) : [];
+  editingProductId = null; 
+
+  let tabOptions = ""; let targetPopupOptions = ""; 
+  const mainTabs = ["แอพพรีเมี่ยม", "เติมเกม", "แอพ-เกม iOS/Android"];
+  let allTabsForAdmin = [...new Set([...mainTabs, ...currentTabList])];
+
+  allTabsForAdmin.forEach(t => {
+    if (!hiddenSystemTabs.includes(t) && t !== "ข้อมูลร้าน") {
+      let val = (t === "แอพ-เกม iOS/Android") ? "IOS-ANDROID" : t;
+      tabOptions += `<option value="${val}">${t}</option>`;
+    }
+    if (!hiddenSystemTabs.includes(t)) targetPopupOptions += `<option value="${t}">แท็บ: ${t}</option>`;
+  });
+  
+  let allAppNames = [...new Set(products.map(p => p.name || p.cat))].filter(n => n);
+  allAppNames.forEach(app => { targetPopupOptions += `<option value="${app}">แอป: ${app}</option>`; });
+
+  document.body.insertAdjacentHTML("beforeend", `
+    <div id="adminPanel" class="admin-panel">
+      <div class="admin-box">
+        <h3 style="margin-bottom:15px; color:var(--primary); text-align:center;">ระบบจัดการร้านค้า</h3>
+        
+        <div class="admin-nav">
+          <button class="admin-nav-btn active" id="btn_adm_store" onclick="switchAdminView('store')">🏠 ร้านค้า</button>
+          <button class="admin-nav-btn" id="btn_adm_products" onclick="switchAdminView('products')">📦 สินค้า</button>
+          <button class="admin-nav-btn" id="btn_adm_popup" onclick="switchAdminView('popup')" style="background:#fff3cd; color:#ff9800; border:1px solid #ffe082;">📢 แจ้งเตือน</button>
+        </div>
+        
+        <div id="admin_view_store" style="display:block;">
+          <label style="font-size:13px; font-weight:bold; color:#555;">สถานะร้านค้า:</label>
+          <select id="st_status">
+            <option value="open" ${storeInfo.status==='open'?'selected':''}>เปิด (Open)</option>
+            <option value="closed" ${storeInfo.status==='closed'?'selected':''}>ปิด (Closed)</option>
+            <option value="slow" ${storeInfo.status==='slow'?'selected':''}>ตอบช้า (Slow)</option>
+          </select>
+          
+          <label style="font-size:13px; font-weight:bold; color:#555;">ข้อความต้อนรับ (ใต้ชื่อร้าน):</label>
+          <input type="text" id="st_welcome" placeholder="เช่น ยินดีต้อนรับสู่ร้าน Wanderer_Shop" value="${storeInfo.welcome || ''}">
+          
+          <label style="font-size:13px; font-weight:bold; color:#555;">Line ID ติดต่อ:</label>
+          <input type="text" id="st_line" placeholder="Line ID (เช่น @wanderer)" value="${storeInfo.line || ''}">
+          
+          <label style="font-size:13px; font-weight:bold; color:#555;">เวลาทำการ:</label>
+          <input type="text" id="st_hours" placeholder="เช่น 11:00 - 00:00 น." value="${storeInfo.hours || ''}">
+          
+          <label style="font-size:13px; font-weight:bold; color:#555;">ลิงก์โลโก้ร้าน:</label>
+          <input type="text" id="st_logo" placeholder="URL รูปภาพโลโก้ร้าน" value="${storeInfo.logo || ''}">
+
+          <div style="background:#f0f5fa; padding:12px; border-radius:8px; margin-bottom:15px; margin-top:15px;">
+            <label style="font-size:13px; font-weight:bold; color:#333;">🎥 สื่อต้อนรับ (ใส่ลูกน้ำ , คั่นเพื่อทำสไลด์):</label>
+            <input type="text" id="st_mediaLink" placeholder="ลิงก์รูปภาพ หรือ วิดีโอ" value="${storeInfo.mediaLink || ''}">
+            <textarea id="st_mediaText" placeholder="คำอธิบาย หรือโปรโมชั่น (ขึ้นบรรทัดใหม่ได้)" rows="3" style="width:100%; padding:10px; margin-bottom:5px; border:1px solid #ddd; border-radius:8px;">${storeInfo.mediaText || ''}</textarea>
+          </div>
+
+          <div style="background:#eef5ff; padding:12px; border-radius:8px; margin-bottom:15px; border: 1px solid #cce0ff;">
+            <label style="font-size:14px; font-weight:bold; color:var(--primary);">➕ เพิ่มการ์ดข้อมูลใหม่</label>
+            <input type="text" id="cc_title" placeholder="1. ชื่อหัวข้อการ์ด" style="margin-top:8px;">
+            <textarea id="cc_desc" placeholder="2. รายละเอียด (ขึ้นบรรทัดใหม่ได้)" rows="2" style="width:100%; padding:10px; margin-bottom:12px; border:1px solid #ddd; border-radius:8px;"></textarea>
+            <input type="text" id="cc_icon" placeholder="3. ลิงก์รูปภาพ (ใส่ลูกน้ำ , คั่นทำสไลด์ได้)">
+            <button onclick="adminAddCustomCard()" style="background:#3B96F5; color:#fff; border:none; padding:8px; border-radius:8px; width:100%; font-weight:bold; cursor:pointer;">กดเพื่อสร้างการ์ด</button>
+            <div id="admin_cards_list" style="margin-top:10px;"></div>
+          </div>
+          
+          <button onclick="saveStoreInfo(event)" style="width:100%; padding:12px; background:#00c853; color:#fff; border:none; border-radius:8px; font-size:15px; font-weight:bold; cursor:pointer; margin-top:10px;">💾 บันทึกข้อมูลร้านค้าทั้งหมด</button>
+
+          <div style="padding: 20px; background: #152b4d; border-radius: 8px; margin-top: 20px; border: 1px solid var(--border-color);">
+            <h3 style="color: var(--border-color); margin-bottom: 15px;">📊 สถิติร้านค้าภาพรวม</h3>
+            
+            <div style="display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap;">
+              <div style="flex: 1; min-width: 120px; padding: 15px; background: rgba(255,255,255,0.1); border-radius: 8px; text-align: center;">
+                <p style="font-size: 14px; color: #aaa;">คนเข้าเว็บ (ครั้ง)</p>
+                <h2 id="stat_views" style="color: #fff;">0</h2>
+              </div>
+              <div style="flex: 1; min-width: 120px; padding: 15px; background: rgba(59,150,245,0.2); border-radius: 8px; text-align: center;">
+                <p style="font-size: 14px; color: #aaa;">ยอดเงินรวม (บาท)</p>
+                <h2 id="stat_revenue" style="color: #3B96F5;">0</h2>
+              </div>
+              <div style="flex: 1; min-width: 120px; padding: 15px; background: rgba(255,75,126,0.2); border-radius: 8px; text-align: center;">
+                <p style="font-size: 14px; color: #aaa;">แอปขายดีที่สุด</p>
+                <h3 id="stat_bestapp" style="color: var(--secondary); margin-top: 5px;">-</h3>
+              </div>
+            </div>
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+              <h4 style="color:#fff;">📝 ประวัติรายการขายล่าสุด</h4>
+              <button onclick="loadStatistics()" style="background: var(--primary); color: #fff; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer;">🔄 อัปเดตข้อมูล</button>
+            </div>
+            
+            <div style="overflow-x: auto;">
+              <table style="width: 100%; text-align: left; border-collapse: collapse; font-size: 14px; color:#fff;">
+                <thead>
+                  <tr style="border-bottom: 2px solid var(--border-color);">
+                    <th style="padding: 8px;">เวลา</th>
+                    <th style="padding: 8px;">รายการ / แอป</th>
+                    <th style="padding: 8px;">ยอด (฿)</th>
+                    <th style="padding: 8px;">สถานะ</th>
+                  </tr>
+                </thead>
+                <tbody id="stat_table_body">
+                  <tr><td colspan=\"4\" style=\"padding: 10px; text-align: center;\">กดปุ่ม "อัปเดตข้อมูล" เพื่อดูสถิติ</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div id="admin_view_popup" style="display:none;">
+          <div style="background: #fff8e1; padding: 15px; border-radius: 8px; margin-bottom: 15px; border: 1px solid #ffe082;">
+            <h4 style="color:#ff9800; margin-bottom:10px;">➕ สร้างแจ้งเตือนป๊อปอัปใหม่</h4>
+            <label style="font-size:13px; font-weight:bold; color:#555;">ให้เด้งตอนกดเข้าหน้าไหน?</label>
+            <select id="pu_target" style="margin-bottom:10px; width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
+              <option value="all">แสดงทุกหน้า (Global)</option>
+              ${targetPopupOptions}
+            </select>
+            <label style="font-size:13px; font-weight:bold; color:#555;">ข้อความที่จะให้เด้งบอก:</label>
+            <textarea id="pu_msg" placeholder="พิมพ์ข้อความแจ้งเตือนที่นี่..." rows="3" style="width:100%; padding:10px; margin-bottom:10px; border:1px solid #ddd; border-radius:8px;"></textarea>
+            <button onclick="adminAddPopup()" style="background:#ff9800; color:#fff; border:none; padding:10px; border-radius:8px; width:100%; font-weight:bold; cursor:pointer;">บันทึกแจ้งเตือน</button>
+          </div>
+          
+          <h4 style="margin-bottom:10px; color:#333; font-size:15px;">📋 แจ้งเตือนที่มีอยู่</h4>
+          <div id="admin_popup_list" style="max-height: 200px; overflow-y: auto;"></div>
+          <button onclick="saveStoreInfo(event)" style="width:100%; padding:12px; background:#00c853; color:#fff; border:none; border-radius:8px; font-size:15px; font-weight:bold; cursor:pointer; margin-top:10px;">💾 บันทึกข้อมูลทั้งหมด</button>
+        </div>
+
+        <div id="admin_view_products" style="display:none;">
+          <div style="background: #f8f9fa; padding: 12px; border-radius: 8px; margin-bottom: 15px; border: 1px solid #e1e8ee;">
+            <label style="font-size:13px; font-weight:bold; color:#333;">➕ สร้างแท็บหมวดหมู่ใหม่:</label>
+            <div style="display:flex; gap:10px; margin-top:8px;">
+              <input type="text" id="new_tab_input" placeholder="ชื่อแท็บใหม่" style="margin-bottom:0; flex:1;">
+              <button style="margin-bottom:0; padding:8px 15px; background:var(--primary); color:#fff; border:none; border-radius:8px; font-weight:bold; cursor:pointer;" onclick="adminAddTab()">สร้าง</button>
+            </div>
+          </div>
+
+          <label style="font-size:14px; font-weight:bold; color:#555;">เลือกหมวดหมู่ที่จะเพิ่มสินค้า:</label>
+          <select id="a_tab" onchange="toggleAdminForm(); renderAdminProductList();" style="margin-top:5px; font-weight:bold;">
+            ${tabOptions}
+          </select>
+          
+          <div id="form_ios" style="display:none; background:#f0f5fa; padding:12px; border-radius:8px;">
+            <input type="text" id="ios_name" placeholder="ชื่อแอป (หมวดหลัก)">
+            <input type="text" id="ios_desc" placeholder="รายละเอียดแอป (เว้นได้)">
+            <label style="font-size:13px; font-weight:bold; color:#555; display:block; margin-bottom:5px;">📱 เลือกระบบ (ติ๊ก 1 หรือ 2 ก็ได้):</label>
+            <div style="display:flex; gap:15px; margin-bottom:12px; background:#fff; padding:10px; border-radius:8px; border:1px solid #ddd;">
+              <label style="display:flex; align-items:center; gap:5px; cursor:pointer; font-weight:bold; color:#000;">
+                <input type="checkbox" id="cb_ios" value="iOS" style="width:auto; margin:0;" checked> iOS
+              </label>
+              <label style="display:flex; align-items:center; gap:5px; cursor:pointer; font-weight:bold; color:#000;">
+                <input type="checkbox" id="cb_android" value="Android" style="width:auto; margin:0;" checked> Android
+              </label>
+            </div>
+            <select id="ios_status">
+              <option value="ready">สถานะ: พร้อมส่ง</option>
+              <option value="not_ready">สถานะ: เมลไม่พร้อม (สีแดง)</option>
+              <option value="outstock">สถานะ: สินค้าหมด</option>
+            </select>
+            <input type="number" id="ios_price" placeholder="ราคา (บาท)">
+            <input type="text" id="ios_icon" placeholder="ลิงก์รูปภาพ หรือ อิโมจิ">
+          </div>
+
+          <div id="form_other" style="background:#f0f5fa; padding:12px; border-radius:8px;">
+            <input type="text" id="o_cat" placeholder="หมวดหมู่หลัก (ชื่อแอป)">
+            <textarea id="o_appDesc" rows="3" placeholder="รายละเอียดแอป..." style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ccc; font-family: 'Kanit', sans-serif; resize: vertical;"></textarea>
+            <input type="text" id="o_subCat" placeholder="กลุ่มตัวเลือกแพ็กเกจ (เว้นได้)">
+            <input type="text" id="o_name" placeholder="ชื่อแพ็กเกจย่อย">
+            <input type="text" id="o_desc" placeholder="รายละเอียดย่อย (เว้นได้)">
+            <select id="o_status" style="margin-bottom:12px;">
+              <option value="ready">สถานะ: พร้อมส่ง</option>
+              <option value="not_ready">สถานะ: เมลไม่พร้อม (สีแดง)</option>
+              <option value="outstock">สถานะ: สินค้าหมด</option>
+            </select>
+            <input type="number" id="o_price" placeholder="ราคา (บาท)">
+            <input type="text" id="o_icon" placeholder="ลิงก์รูปภาพ หรือ อิโมจิ">
+          </div>
+          
+          <button id="admin_submit_btn" onclick="addProduct(event)" style="width: 100%; padding: 12px; background: var(--primary); color: #fff; border: none; border-radius: 8px; font-size: 15px; margin-top: 15px; font-weight:bold; cursor: pointer;">เพิ่มสินค้าเข้าหมวดนี้</button>
+          
+          <hr style="margin:20px 0 15px 0; border: 1px dashed #ccc;">
+          <h4 style="margin-bottom:10px; color:#333; font-size:15px;">📦 สินค้าในแท็บนี้</h4>
+          <div id="admin_product_list" style="max-height: 250px; overflow-y: auto; background: #fff; border: 1px solid #ddd; padding: 10px; border-radius: 8px; margin-bottom: 10px;"></div>
+        </div>
+
+        <button class="btn-close" onclick="document.getElementById('adminPanel').remove()" style="width:100%; background:#e0e0e0; color:#333; border:none; padding:12px; border-radius:8px; font-weight:bold; cursor:pointer; margin-top:10px;">ปิดหน้าต่าง</button>
+      </div>
     </div>
+  `);
+  
+  switchAdminView('store');
+  renderAdminCustomCards(); 
+  renderAdminPopupList();
 
-    <!-- Script สำหรับควบคุมการเปิด/ปิด Modal และเมนู -->
-    <script>
-        // Modal Functions
-        function openModal(id) {
-            document.getElementById(id).classList.add('active');
-            document.body.style.overflow = 'hidden'; // ป้องกันการเลื่อนหน้าจอตอนเปิด Pop-up
-        }
+  setTimeout(() => { if(typeof loadStatistics === 'function') loadStatistics(); }, 500);
+}
 
-        function closeModal(id) {
-            document.getElementById(id).classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
+function switchAdminView(view) {
+  document.getElementById('btn_adm_store').classList.remove('active');
+  document.getElementById('btn_adm_products').classList.remove('active');
+  document.getElementById('btn_adm_popup').classList.remove('active');
+  document.getElementById('admin_view_store').style.display = 'none';
+  document.getElementById('admin_view_products').style.display = 'none';
+  document.getElementById('admin_view_popup').style.display = 'none';
 
-        // ปิด Modal เมื่อคลิกพื้นที่ว่างด้านนอก
-        window.onclick = function(event) {
-            if (event.target.classList.contains('modal-overlay')) {
-                event.target.classList.remove('active');
-                document.body.style.overflow = 'auto';
-            }
-        }
+  if(view === 'store') {
+    document.getElementById('btn_adm_store').classList.add('active');
+    document.getElementById('admin_view_store').style.display = 'block';
+  } else if (view === 'products') {
+    document.getElementById('btn_adm_products').classList.add('active');
+    document.getElementById('admin_view_products').style.display = 'block';
+    toggleAdminForm();
+    renderAdminProductList();
+  } else if (view === 'popup') {
+    document.getElementById('btn_adm_popup').classList.add('active');
+    document.getElementById('admin_view_popup').style.display = 'block';
+  }
+}
 
-        // Sidebar active state logic (Simple version)
-        const navItems = document.querySelectorAll('.nav-item');
-        navItems.forEach(item => {
-            item.addEventListener('click', function() {
-                navItems.forEach(nav => nav.classList.remove('active'));
-                this.classList.add('active');
-            });
-        });
-    </script>
+function adminAddPopup() {
+  const target = document.getElementById('pu_target').value;
+  const msg = document.getElementById('pu_msg').value;
+  if(!msg) return alert("กรุณาใส่ข้อความแจ้งเตือน");
+  
+  tempPopups = tempPopups.filter(p => p.target !== target);
+  tempPopups.push({ target: target, message: msg });
+  
+  document.getElementById('pu_msg').value = '';
+  renderAdminPopupList();
+}
+
+function adminRemovePopup(index) {
+  tempPopups.splice(index, 1);
+  renderAdminPopupList();
+}
+
+function renderAdminPopupList() {
+  const list = document.getElementById('admin_popup_list');
+  let html = '';
+  tempPopups.forEach((p, i) => {
+    html += `
+      <div style="background:#fff; border:1px solid #ccc; padding:10px; border-radius:6px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center;">
+        <div>
+          <strong style="color:#ff9800; font-size:13px;">หน้า: ${p.target}</strong>
+          <div style="font-size:12px; color:#555;">${p.message}</div>
+        </div>
+        <button onclick="adminRemovePopup(${i})" style="background:#ff4b7e; color:#fff; border:none; padding:4px 8px; border-radius:4px; font-size:11px; cursor:pointer;">ลบ</button>
+      </div>
+    `;
+  });
+  if(tempPopups.length === 0) html = '<div style="font-size:12px; color:#999;">ยังไม่มีการตั้งแจ้งเตือน</div>';
+  list.innerHTML = html;
+}
+
+function adminAddCustomCard() {
+  const title = document.getElementById('cc_title').value;
+  const desc = document.getElementById('cc_desc').value;
+  const icon = document.getElementById('cc_icon').value;
+  if(!title) return alert("กรุณาใส่ชื่อหัวข้อการ์ด");
+  tempCustomCards.push({ title: title, desc: desc, icon: icon });
+  document.getElementById('cc_title').value = ''; document.getElementById('cc_desc').value = ''; document.getElementById('cc_icon').value = '';
+  renderAdminCustomCards();
+}
+
+function adminRemoveCustomCard(index) { tempCustomCards.splice(index, 1); renderAdminCustomCards(); }
+
+function renderAdminCustomCards() {
+  const list = document.getElementById('admin_cards_list');
+  let html = '';
+  tempCustomCards.forEach((c, i) => {
+    html += `
+      <div style="background:#fff; border:1px solid #ccc; padding:8px; border-radius:6px; margin-bottom:5px; display:flex; justify-content:space-between; align-items:center;">
+        <div><strong style="color:var(--primary); font-size:13px;">${c.title}</strong></div>
+        <button onclick="adminRemoveCustomCard(${i})" style="background:#ff4b7e; color:#fff; border:none; padding:4px 8px; border-radius:4px; font-size:11px; cursor:pointer;">ลบ</button>
+      </div>`;
+  });
+  list.innerHTML = html;
+}
+
+async function saveStoreInfo(e) {
+  const btn = e.target;
+  const oldText = btn.innerText;
+  btn.innerText = "กำลังบันทึก...";
+  let payload = {
+    action: "save_store", status: document.getElementById('st_status').value, welcome: document.getElementById('st_welcome').value,
+    line: document.getElementById('st_line').value, hours: document.getElementById('st_hours').value, logo: document.getElementById('st_logo').value,
+    mediaLink: document.getElementById('st_mediaLink').value, mediaText: document.getElementById('st_mediaText').value,
+    customCards: tempCustomCards, popups: tempPopups
+  };
+  await fetch(API_URL, { method: "POST", body: JSON.stringify(payload) });
+  await loadData(); 
+  btn.innerText = oldText; alert("บันทึกข้อมูลร้านค้าเรียบร้อย!");
+}
+
+async function adminAddTab() {
+  const tabName = document.getElementById('new_tab_input').value;
+  if(!tabName) return alert("กรุณาใส่ชื่อแท็บ");
+  await fetch(API_URL, { method: "POST", body: JSON.stringify({action: "add_tab", tabName: tabName}) });
+  alert("สร้างแท็บสำเร็จ!"); document.getElementById('adminPanel').remove(); loadData();
+}
+
+function renderAdminProductList() {
+  const container = document.getElementById('admin_product_list');
+  if (!container) return; 
+  const tab = document.getElementById('a_tab').value;
+  let targetTabName = tab === "IOS-ANDROID" ? "แอพ-เกม iOS/Android" : tab;
+  let filteredProducts = products.filter(p => p.tab === targetTabName);
+  
+  if (filteredProducts.length === 0) { container.innerHTML = '<p style="text-align:center; color:#999; font-size:13px; margin: 20px 0;">ยังไม่มีสินค้าในหมวดหมู่นี้</p>'; return; }
+
+  let groups = {};
+  filteredProducts.forEach(p => { let groupName = (targetTabName === 'แอพ-เกม iOS/Android') ? p.name : p.cat; if(!groupName) groupName = "ไม่มีหมวดหมู่"; if(!groups[groupName]) groups[groupName] = []; groups[groupName].push(p); });
+
+  let html = '';
+  for(let gName in groups) {
+    let gStatus = '';
+    if (targetTabName !== 'แอพ-เกม iOS/Android') {
+      let hasNotReady = groups[gName].some(p => p.status === 'not_ready'); let allOut = groups[gName].every(p => p.status === 'outstock');
+      if (hasNotReady) gStatus = `<span style="color:#ff1744; font-size:12px; font-weight:normal; margin-left:8px;">(เมลไม่พร้อม)</span>`;
+      else if (allOut) gStatus = `<span style="color:#ff4b7e; font-size:12px; font-weight:normal; margin-left:8px;">(หมด)</span>`;
+    }
+    html += `<div class="admin-group-title">${gName}${gStatus}</div>`;
+    groups[gName].forEach(p => {
+      let subName = (targetTabName === 'แอพ-เกม iOS/Android') ? p.os : p.name;
+      let statusColor = p.status === 'outstock' ? '#ff4b7e' : (p.status === 'not_ready' ? '#ff1744' : '#333');
+      let statusText = p.status === 'outstock' ? '(หมด)' : (p.status === 'not_ready' ? '(เมลไม่พร้อม)' : '');
+      html += `
+        <div class="admin-item" style="display:flex; justify-content:space-between; align-items:flex-start;">
+          <div style="flex:1; color:${statusColor};"><strong>- ${subName}</strong> <span style="font-size:11px; color:${statusColor};">${statusText}</span><br><span style="color:#888; font-size:11px; margin-left:10px;">${p.desc || p.appDesc || 'ไม่มีรายละเอียด'}</span></div>
+          <div style="display:flex; flex-direction:column; align-items:flex-end; gap:5px; min-width:80px;">
+            <span style="color:var(--primary); font-weight:bold;">${p.price} ฿</span>
+            <div style="display:flex; gap:5px;"><button onclick="editProduct('${p.id}')" style="background:#ffc107; color:#000; border:none; padding:4px 8px; border-radius:4px; font-size:11px; cursor:pointer; font-weight:bold;">✏️ แก้ไข</button><button onclick="deleteProduct('${p.id}')" style="background:#ff4b7e; color:#fff; border:none; padding:4px 8px; border-radius:4px; font-size:11px; cursor:pointer; font-weight:bold;">🗑️ ลบ</button></div>
+          </div>
+        </div>`;
+    });
+  }
+  container.innerHTML = html;
+}
+
+function toggleAdminForm() {
+  const tab = document.getElementById('a_tab').value;
+  if(tab === 'IOS-ANDROID') { document.getElementById('form_ios').style.display = 'block'; document.getElementById('form_other').style.display = 'none'; }
+  else { document.getElementById('form_ios').style.display = 'none'; document.getElementById('form_other').style.display = 'block'; }
+}
+
+function editProduct(id) {
+  const p = products.find(x => x.id === id); if(!p) return; editingProductId = id; document.querySelector('.admin-box').scrollTop = 0;
+  if (p.tab === "แอพ-เกม iOS/Android") {
+    document.getElementById('a_tab').value = "IOS-ANDROID"; toggleAdminForm();
+    document.getElementById('ios_name').value = p.name; document.getElementById('ios_desc').value = p.desc; document.getElementById('ios_status').value = p.status;
+    document.getElementById('ios_price').value = p.price; document.getElementById('ios_icon').value = p.icon;
+    document.getElementById('cb_ios').checked = p.os.toLowerCase().includes("ios"); document.getElementById('cb_android').checked = p.os.toLowerCase().includes("android");
+  } else {
+    document.getElementById('a_tab').value = p.tab; toggleAdminForm();
+    document.getElementById('o_cat').value = p.cat; document.getElementById('o_appDesc').value = p.appDesc; document.getElementById('o_subCat').value = p.subCat;
+    document.getElementById('o_name').value = p.name; document.getElementById('o_desc').value = p.desc; document.getElementById('o_status').value = p.status;
+    document.getElementById('o_price').value = p.price; document.getElementById('o_icon').value = p.icon;
+  }
+  const submitBtn = document.getElementById('admin_submit_btn');
+  if(submitBtn) {
+    submitBtn.innerText = "💾 บันทึกการแก้ไข"; submitBtn.style.background = "#ffc107"; submitBtn.style.color = "#000";
+    if(!document.getElementById('cancel_edit_btn')) {
+      const cancelBtn = document.createElement('button'); cancelBtn.id = 'cancel_edit_btn'; cancelBtn.innerText = "❌ ยกเลิกแก้ไข";
+      cancelBtn.style.cssText = "width: 100%; padding: 10px; background: #eee; color:#333; border: none; border-radius: 8px; font-size: 14px; margin-top: 10px; font-weight:bold; cursor: pointer;";
+      cancelBtn.onclick = cancelEdit; submitBtn.parentNode.insertBefore(cancelBtn, submitBtn.nextSibling);
+    }
+  }
+}
+
+function cancelEdit() {
+  editingProductId = null; document.querySelectorAll('#form_ios input, #form_other input').forEach(inp => inp.value = "");
+  document.getElementById('cb_ios').checked = true; document.getElementById('cb_android').checked = true;
+  const submitBtn = document.getElementById('admin_submit_btn');
+  if(submitBtn) { submitBtn.innerText = "เพิ่มสินค้าเข้าหมวดนี้"; submitBtn.style.background = "var(--primary)"; submitBtn.style.color = "#fff"; }
+  const cancelBtn = document.getElementById('cancel_edit_btn'); if(cancelBtn) cancelBtn.remove();
+}
+
+async function deleteProduct(id) {
+  if(!confirm("ยืนยันการลบสินค้านี้? (ลบแล้วกู้คืนไม่ได้นะ)")) return;
+  await fetch(API_URL, { method: "POST", body: JSON.stringify({ action: "delete_product", id: id }) });
+  await loadData(); renderAdminProductList(); alert("ลบสินค้าเรียบร้อย!");
+}
+
+async function addProduct(e) {
+  const btn = e.target; btn.innerText = "กำลังบันทึก..."; btn.disabled = true;
+  const tab = document.getElementById('a_tab').value;
+
+  if (tab === "IOS-ANDROID") {
+    let osSelected = [];
+    if(document.getElementById('cb_ios').checked) osSelected.push("iOS"); if(document.getElementById('cb_android').checked) osSelected.push("Android");
+    if (editingProductId) {
+      let payload = { action: "edit_product", id: editingProductId, tab: tab, name: document.getElementById('ios_name').value, desc: document.getElementById('ios_desc').value, os: osSelected.join(" / "), status: document.getElementById('ios_status').value, price: document.getElementById('ios_price').value, icon: document.getElementById('ios_icon').value };
+      await fetch(API_URL, { method: "POST", body: JSON.stringify(payload) }); alert("อัปเดตข้อมูลสำเร็จ!"); cancelEdit();
+    } else {
+      if(osSelected.length === 0) { alert("กรุณาเลือกระบบปฏิบัติการอย่างน้อย 1 อย่าง"); btn.innerText = "เพิ่มสินค้าเข้าหมวดนี้"; btn.disabled = false; return; }
+      for(let osName of osSelected) {
+        let payload = { action: "add", tab: tab, os: osName, name: document.getElementById('ios_name').value, desc: document.getElementById('ios_desc').value, status: document.getElementById('ios_status').value, price: document.getElementById('ios_price').value, icon: document.getElementById('ios_icon').value };
+        await fetch(API_URL, { method: "POST", body: JSON.stringify(payload) });
+      }
+      document.querySelectorAll('#form_ios input, #form_ios textarea').forEach(inp => inp.value = ""); 
+// และ
+document.querySelectorAll('#form_other input, #form_other textarea').forEach(inp => inp.value = "");
+    }
+  } else {
+    let payload = { tab: tab, cat: document.getElementById('o_cat').value, appDesc: document.getElementById('o_appDesc').value, subCat: document.getElementById('o_subCat').value, name: document.getElementById('o_name').value, desc: document.getElementById('o_desc').value, status: document.getElementById('o_status').value, price: document.getElementById('o_price').value, icon: document.getElementById('o_icon').value };
+    if (editingProductId) { payload.action = "edit_product"; payload.id = editingProductId; await fetch(API_URL, { method: "POST", body: JSON.stringify(payload) }); alert("อัปเดตข้อมูลสำเร็จ!"); cancelEdit(); } 
+    else { payload.action = "add"; await fetch(API_URL, { method: "POST", body: JSON.stringify(payload) }); alert("เพิ่มสำเร็จ! ข้อมูลอัปเดตแล้ว"); document.querySelectorAll('#form_other input').forEach(inp => inp.value = ""); }
+  }
+  await loadData(); renderAdminProductList(); btn.disabled = false;
+  if (!editingProductId) btn.innerText = "เพิ่มสินค้าเข้าหมวดนี้";
+}
+
+async function loadStatistics() {
+  const btn = document.querySelector('button[onclick="loadStatistics()"]');
+  if(btn) btn.innerText = "กำลังโหลด...";
+  try {
+    const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: "get_stats" }) });
+    const data = await res.json();
+    if(data.success) {
+      document.getElementById('stat_views').innerText = data.views.toLocaleString();
+      document.getElementById('stat_revenue').innerText = data.revenue.toLocaleString();
+      document.getElementById('stat_bestapp').innerText = data.bestApp;
+      const tbody = document.getElementById('stat_table_body'); tbody.innerHTML = "";
+      if(data.logs.length === 0) { tbody.innerHTML = '<tr><td colspan="4" style="padding: 10px; text-align: center;">ยังไม่มีข้อมูลการขาย</td></tr>'; } 
+      else {
+         data.logs.slice(0, 15).forEach(log => {
+           let statusColor = log.status === "Pending" ? "orange" : "#3B96F5";
+           tbody.innerHTML += `<tr style="border-bottom: 1px solid rgba(255,255,255,0.1);"><td style="padding: 8px;">${log.time}</td><td style="padding: 8px;">${log.items}</td><td style="padding: 8px; color: #4ade80;">${log.price.toLocaleString()}</td><td style="padding: 8px; color: ${statusColor};">${log.status}</td></tr>`;
+         });
+      }
+    }
+  } catch(e) { console.error("เกิดข้อผิดพลาดในการดึงสถิติ"); }
+  if(btn) btn.innerText = "🔄 อัปเดตข้อมูล";
+}
+
+window.addEventListener('load', () => {
+  fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: "record_view" }) }).catch(err => console.log(err));
+});
+
+loadData();
+</script>
 </body>
 </html>
