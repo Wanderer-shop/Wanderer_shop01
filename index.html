@@ -1344,7 +1344,6 @@ function submitAdminAction(event, action) {
     sendAdminPost(payload);
 }
 
-// ================== 🌟 ซ่อมแซมบรรทัดสุดท้ายที่ขาดหายไปจากโค้ดต้นฉบับ ==================
 function sendAdminPost(payload) {
     document.getElementById('loadingOverlay').style.display = 'flex';
     fetch(API_URL, {
@@ -1366,6 +1365,112 @@ function sendAdminPost(payload) {
         alert("❌ เกิดข้อผิดพลาดในการเชื่อมต่อเครือข่าย");
     });
 }
+
+// ================== 🌟 ฟังก์ชันที่ขาดหายไปจากโค้ดต้นฉบับ (เติมให้ครบถ้วนแล้ว) ==================
+function renderAdminProductList(tab) {
+    const container = document.getElementById('admin-product-list');
+    if (!container) return;
+    
+    let products = allProducts.filter(p => p.tab === tab);
+    if (!products || products.length === 0) {
+        container.innerHTML = '<p style="text-align:center; color:#999; padding:10px; font-size:13px;">ไม่มีสินค้าในหมวดหมู่นี้</p>';
+        return;
+    }
+    
+    let html = '';
+    products.forEach(p => {
+        let title = p.name || p.cat || 'ไม่ระบุชื่อ';
+        let sub = p.subCat || p.appDesc || p.desc || '';
+        let price = p.price !== undefined ? `${p.price}฿` : '';
+        html += `
+        <div class="admin-list-item">
+            <div class="admin-list-info">
+                <strong style="font-size:13px; color:#333;">${title} ${price ? `(${price})` : ''}</strong>
+                <span style="font-size:11px; color:#666;">${sub}</span>
+            </div>
+            <div class="admin-list-actions">
+                <button type="button" class="btn-sm-edit" onclick="selectProductForEdit('${p.id}')">✏️ เลือก</button>
+            </div>
+        </div>`;
+    });
+    container.innerHTML = html;
+}
+
+function selectProductForEdit(id) {
+    const p = allProducts.find(x => x.id === id);
+    if (!p) return;
+    
+    document.getElementById('a_id').value = p.id || '';
+    if (document.getElementById('a_status')) document.getElementById('a_status').value = p.status || 'ready';
+    
+    const tab = document.getElementById('a_tab').value;
+    if (tab.includes("IOS") || tab.includes("iOS")) {
+        if (document.getElementById('ia_cat')) document.getElementById('ia_cat').value = p.name || p.cat || '';
+        if (document.getElementById('ia_desc')) document.getElementById('ia_desc').value = p.desc || '';
+        if (document.getElementById('ia_price')) document.getElementById('ia_price').value = p.price || '';
+        if (document.getElementById('ia_icon')) document.getElementById('ia_icon').value = p.icon || '';
+        if (document.getElementById('ia_group')) document.getElementById('ia_group').value = p.subCat || '📱 แอพอื่นๆ';
+        if (document.getElementById('ia_isNew')) document.getElementById('ia_isNew').checked = (p.isNew === true || String(p.isNew).trim().toLowerCase() === "true");
+        
+        let osList = p.os ? p.os.split('/') : [];
+        if (document.getElementById('os_ios')) document.getElementById('os_ios').checked = osList.includes('iOS');
+        if (document.getElementById('os_android')) document.getElementById('os_android').checked = osList.includes('Android');
+    } else {
+        if (document.getElementById('pg_cat')) document.getElementById('pg_cat').value = p.cat || '';
+        if (document.getElementById('pg_appDesc')) document.getElementById('pg_appDesc').value = p.appDesc || '';
+        if (document.getElementById('pg_subCat')) document.getElementById('pg_subCat').value = p.subCat || '';
+        if (document.getElementById('pg_name')) document.getElementById('pg_name').value = p.name || '';
+        if (document.getElementById('pg_desc')) document.getElementById('pg_desc').value = p.desc || '';
+        if (document.getElementById('pg_price')) document.getElementById('pg_price').value = p.price || '';
+        if (document.getElementById('pg_icon')) document.getElementById('pg_icon').value = p.icon || '';
+        if (document.getElementById('pg_filterPill')) document.getElementById('pg_filterPill').value = p.filterPill || 'ดูหนัง/ซีรีส์';
+    }
+    alert("✅ ดึงข้อมูลสินค้ามาที่ฟอร์มแล้ว สามารถแก้ไขแล้วกดปุ่ม '💾 บันทึกแก้ไข' ด้านล่างได้เลยค่ะ");
+}
+
+function fetchStats(btn) {
+    const container = document.getElementById('stats-container');
+    if (!container) return;
+    if (btn) btn.innerText = "⏳ กำลังโหลดสถิติ...";
+    
+    fetch(API_URL + "?action=get_stats&t=" + Date.now())
+    .then(res => res.json())
+    .then(data => {
+        if (btn) btn.innerText = "🔄 โหลดสถิติล่าสุด";
+        if (data && data.stats) {
+            let s = data.stats;
+            container.innerHTML = `
+                <div class="stat-card highlight">
+                    <h4>เข้าชมวันนี้</h4>
+                    <p>${s.todayVisits || 0} คน</p>
+                </div>
+                <div class="stat-card">
+                    <h4>เข้าชมทั้งหมด</h4>
+                    <p>${s.totalVisits || 0} คน</p>
+                </div>
+                <div class="stat-card highlight">
+                    <h4>ออเดอร์วันนี้</h4>
+                    <p>${s.todayOrders || 0} รายการ</p>
+                </div>
+                <div class="stat-card">
+                    <h4>ออเดอร์ทั้งหมด</h4>
+                    <p>${s.totalOrders || 0} รายการ</p>
+                </div>
+            `;
+        } else {
+            container.innerHTML = '<p style="text-align:center; color:#999; grid-column:1/-1;">ไม่สามารถโหลดสถิติได้</p>';
+        }
+    })
+    .catch(err => {
+        if (btn) btn.innerText = "🔄 โหลดสถิติล่าสุด";
+        container.innerHTML = '<p style="text-align:center; color:#ff3b3b; grid-column:1/-1;">เกิดข้อผิดพลาดในการโหลดสถิติ</p>';
+    });
+}
+
+// ================== 🌟 คำสั่งเริ่มต้นโหลดข้อมูลทันทีเมื่อเปิดหน้าเว็บ (สิ่งที่ขาดไปทำให้ข้อมูลไม่ขึ้น) ==================
+window.addEventListener('DOMContentLoaded', () => {
+    loadData();
+});
 </script>
 </body>
 </html>
