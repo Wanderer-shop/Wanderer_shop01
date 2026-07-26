@@ -309,10 +309,10 @@ strong, b {
 <div class="content">
   <!-- 🌟 3. ปรับกล่องขั้นตอนเลือกสินค้าให้ย่อ/ขยายได้ (Accordion) ค่าเริ่มต้นย่อไว้ -->
   <div class="steps-container" id="stepsBox">
-      <h3 onclick="toggleStepsBox()">💡 มือใหม่คลิกอ่าน: วิธีเลือกซื้อสินค้าและรับโค้ดใน 1 นาที <span id="stepsArrow">▾</span></h3>
+      <h3 onclick="toggleStepsBox()">💡 วิธีใช้งานเว็บ: วิธีเลือกซื้อสินค้าและสั่งของ <span id="stepsArrow">▾</span></h3>
       <ol>
           <li>เลือกดูสินค้าในแท็บที่ลค.สนใจ</li>
-          <li>กดเลือกสินค้าลงตะกร้า <span class="highlight">*สามารถเลือกได้หลายรายการพร้อมกัน</span></li>
+          <li>กดเลือกสินค้าลงตะกร้า <span class="highlight">*สามารถเลือกได้หลายรายการพร้อมกัน*</span></li>
           <li>จะมีป็อปอัพเด้งขึ้นให้เช็คสินค้าก่อนทักไลน์</li>
           <li>วางข้อความที่คัดลอกมาจากเว็บ <span class="highlight">*ตอนกดทักไลน์จะคัดลอกข้อความให้อัตโนมัติ*</span></li>
           <li>รอแม่ค้าตอบก่อนค่อยโอนรับรหัสค่ะ</li>
@@ -337,7 +337,7 @@ strong, b {
       <button class="pill-btn" onclick="filterSubCat('ดูหนัง/ซีรีส์', this)">🎬 ดูหนัง/ซีรีส์</button>
       <button class="pill-btn" onclick="filterSubCat('ฟังเพลง', this)">🎧 ฟังเพลง</button>
       <button class="pill-btn" onclick="filterSubCat('ทำงาน/เรียน', this)">💼 ทำงาน/เรียน</button>
-      <button class="pill-btn" onclick="filterSubCat('แอพจีน', this)">🇨🇳 แอพจีน</button>
+      <button class="pill-btn" onclick="filterSubCat('แอพจีน', this)" แอพจีน</button>
   </div>
 
   <div class="grid-container" id="productGrid"></div>
@@ -618,8 +618,8 @@ strong, b {
 </div>
 
 <script>
-// 🚀 URL ของคุณ
-const API_URL = "https://script.google.com/macros/s/AKfycbx1fMxis9lqfyu4DxRy-G8Os5fm0HExPfN9vrN9DI315c8m9DOa4KalIiJRiLsUKm3Y/exec"; 
+// 🚀 URL ของคุณ[cite: 4]
+const API_URL = "https://script.google.com/macros/s/AKfycbxcs3Smz6vGPDDHtjrhDSZ8Y18MsijDdz4CW9w45BpEeZAB60EpIqSUmw4sYKKyAWzO/exec"; 
 
 let allProducts = []; let cart = []; let currentTab = "info"; let storeInfo = {}; let tabsList = []; 
 let viewLevel = 'apps'; let selectedAppName = ''; let localCustomCards = []; let editingCardIndex = -1;
@@ -843,7 +843,7 @@ function updateDynamicInfoBox() {
     let selectedInModal = cart.filter(item => item.cat === selectedAppName && item.tab === currentTab);
     if (selectedInModal.length > 0) {
         let latest = selectedInModal[selectedInModal.length - 1];
-        infoBox.innerHTML = `<strong>📌 รายละเอียดแพ็กเกจ (${latest.name}):</strong><br>${latest.desc || 'ได้รับโปรไฟล์/รหัสใช้งานส่วนตัว ปลอดภัย ประกันเคลมฟรีตลอดระยะเวลาใช้งาน'}`;
+        infoBox.innerHTML = `<strong>📌 รายละเอียดแพ็กเกจ (${latest.name}):</strong><br>${latest.desc || 'ได้รับโปรไฟล์/รหัสใช้งานส่วนตัว ปลอดภัย ประกันเคลมตลอดระยะเวลาใช้งาน'}`;
         infoBox.style.display = 'block';
     } else {
         infoBox.style.display = 'none';
@@ -1273,7 +1273,7 @@ function renderAdminTabButtons() {
                 <button type="button" class="admin-tab-btn" onclick="switchAdminFormTab('เติมเหรียญนิยาย', this)">🪙 เติมนิยาย</button>
                 <button type="button" class="admin-tab-btn" onclick="switchAdminFormTab('IOS-ANDROID', this)">📱 IOS/Android</button>`;
     tabsList.forEach(t => {
-        if(!["แอพพรีเมี่ยม", "เติมเกม", "เติมเหรียญนิยาย", "IOS-ANDROID", "แอพ-เกม iOS/Android", "StoreInfo", "ข้อมูลร้าน", "Reviews", "Orders", "ตั้งค่าตัวอักษร", "FONT_SETTINGS"].includes(t)) { html += `<button type="button" class="admin-tab-btn" onclick="switchAdminFormTab('${t}', this)">📁 ${t}</button>`; }
+        if(!["แอพพรีเมี่ยม", "เติมเกม", "เติมเหรียญนิยาย", "IOS-ANDROID", "แอพ-เกม iOS/Android", "StoreInfo", "ข้อมูลร้าน", "Orders", "ตั้งค่าตัวอักษร", "FONT_SETTINGS"].includes(t)) { html += `<button type="button" class="admin-tab-btn" onclick="switchAdminFormTab('${t}', this)">📁 ${t}</button>`; }
     });
     html += `<button type="button" class="admin-tab-btn" style="background:#fff0f5; border-color:#FF4B7E; color:#FF4B7E;" onclick="switchAdminFormTab('FONT_SETTINGS', this)">🎨 ตั้งค่าตัวอักษร</button>
              <button type="button" class="admin-tab-btn" onclick="switchAdminFormTab('CUSTOM_CARDS', this)">🖼️ การ์ดรูปภาพ</button>
@@ -1332,7 +1332,7 @@ function toggleAdminFields() {
   if (tab !== "STORE_INFO" && tab !== "MANAGE_TABS" && tab !== "CUSTOM_CARDS" && tab !== "STATS" && tab !== "FONT_SETTINGS" && tab !== "ตั้งค่าตัวอักษร") { document.getElementById('admin-product-list-container').style.display = 'block'; renderAdminProductList(tab); } else { document.getElementById('admin-product-list-container').style.display = 'none'; }
 }
 
-// 🌟 ระบบ Live Preview ตัวอย่างบนเว็บไซต์จริง 8 จุด
+// 🌟 ระบบ Live Preview ตัวอย่างบนเว็บไซต์จริง 8 จุด[cite: 4]
 function loadFontSettingsToForm() {
     document.getElementById('fc_h').value = storeInfo.fontCardH || '16';
     document.getElementById('fc_t').value = storeInfo.fontCardT || '14';
@@ -1345,6 +1345,7 @@ function loadFontSettingsToForm() {
     updateLivePreview();
 }
 
+// 🌟 ต่อเติมฟังก์ชัน updateLivePreview และระบบจัดการแอดมินให้สมบูรณ์ 100%
 function updateLivePreview() {
     let fc_h = document.getElementById('fc_h')?.value || '16';
     let fc_t = document.getElementById('fc_t')?.value || '14';
@@ -1355,13 +1356,13 @@ function updateLivePreview() {
     let fm_h = document.getElementById('fm_h')?.value || '20';
     let fm_t = document.getElementById('fm_t')?.value || '14';
 
-    // อัปเดตกล่อง Live Preview ด้านบนสุดในระบบแอดมิน
+    // อัปเดตกล่อง Live Preview ด้านบนสุดในระบบแอดมิน[cite: 4]
     if(document.getElementById('prev-card-h')) { document.getElementById('prev-card-h').style.fontSize = fc_h + 'px'; document.getElementById('prev-card-t').style.fontSize = fc_t + 'px'; }
     if(document.getElementById('prev-step-h')) { document.getElementById('prev-step-h').style.fontSize = fs_h + 'px'; document.getElementById('prev-step-t').style.fontSize = fs_t + 'px'; }
     if(document.getElementById('prev-box-h')) { document.getElementById('prev-box-h').style.fontSize = fb_h + 'px'; document.getElementById('prev-box-t').style.fontSize = fb_t + 'px'; }
     if(document.getElementById('prev-main-h')) { document.getElementById('prev-main-h').style.fontSize = fm_h + 'px'; document.getElementById('prev-main-t').style.fontSize = fm_t + 'px'; }
 
-    // อัปเดตการแสดงผลบนเว็บจริงแบบเรียลไทม์ทันที (Background Live)
+    // อัปเดตการแสดงผลบนเว็บจริงแบบเรียลไทม์ทันที (Background Live)[cite: 4]
     const root = document.documentElement;
     root.style.setProperty('--font-card-h', fc_h + 'px');
     root.style.setProperty('--font-card-t', fc_t + 'px');
@@ -1373,19 +1374,9 @@ function updateLivePreview() {
     root.style.setProperty('--font-main-t', fm_t + 'px');
 }
 
-// ================== 🌟 ส่วนที่เติมเต็มฟังก์ชันปลายโค้ด 100% ==================
-function saveFontSettings(e) {
-    if(e) e.preventDefault();
-    storeInfo.fontCardH = document.getElementById('fc_h').value;
-    storeInfo.fontCardT = document.getElementById('fc_t').value;
-    storeInfo.fontStepH = document.getElementById('fs_h').value;
-    storeInfo.fontStepT = document.getElementById('fs_t').value;
-    storeInfo.fontBoxH = document.getElementById('fb_h').value;
-    storeInfo.fontBoxT = document.getElementById('fb_t').value;
-    storeInfo.fontMainH = document.getElementById('fm_h').value;
-    storeInfo.fontMainT = document.getElementById('fm_t').value;
-
-    const payload = {
+function saveFontSettings(event) {
+    if (event) event.preventDefault();
+    let payload = {
         action: "save_store",
         status: storeInfo.status || "open",
         welcome: storeInfo.welcome || "",
@@ -1395,241 +1386,244 @@ function saveFontSettings(e) {
         mediaLink: storeInfo.mediaLink || "",
         mediaText: storeInfo.mediaText || "",
         warranty: storeInfo.warranty || "",
-        fontCardH: storeInfo.fontCardH,
-        fontCardT: storeInfo.fontCardT,
-        fontStepH: storeInfo.fontStepH,
-        fontStepT: storeInfo.fontStepT,
-        fontBoxH: storeInfo.fontBoxH,
-        fontBoxT: storeInfo.fontBoxT,
-        fontMainH: storeInfo.fontMainH,
-        fontMainT: storeInfo.fontMainT,
-        customCards: localCustomCards
+        fontCardH: document.getElementById('fc_h')?.value || '16',
+        fontCardT: document.getElementById('fc_t')?.value || '14',
+        fontStepH: document.getElementById('fs_h')?.value || '18',
+        fontStepT: document.getElementById('fs_t')?.value || '14',
+        fontBoxH: document.getElementById('fb_h')?.value || '16',
+        fontBoxT: document.getElementById('fb_t')?.value || '14',
+        fontMainH: document.getElementById('fm_h')?.value || '20',
+        fontMainT: document.getElementById('fm_t')?.value || '14',
+        fontWeight: storeInfo.fontWeight || 'normal',
+        customCards: localCustomCards || []
     };
 
-    fetch(API_URL, { method: "POST", body: JSON.stringify(payload) })
-    .then(res => res.json())
-    .then(data => {
-        if(data.success) {
-            localStorage.removeItem('wanderer_data_cache');
-            alert("💾 บันทึกการตั้งค่าตัวอักษรเรียบร้อยแล้วค่ะ");
-            applyFontVariablesToSite();
-        } else {
-            alert("❌ บันทึกไม่สำเร็จ กรุณาลองใหม่ค่ะ");
-        }
-    }).catch(() => alert("❌ เกิดข้อผิดพลาดในการเชื่อมต่อ 서버"));
+    sendAdminPost(payload);
 }
 
-function submitStoreAction(e) {
-    if(e) e.preventDefault();
-    storeInfo.logo = document.getElementById('store_logo').value;
-    storeInfo.mediaLink = document.getElementById('store_media').value;
-    storeInfo.mediaText = document.getElementById('store_mediaText').value;
-    storeInfo.line = document.getElementById('store_line').value;
-    storeInfo.hours = document.getElementById('store_hours').value;
-    storeInfo.warranty = document.getElementById('store_warranty').value;
+function checkShopStatus() {
+    const badge = document.getElementById('shopStatusBadge');
+    const indicator = badge?.querySelector('.status-indicator');
+    const text = badge?.querySelector('.status-text');
+    if (!badge || !indicator || !text) return;
 
-    const payload = {
+    if (storeInfo.status === 'closed') {
+        indicator.classList.add('closed');
+        text.classList.add('closed');
+        text.innerText = 'ปิดร้าน / ไม่พร้อมตอบ';
+    } else {
+        indicator.classList.remove('closed');
+        text.classList.remove('closed');
+        text.innerText = 'เปิดร้าน / พร้อมตอบ';
+    }
+}
+
+function submitStoreAction(event) {
+    if (event) event.preventDefault();
+    let payload = {
         action: "save_store",
         status: storeInfo.status || "open",
         welcome: storeInfo.welcome || "",
-        line: storeInfo.line,
-        hours: storeInfo.hours,
-        logo: storeInfo.logo,
-        mediaLink: storeInfo.mediaLink,
-        mediaText: storeInfo.mediaText,
-        warranty: storeInfo.warranty,
-        fontCardH: storeInfo.fontCardH || "16",
-        fontCardT: storeInfo.fontCardT || "14",
-        fontStepH: storeInfo.fontStepH || "18",
-        fontStepT: storeInfo.fontStepT || "14",
-        fontBoxH: storeInfo.fontBoxH || "16",
-        fontBoxT: storeInfo.fontBoxT || "14",
-        fontMainH: storeInfo.fontMainH || "20",
-        fontMainT: storeInfo.fontMainT || "14",
-        customCards: localCustomCards
+        line: document.getElementById('store_line')?.value || storeInfo.line || "",
+        hours: document.getElementById('store_hours')?.value || storeInfo.hours || "",
+        logo: document.getElementById('store_logo')?.value || storeInfo.logo || "",
+        mediaLink: document.getElementById('store_media')?.value || storeInfo.mediaLink || "",
+        mediaText: document.getElementById('store_mediaText')?.value || storeInfo.mediaText || "",
+        warranty: document.getElementById('store_warranty')?.value || storeInfo.warranty || "",
+        fontCardH: storeInfo.fontCardH || '16',
+        fontCardT: storeInfo.fontCardT || '14',
+        fontStepH: storeInfo.fontStepH || '18',
+        fontStepT: storeInfo.fontStepT || '14',
+        fontBoxH: storeInfo.fontBoxH || '16',
+        fontBoxT: storeInfo.fontBoxT || '14',
+        fontMainH: storeInfo.fontMainH || '20',
+        fontMainT: storeInfo.fontMainT || '14',
+        fontWeight: storeInfo.fontWeight || 'normal',
+        customCards: localCustomCards || []
     };
-
-    fetch(API_URL, { method: "POST", body: JSON.stringify(payload) })
-    .then(res => res.json())
-    .then(data => {
-        if(data.success) {
-            localStorage.removeItem('wanderer_data_cache');
-            alert("💾 บันทึกข้อมูลร้านและการ์ดรูปภาพสำเร็จแล้ว");
-            loadData();
-        } else {
-            alert("❌ บันทึกไม่สำเร็จ");
-        }
-    }).catch(() => alert("❌ เกิดข้อผิดพลาดในการเชื่อมต่อ"));
+    sendAdminPost(payload);
 }
 
 function addCustomCard() {
-    let title = document.getElementById('cc_title').value.trim();
-    let desc = document.getElementById('cc_desc').value.trim();
-    let imgsStr = document.getElementById('cc_images').value.trim();
-    if(!title && !desc && !imgsStr) { alert("กรุณากรอกข้อมูลการ์ดอย่างน้อย 1 ช่อง"); return; }
-    
-    let images = imgsStr ? imgsStr.split(',').map(s => s.trim()).filter(Boolean) : [];
-    if(editingCardIndex > -1) {
+    const title = document.getElementById('cc_title')?.value.trim() || '';
+    const desc = document.getElementById('cc_desc')?.value.trim() || '';
+    const imagesStr = document.getElementById('cc_images')?.value.trim() || '';
+    let images = imagesStr ? imagesStr.split(',').map(s => s.trim()).filter(Boolean) : [];
+
+    if (!title && !desc && images.length === 0) {
+        alert("กรุณากรอกข้อมูลการ์ดอย่างน้อย 1 ช่อง");
+        return;
+    }
+
+    if (editingCardIndex > -1) {
         localCustomCards[editingCardIndex] = { title, desc, images };
         editingCardIndex = -1;
-        document.getElementById('cc_save_btn').innerText = "➕ เพิ่มการ์ดใหม่";
-        document.getElementById('cc_save_btn').style.background = "#8b5cf6";
+        document.getElementById('cc_save_btn').innerText = '➕ เพิ่มการ์ดใหม่';
     } else {
         localCustomCards.push({ title, desc, images });
     }
-    
+
     document.getElementById('cc_title').value = '';
     document.getElementById('cc_desc').value = '';
     document.getElementById('cc_images').value = '';
     renderAdminCustomCards();
+    alert("เพิ่ม/แก้ไขการ์ดเรียบร้อย อย่าลืมกดปุ่ม '💾 บันทึกข้อมูลร้าน/การ์ด' ด้านล่างเพื่อยืนยัน");
 }
 
 function renderAdminCustomCards() {
-    let listEl = document.getElementById('admin-custom-cards-list');
-    if(!listEl) return;
-    if(!localCustomCards || localCustomCards.length === 0) { listEl.innerHTML = "<p style='color:#999; font-size:12px; text-align:center;'>ยังไม่มีการ์ดรูปภาพ</p>"; return; }
-    
-    listEl.innerHTML = localCustomCards.map((c, idx) => `
+    const container = document.getElementById('admin-custom-cards-list');
+    if (!container) return;
+    if (!localCustomCards || localCustomCards.length === 0) {
+        container.innerHTML = '<p style="color:#999; font-size:13px; text-align:center;">ยังไม่มีการ์ดรูปภาพ</p>';
+        return;
+    }
+    container.innerHTML = localCustomCards.map((c, i) => `
         <div class="custom-card-admin-item">
-            <b style="color:var(--primary); font-size:13px;">📌 ${c.title || 'ไม่มีชื่อหัวข้อ'}</b>
-            <p style="color:#555; font-size:12px; margin:4px 0; white-space:pre-line;">${c.desc || '-'}</p>
-            <div style="font-size:11px; color:#888;">รูปภาพ: ${c.images && c.images.length ? c.images.length + ' รูป' : 'ไม่มีรูป'}</div>
+            <strong style="color:var(--primary); font-size:14px;">${c.title || 'ไม่มีชื่อการ์ด'}</strong>
+            ${c.desc ? `<p style="color:#555; font-size:12px; margin:4px 0;">${c.desc}</p>` : ''}
+            ${c.images && c.images.length > 0 ? `<p style="color:#888; font-size:11px;">รูปภาพ: ${c.images.length} รูป</p>` : ''}
             <div class="custom-card-actions">
-                <button type="button" class="btn-sm-edit-card" onclick="editCustomCard(${idx})">✏️ แก้ไข</button>
-                <button type="button" class="btn-sm-del-card" onclick="deleteCustomCard(${idx})">🗑️ ลบ</button>
+                <button type="button" class="btn-sm-edit-card" onclick="editCustomCard(${i})">✏️ แก้ไข</button>
+                <button type="button" class="btn-sm-del-card" onclick="deleteCustomCard(${i})">🗑️ ลบ</button>
             </div>
-        </div>`).join('');
+        </div>
+    `).join('');
 }
 
-function editCustomCard(idx) {
-    let c = localCustomCards[idx];
-    if(!c) return;
+function editCustomCard(index) {
+    const c = localCustomCards[index];
+    if (!c) return;
     document.getElementById('cc_title').value = c.title || '';
     document.getElementById('cc_desc').value = c.desc || '';
-    document.getElementById('cc_images').value = c.images ? c.images.join(', ') : '';
-    editingCardIndex = idx;
-    document.getElementById('cc_save_btn').innerText = "💾 บันทึกแก้ไขการ์ดนี้";
-    document.getElementById('cc_save_btn').style.background = "#ff9800";
+    document.getElementById('cc_images').value = (c.images || []).join(', ');
+    editingCardIndex = index;
+    const btn = document.getElementById('cc_save_btn');
+    if (btn) btn.innerText = '💾 บันทึกการแก้ไขการ์ดนี้';
 }
 
-function deleteCustomCard(idx) {
-    if(confirm("ต้องการลบการ์ดนี้ใช่หรือไม่? (กดปุ่ม 'บันทึกข้อมูลร้าน/การ์ด' อีกครั้งเพื่อยืนยันลงระบบ)")) {
-        localCustomCards.splice(idx, 1);
+function deleteCustomCard(index) {
+    if (confirm("ต้องการลบการ์ดนี้ใช่หรือไม่?")) {
+        localCustomCards.splice(index, 1);
         renderAdminCustomCards();
     }
 }
 
-function submitTabAction(e, actionType) {
-    if(e) e.preventDefault();
-    let tabName = document.getElementById('new_tab_name').value.trim();
-    if(!tabName) { alert("กรุณาใส่ชื่อแท็บที่ต้องการเพิ่ม"); return; }
-    
-    fetch(API_URL, { method: "POST", body: JSON.stringify({ action: actionType, tabName: tabName }) })
-    .then(res => res.json())
-    .then(data => {
-        if(data.success) {
-            localStorage.removeItem('wanderer_data_cache');
-            alert("➕ เพิ่มแท็บใหม่เรียบร้อยแล้ว");
-            document.getElementById('new_tab_name').value = '';
-            loadData();
-        } else {
-            alert("❌ " + (data.error || "เกิดข้อผิดพลาด"));
-        }
-    }).catch(() => alert("❌ เกิดข้อผิดพลาดในการเชื่อมต่อ"));
+function submitTabAction(event, action) {
+    if (event) event.preventDefault();
+    const tabName = document.getElementById('new_tab_name')?.value.trim();
+    if (!tabName) { alert("กรุณาใส่ชื่อแท็บ"); return; }
+    sendAdminPost({ action: action, tabName: tabName });
 }
 
-function submitAdminAction(e, actionType) {
-    if(e) e.preventDefault();
-    let tab = document.getElementById('a_tab').value;
-    let id = document.getElementById('a_id').value;
-    let status = document.getElementById('a_status').value;
-    
-    let payload = { action: actionType, tab: tab, id: id, status: status };
-    
-    if(tab.includes("IOS") || tab.includes("iOS")) {
+function submitAdminAction(event, action) {
+    if (event) event.preventDefault();
+    const tab = document.getElementById('a_tab')?.value || 'STORE_INFO';
+    const id = document.getElementById('a_id')?.value || '';
+    const status = document.getElementById('a_status')?.value || 'ready';
+
+    let payload = { action, tab, id, status };
+
+    if (tab.includes("IOS") || tab.includes("iOS")) {
+        payload.name = document.getElementById('ia_cat')?.value || '';
+        payload.desc = document.getElementById('ia_desc')?.value || '';
+        payload.price = Number(document.getElementById('ia_price')?.value) || 0;
+        payload.icon = document.getElementById('ia_icon')?.value || '';
+        payload.subCat = document.getElementById('ia_group')?.value || '📱 แอพอื่นๆ';
+        payload.isNew = document.getElementById('ia_isNew')?.checked || false;
+        
         let osList = [];
-        if(document.getElementById('os_ios').checked) osList.push("iOS");
-        if(document.getElementById('os_android').checked) osList.push("Android");
-        payload.name = document.getElementById('ia_cat').value.trim();
-        payload.desc = document.getElementById('ia_desc').value.trim();
-        payload.os = osList.join('/');
-        payload.price = document.getElementById('ia_price').value || 0;
-        payload.icon = document.getElementById('ia_icon').value.trim();
-        payload.subCat = document.getElementById('ia_group').value;
-        payload.isNew = document.getElementById('ia_isNew') ? document.getElementById('ia_isNew').checked : false;
-        if(actionType === 'add' && (!payload.name || !payload.price)) { alert("กรุณากรอกชื่อแอปและราคา"); return; }
+        if (document.getElementById('os_ios')?.checked) osList.push('iOS');
+        if (document.getElementById('os_android')?.checked) osList.push('Android');
+        payload.os = osList.join('/') || 'iOS';
     } else {
-        payload.cat = document.getElementById('pg_cat').value.trim();
-        payload.appDesc = document.getElementById('pg_appDesc').value.trim();
-        payload.subCat = document.getElementById('pg_subCat').value.trim();
-        payload.name = document.getElementById('pg_name').value.trim();
-        payload.desc = document.getElementById('pg_desc').value.trim();
-        payload.price = document.getElementById('pg_price').value || 0;
-        payload.icon = document.getElementById('pg_icon').value.trim();
-        if(actionType === 'add' && (!payload.cat || !payload.name || !payload.price)) { alert("กรุณากรอกชื่อหลัก, ชื่อแพ็กเกจ และราคา"); return; }
-    }
-    
-    if(actionType === 'edit_product' || actionType === 'delete_product') {
-        if(!id) { alert("กรุณาเลือกสินค้าจากรายการด้านล่างก่อน"); return; }
-        if(actionType === 'delete_product' && !confirm("ต้องการลบสินค้านี้ใช่หรือไม่?")) return;
+        payload.cat = document.getElementById('pg_cat')?.value || '';
+        payload.appDesc = document.getElementById('pg_appDesc')?.value || '';
+        payload.subCat = document.getElementById('pg_subCat')?.value || '';
+        payload.name = document.getElementById('pg_name')?.value || '';
+        payload.desc = document.getElementById('pg_desc')?.value || '';
+        payload.price = Number(document.getElementById('pg_price')?.value) || 0;
+        payload.icon = document.getElementById('pg_icon')?.value || '';
     }
 
-    fetch(API_URL, { method: "POST", body: JSON.stringify(payload) })
-    .then(res => res.json())
-    .then(data => {
-        if(data.success) {
+    if (action === 'add' && (!payload.name && !payload.cat)) {
+        alert("กรุณากรอกข้อมูลสินค้าให้ครบถ้วน");
+        return;
+    }
+    if ((action === 'edit_product' || action === 'delete_product') && !id) {
+        alert("กรุณาเลือกสินค้าจากรายการด้านล่างที่ต้องการจัดการก่อน");
+        return;
+    }
+
+    if (action === 'delete_product' && !confirm("ยืนยันการลบสินค้านี้?")) return;
+
+    sendAdminPost(payload);
+}
+
+function sendAdminPost(payload) {
+    document.getElementById('loadingOverlay').style.display = 'flex';
+    fetch(API_URL, {
+        method: "POST",
+        body: JSON.stringify(payload)
+    }).then(res => res.json()).then(data => {
+        document.getElementById('loadingOverlay').style.display = 'none';
+        if (data.success) {
+            alert("✅ ดำเนินการสำเร็จ!");
             localStorage.removeItem('wanderer_data_cache');
-            alert("✅ ดำเนินการสำเร็จ");
             clearAdminForm();
             loadData();
         } else {
-            alert("❌ ดำเนินการไม่สำเร็จ: " + (data.error || ""));
+            alert("❌ เกิดข้อผิดพลาด: " + (data.error || "ไม่สามารถบันทึกได้"));
         }
-    }).catch(() => alert("❌ เกิดข้อผิดพลาดในการเชื่อมต่อ"));
+    }).catch(err => {
+        document.getElementById('loadingOverlay').style.display = 'none';
+        alert("❌ เกิดข้อผิดพลาดในการเชื่อมต่อ!");
+    });
 }
 
-function renderAdminProductList(tabName) {
-    let listEl = document.getElementById('admin-product-list');
-    if(!listEl) return;
-    let items = allProducts.filter(p => p.tab === tabName || (tabName.includes("IOS") && p.tab.includes("IOS")));
-    if(!items.length) { listEl.innerHTML = "<p style='text-align:center;color:#999;font-size:12px;padding:10px;'>ไม่มีสินค้าในหมวดนี้</p>"; return; }
-    
+function renderAdminProductList(tab) {
+    const listEl = document.getElementById('admin-product-list');
+    if (!listEl) return;
+    let items = allProducts.filter(p => p.tab === tab || (tab.includes("IOS") && (p.tab === "IOS-ANDROID" || p.tab === "แอพ-เกม iOS/Android")));
+    if (items.length === 0) {
+        listEl.innerHTML = '<p style="text-align:center; color:#999; padding:10px;">ไม่มีสินค้าในแท็บนี้</p>';
+        return;
+    }
     listEl.innerHTML = items.map(p => {
-        let title = tabName.includes("IOS") ? p.name : `${p.cat} - ${p.name}`;
-        let subText = tabName.includes("IOS") ? `[${p.os || '-'}] ราคา: ${p.price}฿` : `[${p.subCat || 'ทั่วไป'}] ราคา: ${p.price}฿`;
+        let title = tab.includes("IOS") ? p.name : (p.cat || p.name);
+        let sub = tab.includes("IOS") ? p.os : (p.subCat || p.appDesc || '');
         return `
             <div class="admin-list-item">
                 <div class="admin-list-info">
-                    <b style="font-size:13px; color:#222;">${title || 'ไม่ระบุชื่อ'}</b>
-                    <span style="font-size:11px; color:#666;">${subText}</span>
+                    <strong style="font-size:13px; color:#333;">${title || 'ไม่ระบุชื่อ'}</strong>
+                    <span style="font-size:11px; color:#777;">${sub || '-'} | ราคา: ${p.price}฿ | สถานะ: ${p.status === 'ready' ? '🟢 พร้อมส่ง' : '🔴 ไม่พร้อม'}</span>
                 </div>
                 <div class="admin-list-actions">
-                    <button type="button" class="btn-sm-edit" onclick="editProduct('${p.id}')">✏️ เลือก</button>
+                    <button type="button" class="btn-sm-edit" onclick="selectAdminProduct('${p.id}', '${tab}')">✏️ เลือก</button>
                 </div>
-            </div>`;
+            </div>
+        `;
     }).join('');
 }
 
-function editProduct(id) {
-    let p = allProducts.find(x => x.id === id);
-    if(!p) return;
+function selectAdminProduct(id, tab) {
+    const p = allProducts.find(x => x.id === id);
+    if (!p) return;
     document.getElementById('a_id').value = p.id;
     document.getElementById('a_status').value = p.status || 'ready';
-    let tab = document.getElementById('a_tab').value;
-    
-    if(tab.includes("IOS") || tab.includes("iOS")) {
+
+    if (tab.includes("IOS") || tab.includes("iOS")) {
         document.getElementById('ia_cat').value = p.name || '';
         document.getElementById('ia_desc').value = p.desc || '';
         document.getElementById('ia_price').value = p.price || 0;
         document.getElementById('ia_icon').value = p.icon || '';
         document.getElementById('ia_group').value = p.subCat || '📱 แอพอื่นๆ';
-        if(document.getElementById('ia_isNew')) {
-            let isN = String(p.isNew).trim().toLowerCase();
-            document.getElementById('ia_isNew').checked = (p.isNew === true || isN === "true" || isN === "1" || isN === "yes" || isN === "new");
+        if (document.getElementById('ia_isNew')) {
+            let isNewStr = String(p.isNew).trim().toLowerCase();
+            document.getElementById('ia_isNew').checked = (p.isNew === true || isNewStr === "true" || isNewStr === "1" || isNewStr === "yes" || isNewStr === "new");
         }
-        let os = p.os || '';
-        document.getElementById('os_ios').checked = os.includes("iOS");
-        document.getElementById('os_android').checked = os.includes("Android");
+        let osStr = p.os || '';
+        document.getElementById('os_ios').checked = osStr.includes('iOS');
+        document.getElementById('os_android').checked = osStr.includes('Android');
     } else {
         document.getElementById('pg_cat').value = p.cat || '';
         document.getElementById('pg_appDesc').value = p.appDesc || '';
@@ -1639,42 +1633,46 @@ function editProduct(id) {
         document.getElementById('pg_price').value = p.price || 0;
         document.getElementById('pg_icon').value = p.icon || '';
     }
-    document.querySelector('.admin-modal').scrollTop = 0;
+    alert("ดึงข้อมูลสินค้ามาที่ฟอร์มแก้ไขแล้ว สามารถแก้ไขหรือกดปุ่ม '💾 บันทึกแก้ไข' / '🗑️ ลบสินค้า' ได้ทันที");
 }
 
 function fetchStats(btn) {
-    if(btn) btn.innerText = "⏳ กำลังโหลด...";
-    fetch(API_URL, { method: "POST", body: JSON.stringify({ action: "get_stats" }) })
-    .then(res => res.json())
-    .then(data => {
-        if(btn) btn.innerText = "🔄 โหลดสถิติล่าสุด";
-        if(data.success) {
-            document.getElementById('stats-container').innerHTML = `
-                <div class="stat-card"><h4>👥 คนเข้าชมทั้งหมด</h4><p>${data.views.toLocaleString()} ครั้ง</p></div>
-                <div class="stat-card"><h4>📦 ออเดอร์ที่กดสั่ง</h4><p>${data.orders.toLocaleString()} ออเดอร์</p></div>
-                <div class="stat-card highlight"><h4>💰 ยอดขายโดยประมาณ</h4><p>${data.revenue.toLocaleString()} ฿</p></div>`;
+    const container = document.getElementById('stats-container');
+    if (!container) return;
+    if (btn) btn.innerText = "⏳ กำลังโหลด...";
+    fetch(API_URL, {
+        method: "POST",
+        body: JSON.stringify({ action: "get_stats" })
+    }).then(res => res.json()).then(data => {
+        if (btn) btn.innerText = "🔄 โหลดสถิติล่าสุด";
+        if (data.success) {
+            container.innerHTML = `
+                <div class="stat-card">
+                    <h4>👁️ เข้าชมทั้งหมด</h4>
+                    <p>${data.views || 0} ครั้ง</p>
+                </div>
+                <div class="stat-card highlight">
+                    <h4>📦 คำสั่งซื้อทั้งหมด</h4>
+                    <p>${data.orders || 0} ออเดอร์</p>
+                </div>
+                <div class="stat-card">
+                    <h4>💰 ยอดขายโดยประมาณ</h4>
+                    <p>${data.revenue || 0} ฿</p>
+                </div>
+            `;
         } else {
-            document.getElementById('stats-container').innerHTML = "<p style='text-align:center;color:#ff3b3b;grid-column:1/-1;'>ไม่สามารถโหลดสถิติได้</p>";
+            container.innerHTML = '<p style="text-align:center; color:#ff3b3b; grid-column:1/-1;">ไม่สามารถดึงข้อมูลสถิติได้</p>';
         }
-    }).catch(() => { if(btn) btn.innerText = "🔄 โหลดสถิติล่าสุด"; });
+    }).catch(err => {
+        if (btn) btn.innerText = "🔄 โหลดสถิติล่าสุด";
+        container.innerHTML = '<p style="text-align:center; color:#ff3b3b; grid-column:1/-1;">เกิดข้อผิดพลาดในการเชื่อมต่อ</p>';
+    });
 }
 
-function checkShopStatus() {
-    const badge = document.getElementById('shopStatusBadge');
-    if(!badge) return;
-    const indicator = badge.querySelector('.status-indicator');
-    const textEl = badge.querySelector('.status-text');
-    if(storeInfo.status === 'closed') {
-        if(indicator) indicator.classList.add('closed');
-        if(textEl) { textEl.classList.add('closed'); textEl.innerText = "ปิดให้บริการชั่วคราว"; }
-    } else {
-        if(indicator) indicator.classList.remove('closed');
-        if(textEl) { textEl.classList.remove('closed'); textEl.innerText = "เปิดให้บริการ"; }
-    }
-}
-
-// โหลดข้อมูลทันทีเมื่อเปิดหน้าเว็บ
-window.addEventListener('DOMContentLoaded', loadData);
+// 🌟 เริ่มต้นทำงานทันทีเมื่อหน้าเว็บโหลดเสร็จสมบูรณ์
+window.addEventListener('DOMContentLoaded', () => {
+    loadData();
+});
 </script>
 </body>
 </html>
