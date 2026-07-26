@@ -24,16 +24,25 @@
     --border-color: #C49646; 
     --text-muted: #555;
     
-    /* 🌟 ตัวแปรปรับขนาดตัวอักษรแยกตาม 4 โซน (จากระบบแอดมิน) */
-    --font-card-h: 16px;
-    --font-card-t: 14px;
-    --font-step-h: 18px;
-    --font-step-t: 14px;
-    --font-box-h: 16px;
-    --font-box-t: 14px;
-    --font-main-h: 20px;
-    --font-main-t: 14px;
-    --custom-font-weight: normal;
+    /* ================== 🌟 ตั้งค่าขนาดตัวอักษรและความหนาจากในโค้ด (ปรับขนาดให้พอดีและอ่านง่าย) ================== */
+    /* 1. โซนการ์ดสินค้าและโปรโมชัน (Item Cards / Package Cards) */
+    --font-card-h: 16px;       /* หัวข้อการ์ดสินค้า / ชื่อแอปพลิเคชัน */
+    --font-card-t: 13px;       /* รายละเอียดใต้ชื่อแอป / คำอธิบายแพ็กเกจย่อย */
+    
+    /* 2. โซนขั้นตอนเลือกซื้อสินค้า (Accordion Steps Box ด้านบน) */
+    --font-step-h: 16px;       /* หัวข้อกล่อง "💡 วิธีใช้งานเว็บ: วิธีเลือกซื้อสินค้าและสั่งของ" */
+    --font-step-t: 13.5px;     /* ข้อความอธิบายขั้นตอนข้อที่ 1 - 5 */
+    
+    /* 3. โซนกล่องข้อความอื่นๆ ในเว็บ (ประกาศร้าน / การ์ดรีวิว / สรุปติดต่อ) */
+    --font-box-h: 17px;        /* หัวข้อกล่องข้อมูลร้าน / หัวข้อการ์ดประกาศ / หัวข้อป็อปอัป */
+    --font-box-t: 14px;        /* ข้อความรายละเอียดภายในกล่อง / เงื่อนไขรับประกัน */
+    
+    /* 4. โซนหัวข้อและเมนูนำทางหลัก (Header & Tabs) */
+    --font-main-h: 24px;       /* ชื่อร้านบนสุดของเว็บ (Wanderer_Shop) */
+    --font-main-t: 14px;       /* ข้อความยินดีต้อนรับ และข้อความบนปุ่มแท็บเมนู */
+    
+    /* ความหนาของตัวอักษรโดยรวม (แนะนำ 500 หรือ 600 เพื่อให้ฟอนต์อ่านง่ายคมชัดพอดี) */
+    --custom-font-weight: 500;
 }
 
 body { 
@@ -48,7 +57,7 @@ body {
     font-size: var(--font-box-t);
 }
 
-/* 🌟 ปรับความหนาของตัวอักษรให้เชื่อมโยงกับระบบแอดมิน */
+/* 🌟 ปรับความหนาของตัวอักษร */
 strong, b {
     font-weight: var(--custom-font-weight) !important;
     -webkit-text-stroke: 0.3px currentColor;
@@ -107,7 +116,7 @@ strong, b {
 .steps-container ol { padding-left: 20px; margin: 0; font-size: var(--font-step-t); line-height: 1.6; display: none; margin-top: 12px; padding-top: 10px; border-top: 1px dashed rgba(255,255,255,0.2); }
 .steps-container.open ol { display: block; animation: fadeIn 0.3s ease; }
 .steps-container li { margin-bottom: 8px; }
-.steps-container .highlight { color: var(--secondary); font-size: calc(var(--font-step-t) - 2px); display: block; margin-top: 2px; }
+.steps-container .highlight { color: var(--secondary); font-size: calc(var(--font-step-t) - 1px); display: block; margin-top: 2px; }
 
 /* ================== 🌟 4. ทำแถบเมนูและช่องค้นหาแบบติดเพดาน (Sticky Navigation) ================== */
 .sticky-fixed-tabs { position: fixed !important; top: 10px !important; left: 50% !important; transform: translateX(-50%) !important; bottom: auto !important; z-index: 1000 !important; background: rgba(225, 232, 238, 0.95) !important; backdrop-filter: blur(10px); box-shadow: 0 6px 25px rgba(0,0,0,0.6) !important; animation: slideDownNav 0.25s ease; }
@@ -261,24 +270,6 @@ strong, b {
 .custom-card-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 8px; border-top: 1px dashed #ddd; padding-top: 8px; }
 .btn-sm-edit-card { background: #ff9800; color: #fff; border: none; padding: 5px 12px; border-radius: 6px; cursor: pointer; font-size: 11px; font-weight: normal !important; -webkit-text-stroke: 0.3px currentColor; }
 .btn-sm-del-card { background: #ff3b3b; color: #fff; border: none; padding: 5px 12px; border-radius: 6px; cursor: pointer; font-size: 11px; font-weight: normal !important; -webkit-text-stroke: 0.3px currentColor; }
-
-/* ================== 🌟 CSS ระบบตั้งค่าฟอนต์ตามสกรีนช็อต (ดีไซน์ใหม่) ================== */
-.font-preview-box { border: 1.5px dashed #3B96F5; border-radius: 14px; padding: 16px; background: #f8fbff; margin-bottom: 20px; }
-.font-preview-header { font-size: 13px; color: #1a73e8; font-weight: bold; margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
-.preview-grid-box { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
-.preview-card-item { background: #ffffff; border: 1px solid #dde5ed; border-radius: 10px; padding: 12px 14px; box-shadow: 0 2px 6px rgba(0,0,0,0.03); text-align: left; }
-.preview-tag { background: #e8f0fe; color: #1a73e8; font-size: 11px; padding: 2px 8px; border-radius: 4px; display: inline-block; margin-bottom: 6px; font-weight: 600; }
-.preview-card-item h5 { color: #1e293b; margin-bottom: 4px; line-height: 1.3; }
-.preview-card-item p { color: #64748b; margin: 0; line-height: 1.4; }
-
-.font-settings-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; }
-.font-card-config { background: #ffffff; border: 1px solid #dde5ed; border-radius: 12px; padding: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
-.font-card-title { font-size: 14px; font-weight: bold; color: #1e293b; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; border-bottom: 1px dashed #eee; padding-bottom: 8px; }
-.font-input-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-size: 13px; color: #475569; }
-.font-input-row:last-child { margin-bottom: 0; }
-.font-input-wrap { display: flex; align-items: center; gap: 6px; }
-.font-input-wrap input[type="number"] { width: 65px; padding: 6px 8px; border: 1px solid #cbd5e1; border-radius: 6px; text-align: center; font-size: 13px; font-weight: bold; color: #1e293b; margin: 0; }
-.font-input-wrap span { font-size: 12px; color: #64748b; }
 </style>
 </head>
 <body>
@@ -337,7 +328,7 @@ strong, b {
       <button class="pill-btn" onclick="filterSubCat('ดูหนัง/ซีรีส์', this)">🎬 ดูหนัง/ซีรีส์</button>
       <button class="pill-btn" onclick="filterSubCat('ฟังเพลง', this)">🎧 ฟังเพลง</button>
       <button class="pill-btn" onclick="filterSubCat('ทำงาน/เรียน', this)">💼 ทำงาน/เรียน</button>
-      <button class="pill-btn" onclick="filterSubCat('แอพจีน', this)" แอพจีน</button>
+      <button class="pill-btn" onclick="filterSubCat('แอพจีน', this)">  แอพจีน</button>
   </div>
 
   <div class="grid-container" id="productGrid"></div>
@@ -422,6 +413,16 @@ strong, b {
         <textarea id="pg_desc" placeholder="รายละเอียดแพ็กเกจย่อย (ขึ้นบรรทัดใหม่ได้)" rows="2"></textarea>
         <input type="number" id="pg_price" placeholder="ราคา (บาท)">
         <input type="text" id="pg_icon" placeholder="รูปลิงก์ไอคอนแอป">
+        
+        <!-- 🌟 1. เพิ่มตัวเลือก "หมวดหมู่ย่อย (Filter Pill)" สำหรับให้แอดมินเลือกกำหนดหมวดหมู่ของแอปได้ -->
+        <label style="font-size: 13px; color: #555; display:block; margin-top:5px; margin-bottom:5px;">หมวดหมู่ย่อย (Filter Pill):</label>
+        <select id="pg_filterPill" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 8px; font-family: inherit;">
+            <option value="ดูหนัง/ซีรีส์">🎬 ดูหนัง/ซีรีส์</option>
+            <option value="ฟังเพลง">🎧 ฟังเพลง</option>
+            <option value="ทำงาน/เรียน">💼 ทำงาน/เรียน</option>
+            <option value="แอพจีน">  แอพจีน</option>
+            <option value="อื่นๆ">📌 อื่นๆ / ทั่วไป</option>
+        </select>
       </div>
 
       <div id="zone-ios-android" style="display:none; border: 1px solid #ddd; padding: 10px; border-radius: 8px;">
@@ -468,123 +469,6 @@ strong, b {
         <textarea id="store_warranty" placeholder="การรับประกัน (เงื่อนไข, ขึ้นบรรทัดใหม่ได้)" rows="3"></textarea>
       </div>
 
-      <!-- ================== 🌟 1. โซนตั้งค่าตัวอักษรแบบใหม่ตามรูปสกรีนช็อต 100% ================== -->
-      <div id="zone-font-settings" style="display:none;">
-        
-        <!-- กล่อง Live Preview ด้านบน -->
-        <div class="font-preview-box">
-            <div class="font-preview-header">
-               👁️ ตัวอย่างการแสดงผลเบื้องต้น (Live Preview Box)
-            </div>
-            <div class="preview-grid-box" id="livePreviewContainer">
-                <div class="preview-card-item">
-                    <span class="preview-tag">1. การ์ดรูปภาพ</span>
-                    <h5 id="prev-card-h">หัวข้อ: โปรโมชันพิเศษ</h5>
-                    <p id="prev-card-t">ข้อความ: รายละเอียดสินค้าและโปรโมชัน</p>
-                </div>
-                <div class="preview-card-item">
-                    <span class="preview-tag">2. ขั้นตอนเลือกสินค้า</span>
-                    <h5 id="prev-step-h">ขั้นตอนที่ 1: เลือกสินค้า</h5>
-                    <p id="prev-step-t">ข้อความ: กดหยิบสินค้าลงตะกร้าได้เลย</p>
-                </div>
-                <div class="preview-card-item">
-                    <span class="preview-tag">3. กล่องข้อความอื่นๆ</span>
-                    <h5 id="prev-box-h">ประกาศสำคัญจากร้าน</h5>
-                    <p id="prev-box-t">ข้อความ: วันนี้ร้านปิดปรับปรุงระบบชั่วคราว</p>
-                </div>
-                <div class="preview-card-item">
-                    <span class="preview-tag">4. หัวข้อและเมนูหลัก</span>
-                    <h5 id="prev-main-h">ยินดีต้อนรับสู่เว็บของเรา</h5>
-                    <p id="prev-main-t">ข้อความ: เมนูหลัก / ติดต่อเรา / เกี่ยวกับเรา</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- กริดกล่องปรับตั้งค่า 4 กลุ่ม -->
-        <div class="font-settings-grid">
-            
-            <!-- การ์ด 1 -->
-            <div class="font-card-config">
-                <div class="font-card-title">🖼️ 1. การ์ดรูปภาพ / โปรโมชัน</div>
-                <div class="font-input-row">
-                    <span>หัวข้อใหญ่ (Header):</span>
-                    <div class="font-input-wrap">
-                        <input type="number" id="fc_h" value="16" min="10" max="30" oninput="updateLivePreview()">
-                        <span>px</span>
-                    </div>
-                </div>
-                <div class="font-input-row">
-                    <span>ข้อความปกติ (Text):</span>
-                    <div class="font-input-wrap">
-                        <input type="number" id="fc_t" value="14" min="10" max="24" oninput="updateLivePreview()">
-                        <span>px</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- การ์ด 2 -->
-            <div class="font-card-config">
-                <div class="font-card-title">🔢 2. ขั้นตอนเลือกสินค้า / วิธีใช้</div>
-                <div class="font-input-row">
-                    <span>หัวข้อขั้นตอน (Header):</span>
-                    <div class="font-input-wrap">
-                        <input type="number" id="fs_h" value="18" min="12" max="32" oninput="updateLivePreview()">
-                        <span>px</span>
-                    </div>
-                </div>
-                <div class="font-input-row">
-                    <span>รายละเอียด (Text):</span>
-                    <div class="font-input-wrap">
-                        <input type="number" id="fs_t" value="14" min="10" max="24" oninput="updateLivePreview()">
-                        <span>px</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- การ์ด 3 -->
-            <div class="font-card-config">
-                <div class="font-card-title">💬 3. กล่องข้อความอื่นๆ ในเว็บ</div>
-                <div class="font-input-row">
-                    <span>หัวข้อกล่อง (Header):</span>
-                    <div class="font-input-wrap">
-                        <input type="number" id="fb_h" value="16" min="12" max="30" oninput="updateLivePreview()">
-                        <span>px</span>
-                    </div>
-                </div>
-                <div class="font-input-row">
-                    <span>ข้อความภายใน (Text):</span>
-                    <div class="font-input-wrap">
-                        <input type="number" id="fb_t" value="14" min="10" max="24" oninput="updateLivePreview()">
-                        <span>px</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- การ์ด 4 -->
-            <div class="font-card-config">
-                <div class="font-card-title">🧭 4. เมนูและหัวข้อหลักของเว็บ</div>
-                <div class="font-input-row">
-                    <span>หัวข้อหลักเว็บ (Title):</span>
-                    <div class="font-input-wrap">
-                        <input type="number" id="fm_h" value="20" min="14" max="40" oninput="updateLivePreview()">
-                        <span>px</span>
-                    </div>
-                </div>
-                <div class="font-input-row">
-                    <span>เมนู/ข้อความทั่วไป:</span>
-                    <div class="font-input-wrap">
-                        <input type="number" id="fm_t" value="14" min="10" max="24" oninput="updateLivePreview()">
-                        <span>px</span>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-        <button type="button" class="admin-btn" style="background: #FF4B7E; margin-top: 18px;" onclick="saveFontSettings(event)">💾 บันทึกการตั้งค่าตัวอักษร</button>
-      </div>
-      <!-- ============================================================================== -->
-      
       <div id="zone-custom-cards" style="display:none; border: 1px solid #ddd; padding: 10px; border-radius: 8px;">
         <label style="font-size: 13px; color: #555; font-weight: normal !important; -webkit-text-stroke: 0.3px currentColor;">สร้างการ์ดรูปภาพ/โปรโมชันใหม่</label>
         <input type="text" id="cc_title" placeholder="ชื่อการ์ด (เช่น รีวิว, โปรโมชัน)">
@@ -618,7 +502,7 @@ strong, b {
 </div>
 
 <script>
-// 🚀 URL ของคุณ[cite: 4]
+// 🚀 URL ของคุณ
 const API_URL = "https://script.google.com/macros/s/AKfycbxcs3Smz6vGPDDHtjrhDSZ8Y18MsijDdz4CW9w45BpEeZAB60EpIqSUmw4sYKKyAWzO/exec"; 
 
 let allProducts = []; let cart = []; let currentTab = "info"; let storeInfo = {}; let tabsList = []; 
@@ -715,9 +599,6 @@ function processLoadedData(data) {
   allProducts = data.products.map((p, i) => { if (!p.id) p.id = 'temp_' + i; return p; }) || [];
   storeInfo = data.storeInfo || {}; tabsList = data.tabs || []; localCustomCards = storeInfo.customCards || [];
   
-  // 🌟 นำค่าขนาดตัวอักษรทั้ง 4 โซน (8 จุด) จาก backend มาใช้กับหน้าเว็บ
-  applyFontVariablesToSite();
-
   const welcomeEl = document.getElementById('welcomeText');
   if(storeInfo.welcome && welcomeEl) welcomeEl.innerText = storeInfo.welcome;
   if(storeInfo.logo && document.getElementById('shopLogo')) document.getElementById('shopLogo').src = storeInfo.logo;
@@ -734,26 +615,12 @@ function processLoadedData(data) {
   }
 }
 
-// 🌟 ฟังก์ชันอัปเดต CSS Variables บนหน้าเว็บจริง
-function applyFontVariablesToSite() {
-    const root = document.documentElement;
-    root.style.setProperty('--font-card-h', (storeInfo.fontCardH || '16') + 'px');
-    root.style.setProperty('--font-card-t', (storeInfo.fontCardT || '14') + 'px');
-    root.style.setProperty('--font-step-h', (storeInfo.fontStepH || '18') + 'px');
-    root.style.setProperty('--font-step-t', (storeInfo.fontStepT || '14') + 'px');
-    root.style.setProperty('--font-box-h', (storeInfo.fontBoxH || '16') + 'px');
-    root.style.setProperty('--font-box-t', (storeInfo.fontBoxT || '14') + 'px');
-    root.style.setProperty('--font-main-h', (storeInfo.fontMainH || '20') + 'px');
-    root.style.setProperty('--font-main-t', (storeInfo.fontMainT || '14') + 'px');
-    root.style.setProperty('--custom-font-weight', storeInfo.fontWeight || 'normal');
-}
-
 function renderTabs() {
   const tc = document.getElementById('tabContainer');
   if (!tc) return;
   let html = `<button class="tab-btn active" onclick="switchTab('info')" id="tab-info">ข้อมูลร้าน</button>`;
   const predefinedOrder = ["แอพพรีเมี่ยม", "เติมเกม", "เติมเหรียญนิยาย", "IOS-ANDROID", "แอพ-เกม iOS/Android"];
-  let sortedTabs = [...tabsList].filter(t => t !== "ข้อมูลร้าน" && t !== "StoreInfo" && t !== "Reviews").sort((a, b) => {
+  let sortedTabs = [...tabsList].filter(t => t !== "ข้อมูลร้าน" && t !== "StoreInfo" && t !== "Reviews" && t !== "FONT_SETTINGS" && t !== "ตั้งค่าตัวอักษร").sort((a, b) => {
      let idxA = predefinedOrder.indexOf(a); let idxB = predefinedOrder.indexOf(b);
      if(idxA === -1) idxA = 99; if(idxB === -1) idxB = 99; return idxA - idxB;
   });
@@ -916,16 +783,17 @@ function renderProducts() {
   const grid = document.getElementById('productGrid'); const sortType = document.getElementById('sortSelect').value;
   let products = allProducts.filter(p => p.tab === currentTab);
   
-  // 🌟 2. กรองข้อมูลตาม "หมวดหมู่ย่อย" (Filter Pills)
+  // 🌟 2. กรองข้อมูลตาม "หมวดหมู่ย่อย" (Filter Pills) โดยเช็คจากค่าที่แอดมินตั้ง หรือคีย์เวิร์ดสำรอง
   if (currentTab === 'แอพพรีเมี่ยม' || currentTab === 'แอพพรีเมียม') {
       if (currentSubFilter !== 'ทั้งหมด') {
           products = products.filter(p => {
+              if (p.filterPill && p.filterPill === currentSubFilter) return true;
               let name = (p.cat || p.name || '').toLowerCase();
               if (currentSubFilter === 'ดูหนัง/ซีรีส์') return /netflix|disney|prime|hbo|iqiyi|viu|wetv|bilibili|youtube|apple tv|k-drama|หนัง|ซีรีส์/.test(name);
               if (currentSubFilter === 'ฟังเพลง') return /spotify|music|tidal|joox|youtube music|ฟังเพลง/.test(name);
               if (currentSubFilter === 'ทำงาน/เรียน') return /chatgpt|canva|office|microsoft|adobe|zoom|google|notion|grammarly|duolingo|goodnotes|gpt|ai|เรียน|ทำงาน/.test(name);
               if (currentSubFilter === 'แอพจีน') return /iqiyi|wetv|bilibili|youku|mangotv|baidu|จีน/.test(name);
-              return true;
+              return false;
           });
       }
   }
@@ -1082,7 +950,6 @@ function toggleItem(id) {
     if (idx > -1) cart.splice(idx, 1); else cart.push(p); 
     renderProducts(); 
     updateBottomBar(); 
-    // 🌟 1. ถ้า Modal เปิดอยู่ ให้รีเฟรช Modal และ Dynamic Info Box ด้วย
     if (document.getElementById('packageModalOverlay')?.style.display === 'flex') {
         renderModalPackages();
     }
@@ -1247,7 +1114,6 @@ function confirmCheckout() {
       body: JSON.stringify(orderPayload)
   }).catch(err => console.log(err));
 
-  // 🌟 ปรับปรุงการจัดการลิงก์ LINE ไม่ให้เกิด Error เมื่อใส่เป็น URL เต็ม หรือใส่แค่ไอดี
   let lineContact = storeInfo.line || '';
   let lineUrl = 'https://line.me/R/ti/p/';
   if (lineContact.startsWith('http')) {
@@ -1275,8 +1141,7 @@ function renderAdminTabButtons() {
     tabsList.forEach(t => {
         if(!["แอพพรีเมี่ยม", "เติมเกม", "เติมเหรียญนิยาย", "IOS-ANDROID", "แอพ-เกม iOS/Android", "StoreInfo", "ข้อมูลร้าน", "Orders", "ตั้งค่าตัวอักษร", "FONT_SETTINGS"].includes(t)) { html += `<button type="button" class="admin-tab-btn" onclick="switchAdminFormTab('${t}', this)">📁 ${t}</button>`; }
     });
-    html += `<button type="button" class="admin-tab-btn" style="background:#fff0f5; border-color:#FF4B7E; color:#FF4B7E;" onclick="switchAdminFormTab('FONT_SETTINGS', this)">🎨 ตั้งค่าตัวอักษร</button>
-             <button type="button" class="admin-tab-btn" onclick="switchAdminFormTab('CUSTOM_CARDS', this)">🖼️ การ์ดรูปภาพ</button>
+    html += `<button type="button" class="admin-tab-btn" onclick="switchAdminFormTab('CUSTOM_CARDS', this)">🖼️ การ์ดรูปภาพ</button>
              <button type="button" class="admin-tab-btn" onclick="switchAdminFormTab('MANAGE_TABS', this)">➕ เพิ่มแท็บ</button>
              <button type="button" class="admin-tab-btn" style="background:#fff5f8; border-color:var(--secondary);" onclick="switchAdminFormTab('STATS', this)">📊 สถิติร้าน</button>`;
     document.getElementById('adminTabButtons').innerHTML = html;
@@ -1303,13 +1168,14 @@ function clearAdminForm() {
     document.getElementById('a_id').value = ''; 
     document.getElementById('ia_group').value = '📱 แอพอื่นๆ'; 
     if(document.getElementById('ia_isNew')) document.getElementById('ia_isNew').checked = false;
+    if(document.getElementById('pg_filterPill')) document.getElementById('pg_filterPill').value = 'ดูหนัง/ซีรีส์';
 }
 
 function switchAdminFormTab(tabVal, btnElement) { document.getElementById('a_tab').value = tabVal; document.querySelectorAll('.admin-tab-btn').forEach(b => b.classList.remove('active')); if(btnElement) btnElement.classList.add('active'); toggleAdminFields(); }
 
 function toggleAdminFields() {
   const tab = document.getElementById('a_tab').value;
-  ['zone-premium-game', 'zone-ios-android', 'zone-product-status', 'zone-store', 'zone-tabs', 'zone-custom-cards', 'zone-stats', 'zone-font-settings'].forEach(id => {
+  ['zone-premium-game', 'zone-ios-android', 'zone-product-status', 'zone-store', 'zone-tabs', 'zone-custom-cards', 'zone-stats'].forEach(id => {
       let el = document.getElementById(id);
       if(el) el.style.display = 'none';
   });
@@ -1319,86 +1185,13 @@ function toggleAdminFields() {
       document.getElementById('zone-store').style.display = 'block'; 
       document.querySelector('.store-btn').style.display = 'block'; 
   } 
-  else if (tab === "FONT_SETTINGS" || tab === "ตั้งค่าตัวอักษร") {
-      document.getElementById('zone-font-settings').style.display = 'block';
-      loadFontSettingsToForm();
-  }
   else if (tab === "CUSTOM_CARDS") { document.getElementById('zone-custom-cards').style.display = 'block'; document.querySelector('.store-btn').style.display = 'block'; renderAdminCustomCards(); } 
   else if (tab === "MANAGE_TABS") { document.getElementById('zone-tabs').style.display = 'block'; } 
   else if (tab === "STATS") { document.getElementById('zone-stats').style.display = 'block'; fetchStats(document.querySelector('#zone-stats button')); } 
   else if (tab.includes("IOS") || tab.includes("iOS")) { document.getElementById('zone-ios-android').style.display = 'block'; document.getElementById('zone-product-status').style.display = 'block'; document.querySelectorAll('.product-btn').forEach(b => b.style.display = 'block'); } 
   else { document.getElementById('zone-premium-game').style.display = 'block'; document.getElementById('zone-product-status').style.display = 'block'; document.querySelectorAll('.product-btn').forEach(b => b.style.display = 'block'); }
   
-  if (tab !== "STORE_INFO" && tab !== "MANAGE_TABS" && tab !== "CUSTOM_CARDS" && tab !== "STATS" && tab !== "FONT_SETTINGS" && tab !== "ตั้งค่าตัวอักษร") { document.getElementById('admin-product-list-container').style.display = 'block'; renderAdminProductList(tab); } else { document.getElementById('admin-product-list-container').style.display = 'none'; }
-}
-
-// 🌟 ระบบ Live Preview ตัวอย่างบนเว็บไซต์จริง 8 จุด[cite: 4]
-function loadFontSettingsToForm() {
-    document.getElementById('fc_h').value = storeInfo.fontCardH || '16';
-    document.getElementById('fc_t').value = storeInfo.fontCardT || '14';
-    document.getElementById('fs_h').value = storeInfo.fontStepH || '18';
-    document.getElementById('fs_t').value = storeInfo.fontStepT || '14';
-    document.getElementById('fb_h').value = storeInfo.fontBoxH || '16';
-    document.getElementById('fb_t').value = storeInfo.fontBoxT || '14';
-    document.getElementById('fm_h').value = storeInfo.fontMainH || '20';
-    document.getElementById('fm_t').value = storeInfo.fontMainT || '14';
-    updateLivePreview();
-}
-
-// 🌟 ต่อเติมฟังก์ชัน updateLivePreview และระบบจัดการแอดมินให้สมบูรณ์ 100%
-function updateLivePreview() {
-    let fc_h = document.getElementById('fc_h')?.value || '16';
-    let fc_t = document.getElementById('fc_t')?.value || '14';
-    let fs_h = document.getElementById('fs_h')?.value || '18';
-    let fs_t = document.getElementById('fs_t')?.value || '14';
-    let fb_h = document.getElementById('fb_h')?.value || '16';
-    let fb_t = document.getElementById('fb_t')?.value || '14';
-    let fm_h = document.getElementById('fm_h')?.value || '20';
-    let fm_t = document.getElementById('fm_t')?.value || '14';
-
-    // อัปเดตกล่อง Live Preview ด้านบนสุดในระบบแอดมิน[cite: 4]
-    if(document.getElementById('prev-card-h')) { document.getElementById('prev-card-h').style.fontSize = fc_h + 'px'; document.getElementById('prev-card-t').style.fontSize = fc_t + 'px'; }
-    if(document.getElementById('prev-step-h')) { document.getElementById('prev-step-h').style.fontSize = fs_h + 'px'; document.getElementById('prev-step-t').style.fontSize = fs_t + 'px'; }
-    if(document.getElementById('prev-box-h')) { document.getElementById('prev-box-h').style.fontSize = fb_h + 'px'; document.getElementById('prev-box-t').style.fontSize = fb_t + 'px'; }
-    if(document.getElementById('prev-main-h')) { document.getElementById('prev-main-h').style.fontSize = fm_h + 'px'; document.getElementById('prev-main-t').style.fontSize = fm_t + 'px'; }
-
-    // อัปเดตการแสดงผลบนเว็บจริงแบบเรียลไทม์ทันที (Background Live)[cite: 4]
-    const root = document.documentElement;
-    root.style.setProperty('--font-card-h', fc_h + 'px');
-    root.style.setProperty('--font-card-t', fc_t + 'px');
-    root.style.setProperty('--font-step-h', fs_h + 'px');
-    root.style.setProperty('--font-step-t', fs_t + 'px');
-    root.style.setProperty('--font-box-h', fb_h + 'px');
-    root.style.setProperty('--font-box-t', fb_t + 'px');
-    root.style.setProperty('--font-main-h', fm_h + 'px');
-    root.style.setProperty('--font-main-t', fm_t + 'px');
-}
-
-function saveFontSettings(event) {
-    if (event) event.preventDefault();
-    let payload = {
-        action: "save_store",
-        status: storeInfo.status || "open",
-        welcome: storeInfo.welcome || "",
-        line: storeInfo.line || "",
-        hours: storeInfo.hours || "",
-        logo: storeInfo.logo || "",
-        mediaLink: storeInfo.mediaLink || "",
-        mediaText: storeInfo.mediaText || "",
-        warranty: storeInfo.warranty || "",
-        fontCardH: document.getElementById('fc_h')?.value || '16',
-        fontCardT: document.getElementById('fc_t')?.value || '14',
-        fontStepH: document.getElementById('fs_h')?.value || '18',
-        fontStepT: document.getElementById('fs_t')?.value || '14',
-        fontBoxH: document.getElementById('fb_h')?.value || '16',
-        fontBoxT: document.getElementById('fb_t')?.value || '14',
-        fontMainH: document.getElementById('fm_h')?.value || '20',
-        fontMainT: document.getElementById('fm_t')?.value || '14',
-        fontWeight: storeInfo.fontWeight || 'normal',
-        customCards: localCustomCards || []
-    };
-
-    sendAdminPost(payload);
+  if (tab !== "STORE_INFO" && tab !== "MANAGE_TABS" && tab !== "CUSTOM_CARDS" && tab !== "STATS") { document.getElementById('admin-product-list-container').style.display = 'block'; renderAdminProductList(tab); } else { document.getElementById('admin-product-list-container').style.display = 'none'; }
 }
 
 function checkShopStatus() {
@@ -1430,15 +1223,6 @@ function submitStoreAction(event) {
         mediaLink: document.getElementById('store_media')?.value || storeInfo.mediaLink || "",
         mediaText: document.getElementById('store_mediaText')?.value || storeInfo.mediaText || "",
         warranty: document.getElementById('store_warranty')?.value || storeInfo.warranty || "",
-        fontCardH: storeInfo.fontCardH || '16',
-        fontCardT: storeInfo.fontCardT || '14',
-        fontStepH: storeInfo.fontStepH || '18',
-        fontStepT: storeInfo.fontStepT || '14',
-        fontBoxH: storeInfo.fontBoxH || '16',
-        fontBoxT: storeInfo.fontBoxT || '14',
-        fontMainH: storeInfo.fontMainH || '20',
-        fontMainT: storeInfo.fontMainT || '14',
-        fontWeight: storeInfo.fontWeight || 'normal',
         customCards: localCustomCards || []
     };
     sendAdminPost(payload);
@@ -1543,6 +1327,7 @@ function submitAdminAction(event, action) {
         payload.desc = document.getElementById('pg_desc')?.value || '';
         payload.price = Number(document.getElementById('pg_price')?.value) || 0;
         payload.icon = document.getElementById('pg_icon')?.value || '';
+        payload.filterPill = document.getElementById('pg_filterPill')?.value || '';
     }
 
     if (action === 'add' && (!payload.name && !payload.cat)) {
@@ -1559,6 +1344,7 @@ function submitAdminAction(event, action) {
     sendAdminPost(payload);
 }
 
+// ================== 🌟 ซ่อมแซมบรรทัดสุดท้ายที่ขาดหายไปจากโค้ดต้นฉบับ ==================
 function sendAdminPost(payload) {
     document.getElementById('loadingOverlay').style.display = 'flex';
     fetch(API_URL, {
@@ -1569,110 +1355,17 @@ function sendAdminPost(payload) {
         if (data.success) {
             alert("✅ ดำเนินการสำเร็จ!");
             localStorage.removeItem('wanderer_data_cache');
-            clearAdminForm();
+            localStorage.removeItem('wanderer_time_cache');
+            closeAdmin();
             loadData();
         } else {
-            alert("❌ เกิดข้อผิดพลาด: " + (data.error || "ไม่สามารถบันทึกได้"));
+            alert("❌ เกิดข้อผิดพลาด: " + (data.message || "ไม่สามารถบันทึกข้อมูลได้"));
         }
     }).catch(err => {
         document.getElementById('loadingOverlay').style.display = 'none';
-        alert("❌ เกิดข้อผิดพลาดในการเชื่อมต่อ!");
+        alert("❌ เกิดข้อผิดพลาดในการเชื่อมต่อเครือข่าย");
     });
 }
-
-function renderAdminProductList(tab) {
-    const listEl = document.getElementById('admin-product-list');
-    if (!listEl) return;
-    let items = allProducts.filter(p => p.tab === tab || (tab.includes("IOS") && (p.tab === "IOS-ANDROID" || p.tab === "แอพ-เกม iOS/Android")));
-    if (items.length === 0) {
-        listEl.innerHTML = '<p style="text-align:center; color:#999; padding:10px;">ไม่มีสินค้าในแท็บนี้</p>';
-        return;
-    }
-    listEl.innerHTML = items.map(p => {
-        let title = tab.includes("IOS") ? p.name : (p.cat || p.name);
-        let sub = tab.includes("IOS") ? p.os : (p.subCat || p.appDesc || '');
-        return `
-            <div class="admin-list-item">
-                <div class="admin-list-info">
-                    <strong style="font-size:13px; color:#333;">${title || 'ไม่ระบุชื่อ'}</strong>
-                    <span style="font-size:11px; color:#777;">${sub || '-'} | ราคา: ${p.price}฿ | สถานะ: ${p.status === 'ready' ? '🟢 พร้อมส่ง' : '🔴 ไม่พร้อม'}</span>
-                </div>
-                <div class="admin-list-actions">
-                    <button type="button" class="btn-sm-edit" onclick="selectAdminProduct('${p.id}', '${tab}')">✏️ เลือก</button>
-                </div>
-            </div>
-        `;
-    }).join('');
-}
-
-function selectAdminProduct(id, tab) {
-    const p = allProducts.find(x => x.id === id);
-    if (!p) return;
-    document.getElementById('a_id').value = p.id;
-    document.getElementById('a_status').value = p.status || 'ready';
-
-    if (tab.includes("IOS") || tab.includes("iOS")) {
-        document.getElementById('ia_cat').value = p.name || '';
-        document.getElementById('ia_desc').value = p.desc || '';
-        document.getElementById('ia_price').value = p.price || 0;
-        document.getElementById('ia_icon').value = p.icon || '';
-        document.getElementById('ia_group').value = p.subCat || '📱 แอพอื่นๆ';
-        if (document.getElementById('ia_isNew')) {
-            let isNewStr = String(p.isNew).trim().toLowerCase();
-            document.getElementById('ia_isNew').checked = (p.isNew === true || isNewStr === "true" || isNewStr === "1" || isNewStr === "yes" || isNewStr === "new");
-        }
-        let osStr = p.os || '';
-        document.getElementById('os_ios').checked = osStr.includes('iOS');
-        document.getElementById('os_android').checked = osStr.includes('Android');
-    } else {
-        document.getElementById('pg_cat').value = p.cat || '';
-        document.getElementById('pg_appDesc').value = p.appDesc || '';
-        document.getElementById('pg_subCat').value = p.subCat || '';
-        document.getElementById('pg_name').value = p.name || '';
-        document.getElementById('pg_desc').value = p.desc || '';
-        document.getElementById('pg_price').value = p.price || 0;
-        document.getElementById('pg_icon').value = p.icon || '';
-    }
-    alert("ดึงข้อมูลสินค้ามาที่ฟอร์มแก้ไขแล้ว สามารถแก้ไขหรือกดปุ่ม '💾 บันทึกแก้ไข' / '🗑️ ลบสินค้า' ได้ทันที");
-}
-
-function fetchStats(btn) {
-    const container = document.getElementById('stats-container');
-    if (!container) return;
-    if (btn) btn.innerText = "⏳ กำลังโหลด...";
-    fetch(API_URL, {
-        method: "POST",
-        body: JSON.stringify({ action: "get_stats" })
-    }).then(res => res.json()).then(data => {
-        if (btn) btn.innerText = "🔄 โหลดสถิติล่าสุด";
-        if (data.success) {
-            container.innerHTML = `
-                <div class="stat-card">
-                    <h4>👁️ เข้าชมทั้งหมด</h4>
-                    <p>${data.views || 0} ครั้ง</p>
-                </div>
-                <div class="stat-card highlight">
-                    <h4>📦 คำสั่งซื้อทั้งหมด</h4>
-                    <p>${data.orders || 0} ออเดอร์</p>
-                </div>
-                <div class="stat-card">
-                    <h4>💰 ยอดขายโดยประมาณ</h4>
-                    <p>${data.revenue || 0} ฿</p>
-                </div>
-            `;
-        } else {
-            container.innerHTML = '<p style="text-align:center; color:#ff3b3b; grid-column:1/-1;">ไม่สามารถดึงข้อมูลสถิติได้</p>';
-        }
-    }).catch(err => {
-        if (btn) btn.innerText = "🔄 โหลดสถิติล่าสุด";
-        container.innerHTML = '<p style="text-align:center; color:#ff3b3b; grid-column:1/-1;">เกิดข้อผิดพลาดในการเชื่อมต่อ</p>';
-    });
-}
-
-// 🌟 เริ่มต้นทำงานทันทีเมื่อหน้าเว็บโหลดเสร็จสมบูรณ์
-window.addEventListener('DOMContentLoaded', () => {
-    loadData();
-});
 </script>
 </body>
 </html>
