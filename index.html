@@ -619,7 +619,7 @@ strong, b {
 
 <script>
 // 🚀 URL ของคุณ
-const API_URL = "https://script.google.com/macros/s/AKfycby_zSL2H9M0S1WfchYTDqxsygFzCo5EFZJrrX3El3a-26Yi0MqCXFQkhaVHq2SLhnaV/exec"; 
+const API_URL = "https://script.google.com/macros/s/AKfycbx1fMxis9lqfyu4DxRy-G8Os5fm0HExPfN9vrN9DI315c8m9DOa4KalIiJRiLsUKm3Y/exec"; 
 
 let allProducts = []; let cart = []; let currentTab = "info"; let storeInfo = {}; let tabsList = []; 
 let viewLevel = 'apps'; let selectedAppName = ''; let localCustomCards = []; let editingCardIndex = -1;
@@ -1373,12 +1373,9 @@ function updateLivePreview() {
     root.style.setProperty('--font-main-t', fm_t + 'px');
 }
 
-// 🌟 ฟังก์ชันบันทึกการตั้งค่าตัวอักษรทั้ง 8 จุดลง Backend
-async function saveFontSettings(event) {
-    const btn = event.currentTarget; 
-    const originalText = btn.innerText; 
-    btn.innerText = "⏳ กำลังบันทึก..."; 
-    
+// ================== 🌟 ส่วนที่เติมเต็มฟังก์ชันปลายโค้ด 100% ==================
+function saveFontSettings(e) {
+    if(e) e.preventDefault();
     storeInfo.fontCardH = document.getElementById('fc_h').value;
     storeInfo.fontCardT = document.getElementById('fc_t').value;
     storeInfo.fontStepH = document.getElementById('fs_h').value;
@@ -1387,17 +1384,17 @@ async function saveFontSettings(event) {
     storeInfo.fontBoxT = document.getElementById('fb_t').value;
     storeInfo.fontMainH = document.getElementById('fm_h').value;
     storeInfo.fontMainT = document.getElementById('fm_t').value;
-    
-    const payload = { 
-        action: "save_store", 
-        status: 'open', 
-        logo: storeInfo.logo || document.getElementById('store_logo').value || '', 
-        mediaLink: storeInfo.mediaLink || document.getElementById('store_media').value || '', 
-        mediaText: storeInfo.mediaText || document.getElementById('store_mediaText').value || '', 
-        line: storeInfo.line || document.getElementById('store_line').value || '', 
-        hours: storeInfo.hours || document.getElementById('store_hours').value || '', 
-        warranty: storeInfo.warranty || document.getElementById('store_warranty').value || '', 
-        
+
+    const payload = {
+        action: "save_store",
+        status: storeInfo.status || "open",
+        welcome: storeInfo.welcome || "",
+        line: storeInfo.line || "",
+        hours: storeInfo.hours || "",
+        logo: storeInfo.logo || "",
+        mediaLink: storeInfo.mediaLink || "",
+        mediaText: storeInfo.mediaText || "",
+        warranty: storeInfo.warranty || "",
         fontCardH: storeInfo.fontCardH,
         fontCardT: storeInfo.fontCardT,
         fontStepH: storeInfo.fontStepH,
@@ -1406,200 +1403,278 @@ async function saveFontSettings(event) {
         fontBoxT: storeInfo.fontBoxT,
         fontMainH: storeInfo.fontMainH,
         fontMainT: storeInfo.fontMainT,
-        
-        customCards: localCustomCards 
-    }; 
-    await sendAdminPost(payload, btn, originalText); 
+        customCards: localCustomCards
+    };
+
+    fetch(API_URL, { method: "POST", body: JSON.stringify(payload) })
+    .then(res => res.json())
+    .then(data => {
+        if(data.success) {
+            localStorage.removeItem('wanderer_data_cache');
+            alert("💾 บันทึกการตั้งค่าตัวอักษรเรียบร้อยแล้วค่ะ");
+            applyFontVariablesToSite();
+        } else {
+            alert("❌ บันทึกไม่สำเร็จ กรุณาลองใหม่ค่ะ");
+        }
+    }).catch(() => alert("❌ เกิดข้อผิดพลาดในการเชื่อมต่อ 서버"));
 }
 
-function renderAdminProductList(tabName) {
-    const listDiv = document.getElementById('admin-product-list'); let targetTab = tabName.includes("IOS") ? "IOS-ANDROID" : tabName; let products = allProducts.filter(p => p.tab === targetTab || p.tab === "แอพ-เกม iOS/Android");
-    if (products.length === 0) { listDiv.innerHTML = '<div style="padding:15px; text-align:center; color:#999; font-size:13px;">ไม่มีสินค้า</div>'; return; }
-    listDiv.innerHTML = products.map(p => { let title = targetTab.includes("IOS") ? (p.cat || p.name) : `[${p.cat}] - ${p.name}`; let sub = p.subCat ? `<span style="color:#3B96F5; font-size:11px;">[${p.subCat}]</span>` : ''; return `<div class="admin-list-item"><div class="admin-list-info"><strong style="color:#000; font-size:14px;">${title} ${sub}</strong><span style="color:#777; font-size:12px;">ราคา: ${p.price}฿ | สถานะ: ${p.status === 'ready' ? '🟢 พร้อมส่ง' : '🔴 ไม่พร้อม'}</span></div><div class="admin-list-actions"><button class="btn-sm-edit" onclick="openAdminForEditById('${p.id}')">✏️</button><button class="btn-sm-del" onclick="quickDelete('${p.id}', '${p.tab}')">🗑️</button></div></div>`; }).join('');
+function submitStoreAction(e) {
+    if(e) e.preventDefault();
+    storeInfo.logo = document.getElementById('store_logo').value;
+    storeInfo.mediaLink = document.getElementById('store_media').value;
+    storeInfo.mediaText = document.getElementById('store_mediaText').value;
+    storeInfo.line = document.getElementById('store_line').value;
+    storeInfo.hours = document.getElementById('store_hours').value;
+    storeInfo.warranty = document.getElementById('store_warranty').value;
+
+    const payload = {
+        action: "save_store",
+        status: storeInfo.status || "open",
+        welcome: storeInfo.welcome || "",
+        line: storeInfo.line,
+        hours: storeInfo.hours,
+        logo: storeInfo.logo,
+        mediaLink: storeInfo.mediaLink,
+        mediaText: storeInfo.mediaText,
+        warranty: storeInfo.warranty,
+        fontCardH: storeInfo.fontCardH || "16",
+        fontCardT: storeInfo.fontCardT || "14",
+        fontStepH: storeInfo.fontStepH || "18",
+        fontStepT: storeInfo.fontStepT || "14",
+        fontBoxH: storeInfo.fontBoxH || "16",
+        fontBoxT: storeInfo.fontBoxT || "14",
+        fontMainH: storeInfo.fontMainH || "20",
+        fontMainT: storeInfo.fontMainT || "14",
+        customCards: localCustomCards
+    };
+
+    fetch(API_URL, { method: "POST", body: JSON.stringify(payload) })
+    .then(res => res.json())
+    .then(data => {
+        if(data.success) {
+            localStorage.removeItem('wanderer_data_cache');
+            alert("💾 บันทึกข้อมูลร้านและการ์ดรูปภาพสำเร็จแล้ว");
+            loadData();
+        } else {
+            alert("❌ บันทึกไม่สำเร็จ");
+        }
+    }).catch(() => alert("❌ เกิดข้อผิดพลาดในการเชื่อมต่อ"));
+}
+
+function addCustomCard() {
+    let title = document.getElementById('cc_title').value.trim();
+    let desc = document.getElementById('cc_desc').value.trim();
+    let imgsStr = document.getElementById('cc_images').value.trim();
+    if(!title && !desc && !imgsStr) { alert("กรุณากรอกข้อมูลการ์ดอย่างน้อย 1 ช่อง"); return; }
+    
+    let images = imgsStr ? imgsStr.split(',').map(s => s.trim()).filter(Boolean) : [];
+    if(editingCardIndex > -1) {
+        localCustomCards[editingCardIndex] = { title, desc, images };
+        editingCardIndex = -1;
+        document.getElementById('cc_save_btn').innerText = "➕ เพิ่มการ์ดใหม่";
+        document.getElementById('cc_save_btn').style.background = "#8b5cf6";
+    } else {
+        localCustomCards.push({ title, desc, images });
+    }
+    
+    document.getElementById('cc_title').value = '';
+    document.getElementById('cc_desc').value = '';
+    document.getElementById('cc_images').value = '';
+    renderAdminCustomCards();
 }
 
 function renderAdminCustomCards() {
-    const list = document.getElementById('admin-custom-cards-list');
-    if (localCustomCards.length === 0) { list.innerHTML = '<div style="color:#999; font-size:12px;">ยังไม่มีการ์ด</div>'; return; }
-    list.innerHTML = localCustomCards.map((c, i) => `<div class="custom-card-admin-item"><strong style="color:#333;">${c.title || 'ไม่มีชื่อ'}</strong><br><span style="font-size:11px; color:#666;">มีรูปภาพทั้งหมด ${c.images ? c.images.length : 0} รูป</span><div class="custom-card-actions"><button type="button" onclick="editCustomCard(${i})" class="btn-sm-edit-card">✏️ แก้ไข</button><button type="button" onclick="deleteCustomCard(${i})" class="btn-sm-del-card">🗑️ ลบ</button></div></div>`).join('');
-}
-
-function editCustomCard(i) { editingCardIndex = i; let c = localCustomCards[i]; document.getElementById('cc_title').value = c.title || ''; document.getElementById('cc_desc').value = c.desc || ''; document.getElementById('cc_images').value = (c.images || []).join(', '); document.getElementById('cc_save_btn').innerText = '💾 บันทึกการแก้ไข'; }
-function addCustomCard() { let title = document.getElementById('cc_title').value; let desc = document.getElementById('cc_desc').value; let imagesRaw = document.getElementById('cc_images').value; if(!title && !imagesRaw) return alert("กรุณาใส่ข้อมูลอย่างน้อย 1 อย่างครับ"); let images = imagesRaw ? imagesRaw.split(',').map(s => s.trim()).filter(Boolean) : []; if(editingCardIndex > -1) { localCustomCards[editingCardIndex] = { title, desc, images }; editingCardIndex = -1; document.getElementById('cc_save_btn').innerText = '➕ เพิ่มการ์ดใหม่'; } else { localCustomCards.push({ title, desc, images }); } document.getElementById('cc_title').value = ''; document.getElementById('cc_desc').value = ''; document.getElementById('cc_images').value = ''; renderAdminCustomCards(); }
-function deleteCustomCard(i) { if(confirm("ลบการ์ดนี้ใช่หรือไม่?")) { localCustomCards.splice(i, 1); renderAdminCustomCards(); } }
-
-function openAdminForEditById(id) { const product = allProducts.find(p => p.id === id); if (product) { openAdminForEdit(product); document.querySelector('.admin-modal').scrollTo({ top: 0, behavior: 'smooth' }); } }
-function openAdminForEdit(product) { 
-    document.getElementById('adminOverlay').style.display = 'flex'; 
-    document.getElementById('a_id').value = product.id; 
-    let targetTab = product.tab.includes("IOS") ? "IOS-ANDROID" : product.tab; 
-    document.querySelectorAll('.admin-tab-btn').forEach(btn => { if(btn.innerText.includes(targetTab.replace('แอพ', ''))) switchAdminFormTab(targetTab, btn); }); 
-    document.getElementById('a_status').value = product.status || "ready"; 
-    if (product.tab.includes("IOS")) { 
-        document.getElementById('ia_cat').value = product.cat || product.name || ""; 
-        document.getElementById('ia_desc').value = product.desc || ""; 
-        
-        let g = document.getElementById('ia_group');
-        let options = Array.from(g.options).map(o => o.value);
-        if(options.includes(product.subCat)) { g.value = product.subCat; } 
-        else { g.value = "📱 แอพอื่นๆ"; }
-
-        document.getElementById('ia_price').value = product.price || 0; 
-        document.getElementById('ia_icon').value = product.icon || ""; 
-        document.getElementById('os_ios').checked = product.os ? product.os.includes('iOS') : false; 
-        document.getElementById('os_android').checked = product.os ? product.os.includes('Android') : false; 
-        
-        let cbNew = document.getElementById('ia_isNew');
-        if(cbNew) { 
-            let isNewStr = String(product.isNew || "").trim().toLowerCase();
-            cbNew.checked = (product.isNew === true || isNewStr === "true" || isNewStr === "1" || isNewStr === "yes" || isNewStr === "new"); 
-        }
-    } else { 
-        document.getElementById('pg_cat').value = product.cat || ""; 
-        document.getElementById('pg_appDesc').value = product.appDesc || ""; 
-        document.getElementById('pg_subCat').value = product.subCat || ""; 
-        document.getElementById('pg_name').value = product.name || ""; 
-        document.getElementById('pg_desc').value = product.desc || ""; 
-        document.getElementById('pg_price').value = product.price || 0; 
-        document.getElementById('pg_icon').value = product.icon || ""; 
-    } 
-}
-
-async function fetchStats(btn) { 
-    if(btn) { btn.innerText = "⏳ กำลังโหลด..."; btn.disabled = true; } 
-    try { 
-        const response = await fetch(API_URL, { method: "POST", body: JSON.stringify({ action: "get_stats" }) }); 
-        const result = await response.json(); 
-        if(result.success) { 
-            document.getElementById('stats-container').innerHTML = `
-            <div class="stat-card"><h4>👁️ คนเข้าเว็บ (ครั้ง)</h4><p>${result.views}</p></div>
-            <div class="stat-card highlight"><h4>💰 ยอดเงินรวม (บาท)</h4><p>${result.revenue} ฿</p></div>
-            <div class="stat-card"><h4>📦 ออเดอร์ทั้งหมด</h4><p>${result.orders}</p></div>`; 
-        } 
-    } catch(err) { alert("เชื่อมต่อผิดพลาด"); } 
-    if(btn) { btn.innerText = "🔄 โหลดสถิติล่าสุด"; btn.disabled = false; } 
-}
-
-async function quickDelete(id, tab) { 
-    if(!confirm("ยืนยันการลบ?")) return; 
-    const payload = { action: 'delete_product', id: id, tab: tab }; 
-    try { 
-        const response = await fetch(API_URL, { method: "POST", body: JSON.stringify(payload) }); 
-        const result = await response.json(); 
-        if(result.success) { 
-            alert("✅ ลบสำเร็จ!"); 
-            localStorage.removeItem('wanderer_data_cache');
-            localStorage.removeItem('wanderer_time_cache');
-            await loadData(); 
-            clearAdminForm(); 
-        } 
-    } catch(err) { alert("Error"); } 
-}
-
-async function submitStoreAction(event) { 
-    const btn = event.currentTarget; 
-    const originalText = btn.innerText; 
-    btn.innerText = "⏳..."; 
-    const payload = { 
-        action: "save_store", 
-        status: 'open', 
-        logo: document.getElementById('store_logo').value, 
-        mediaLink: document.getElementById('store_media').value, 
-        mediaText: document.getElementById('store_mediaText').value, 
-        line: document.getElementById('store_line').value, 
-        hours: document.getElementById('store_hours').value, 
-        warranty: document.getElementById('store_warranty').value, 
-        
-        fontCardH: storeInfo.fontCardH || '16',
-        fontCardT: storeInfo.fontCardT || '14',
-        fontStepH: storeInfo.fontStepH || '18',
-        fontStepT: storeInfo.fontStepT || '14',
-        fontBoxH: storeInfo.fontBoxH || '16',
-        fontBoxT: storeInfo.fontBoxT || '14',
-        fontMainH: storeInfo.fontMainH || '20',
-        fontMainT: storeInfo.fontMainT || '14',
-        
-        customCards: localCustomCards 
-    }; 
-    await sendAdminPost(payload, btn, originalText); 
-}
-
-async function submitTabAction(event, actionType) { const btn = event.currentTarget; const originalText = btn.innerText; btn.innerText = "⏳..."; const payload = { action: actionType, tabName: document.getElementById('new_tab_name').value }; if(!payload.tabName) { alert("กรุณาใส่ชื่อแท็บ"); btn.innerText = originalText; return; } await sendAdminPost(payload, btn, originalText); }
-
-async function submitAdminAction(event, actionType) { 
-    const btn = event.currentTarget; const originalText = btn.innerText; btn.innerText = "⏳..."; const tab = document.getElementById('a_tab').value; let payload = { action: actionType, id: document.getElementById('a_id').value, tab: tab, status: document.getElementById('a_status').value }; 
-    if (tab.includes("IOS") || tab.includes("iOS")) { 
-        let osArr = []; 
-        if(document.getElementById('os_ios').checked) osArr.push('iOS'); 
-        if(document.getElementById('os_android').checked) osArr.push('Android'); 
-        payload.os = osArr.join('/'); 
-        if(!payload.os) { alert("กรุณาเลือกระบบ"); btn.innerText = originalText; return; } 
-        
-        payload.name = document.getElementById('ia_cat').value; 
-        payload.cat = document.getElementById('ia_cat').value; 
-        payload.desc = document.getElementById('ia_desc').value; 
-        payload.subCat = document.getElementById('ia_group').value; 
-        payload.price = Number(document.getElementById('ia_price').value) || 0; 
-        payload.icon = document.getElementById('ia_icon').value; 
-        payload.isNew = document.getElementById('ia_isNew').checked;
-    } else { 
-        payload.cat = document.getElementById('pg_cat').value; 
-        payload.appDesc = document.getElementById('pg_appDesc').value; 
-        payload.subCat = document.getElementById('pg_subCat').value; 
-        payload.name = document.getElementById('pg_name').value; 
-        payload.desc = document.getElementById('pg_desc').value; 
-        payload.price = Number(document.getElementById('pg_price').value) || 0; 
-        payload.icon = document.getElementById('pg_icon').value; 
-    } 
-    if (actionType !== 'add' && !payload.id) { alert("กรุณาเลือกสินค้าก่อน"); btn.innerText = originalText; return; } 
-    await sendAdminPost(payload, btn, originalText); 
-}
-
-async function sendAdminPost(payload, btn, originalText) { 
-    try { 
-        const response = await fetch(API_URL, { method: "POST", body: JSON.stringify(payload) }); 
-        const result = await response.json(); 
-        if(result.success) { 
-            alert("✅ สำเร็จ!"); 
-            localStorage.removeItem('wanderer_data_cache');
-            localStorage.removeItem('wanderer_time_cache');
-            await loadData(); 
-            if(payload.action === 'add' || payload.action === 'delete_product') clearAdminForm(); 
-        } 
-    } catch(err) { alert("เกิดข้อผิดพลาดในการเชื่อมต่อ"); } 
-    btn.innerText = originalText; 
-}
-
-window.onload = loadData;
-
-function checkShopStatus() {
-    const now = new Date();
-    const hours = now.getHours();
-    const minutes = now.getMinutes();
+    let listEl = document.getElementById('admin-custom-cards-list');
+    if(!listEl) return;
+    if(!localCustomCards || localCustomCards.length === 0) { listEl.innerHTML = "<p style='color:#999; font-size:12px; text-align:center;'>ยังไม่มีการ์ดรูปภาพ</p>"; return; }
     
-    const timeInMinutes = (hours * 60) + minutes;
-    const openTime = 630;  // 10:30
-    const closeTime = 30;  // 00:30
-    
-    const isOpen = (timeInMinutes >= openTime || timeInMinutes < closeTime);
+    listEl.innerHTML = localCustomCards.map((c, idx) => `
+        <div class="custom-card-admin-item">
+            <b style="color:var(--primary); font-size:13px;">📌 ${c.title || 'ไม่มีชื่อหัวข้อ'}</b>
+            <p style="color:#555; font-size:12px; margin:4px 0; white-space:pre-line;">${c.desc || '-'}</p>
+            <div style="font-size:11px; color:#888;">รูปภาพ: ${c.images && c.images.length ? c.images.length + ' รูป' : 'ไม่มีรูป'}</div>
+            <div class="custom-card-actions">
+                <button type="button" class="btn-sm-edit-card" onclick="editCustomCard(${idx})">✏️ แก้ไข</button>
+                <button type="button" class="btn-sm-del-card" onclick="deleteCustomCard(${idx})">🗑️ ลบ</button>
+            </div>
+        </div>`).join('');
+}
 
-    const badge = document.getElementById('shopStatusBadge');
-    if (!badge) return;
+function editCustomCard(idx) {
+    let c = localCustomCards[idx];
+    if(!c) return;
+    document.getElementById('cc_title').value = c.title || '';
+    document.getElementById('cc_desc').value = c.desc || '';
+    document.getElementById('cc_images').value = c.images ? c.images.join(', ') : '';
+    editingCardIndex = idx;
+    document.getElementById('cc_save_btn').innerText = "💾 บันทึกแก้ไขการ์ดนี้";
+    document.getElementById('cc_save_btn').style.background = "#ff9800";
+}
 
-    const indicator = badge.querySelector('.status-indicator');
-    const text = badge.querySelector('.status-text');
-
-    if (isOpen) {
-        badge.classList.remove('closed');
-        if(indicator) indicator.classList.remove('closed');
-        if(text) { text.classList.remove('closed'); text.innerText = 'เปิดให้บริการ'; }
-    } else {
-        badge.classList.add('closed');
-        if(indicator) indicator.classList.add('closed');
-        if(text) { text.classList.add('closed'); text.innerText = 'ปิดให้บริการ'; }
+function deleteCustomCard(idx) {
+    if(confirm("ต้องการลบการ์ดนี้ใช่หรือไม่? (กดปุ่ม 'บันทึกข้อมูลร้าน/การ์ด' อีกครั้งเพื่อยืนยันลงระบบ)")) {
+        localCustomCards.splice(idx, 1);
+        renderAdminCustomCards();
     }
 }
-setInterval(checkShopStatus, 60000); 
+
+function submitTabAction(e, actionType) {
+    if(e) e.preventDefault();
+    let tabName = document.getElementById('new_tab_name').value.trim();
+    if(!tabName) { alert("กรุณาใส่ชื่อแท็บที่ต้องการเพิ่ม"); return; }
+    
+    fetch(API_URL, { method: "POST", body: JSON.stringify({ action: actionType, tabName: tabName }) })
+    .then(res => res.json())
+    .then(data => {
+        if(data.success) {
+            localStorage.removeItem('wanderer_data_cache');
+            alert("➕ เพิ่มแท็บใหม่เรียบร้อยแล้ว");
+            document.getElementById('new_tab_name').value = '';
+            loadData();
+        } else {
+            alert("❌ " + (data.error || "เกิดข้อผิดพลาด"));
+        }
+    }).catch(() => alert("❌ เกิดข้อผิดพลาดในการเชื่อมต่อ"));
+}
+
+function submitAdminAction(e, actionType) {
+    if(e) e.preventDefault();
+    let tab = document.getElementById('a_tab').value;
+    let id = document.getElementById('a_id').value;
+    let status = document.getElementById('a_status').value;
+    
+    let payload = { action: actionType, tab: tab, id: id, status: status };
+    
+    if(tab.includes("IOS") || tab.includes("iOS")) {
+        let osList = [];
+        if(document.getElementById('os_ios').checked) osList.push("iOS");
+        if(document.getElementById('os_android').checked) osList.push("Android");
+        payload.name = document.getElementById('ia_cat').value.trim();
+        payload.desc = document.getElementById('ia_desc').value.trim();
+        payload.os = osList.join('/');
+        payload.price = document.getElementById('ia_price').value || 0;
+        payload.icon = document.getElementById('ia_icon').value.trim();
+        payload.subCat = document.getElementById('ia_group').value;
+        payload.isNew = document.getElementById('ia_isNew') ? document.getElementById('ia_isNew').checked : false;
+        if(actionType === 'add' && (!payload.name || !payload.price)) { alert("กรุณากรอกชื่อแอปและราคา"); return; }
+    } else {
+        payload.cat = document.getElementById('pg_cat').value.trim();
+        payload.appDesc = document.getElementById('pg_appDesc').value.trim();
+        payload.subCat = document.getElementById('pg_subCat').value.trim();
+        payload.name = document.getElementById('pg_name').value.trim();
+        payload.desc = document.getElementById('pg_desc').value.trim();
+        payload.price = document.getElementById('pg_price').value || 0;
+        payload.icon = document.getElementById('pg_icon').value.trim();
+        if(actionType === 'add' && (!payload.cat || !payload.name || !payload.price)) { alert("กรุณากรอกชื่อหลัก, ชื่อแพ็กเกจ และราคา"); return; }
+    }
+    
+    if(actionType === 'edit_product' || actionType === 'delete_product') {
+        if(!id) { alert("กรุณาเลือกสินค้าจากรายการด้านล่างก่อน"); return; }
+        if(actionType === 'delete_product' && !confirm("ต้องการลบสินค้านี้ใช่หรือไม่?")) return;
+    }
+
+    fetch(API_URL, { method: "POST", body: JSON.stringify(payload) })
+    .then(res => res.json())
+    .then(data => {
+        if(data.success) {
+            localStorage.removeItem('wanderer_data_cache');
+            alert("✅ ดำเนินการสำเร็จ");
+            clearAdminForm();
+            loadData();
+        } else {
+            alert("❌ ดำเนินการไม่สำเร็จ: " + (data.error || ""));
+        }
+    }).catch(() => alert("❌ เกิดข้อผิดพลาดในการเชื่อมต่อ"));
+}
+
+function renderAdminProductList(tabName) {
+    let listEl = document.getElementById('admin-product-list');
+    if(!listEl) return;
+    let items = allProducts.filter(p => p.tab === tabName || (tabName.includes("IOS") && p.tab.includes("IOS")));
+    if(!items.length) { listEl.innerHTML = "<p style='text-align:center;color:#999;font-size:12px;padding:10px;'>ไม่มีสินค้าในหมวดนี้</p>"; return; }
+    
+    listEl.innerHTML = items.map(p => {
+        let title = tabName.includes("IOS") ? p.name : `${p.cat} - ${p.name}`;
+        let subText = tabName.includes("IOS") ? `[${p.os || '-'}] ราคา: ${p.price}฿` : `[${p.subCat || 'ทั่วไป'}] ราคา: ${p.price}฿`;
+        return `
+            <div class="admin-list-item">
+                <div class="admin-list-info">
+                    <b style="font-size:13px; color:#222;">${title || 'ไม่ระบุชื่อ'}</b>
+                    <span style="font-size:11px; color:#666;">${subText}</span>
+                </div>
+                <div class="admin-list-actions">
+                    <button type="button" class="btn-sm-edit" onclick="editProduct('${p.id}')">✏️ เลือก</button>
+                </div>
+            </div>`;
+    }).join('');
+}
+
+function editProduct(id) {
+    let p = allProducts.find(x => x.id === id);
+    if(!p) return;
+    document.getElementById('a_id').value = p.id;
+    document.getElementById('a_status').value = p.status || 'ready';
+    let tab = document.getElementById('a_tab').value;
+    
+    if(tab.includes("IOS") || tab.includes("iOS")) {
+        document.getElementById('ia_cat').value = p.name || '';
+        document.getElementById('ia_desc').value = p.desc || '';
+        document.getElementById('ia_price').value = p.price || 0;
+        document.getElementById('ia_icon').value = p.icon || '';
+        document.getElementById('ia_group').value = p.subCat || '📱 แอพอื่นๆ';
+        if(document.getElementById('ia_isNew')) {
+            let isN = String(p.isNew).trim().toLowerCase();
+            document.getElementById('ia_isNew').checked = (p.isNew === true || isN === "true" || isN === "1" || isN === "yes" || isN === "new");
+        }
+        let os = p.os || '';
+        document.getElementById('os_ios').checked = os.includes("iOS");
+        document.getElementById('os_android').checked = os.includes("Android");
+    } else {
+        document.getElementById('pg_cat').value = p.cat || '';
+        document.getElementById('pg_appDesc').value = p.appDesc || '';
+        document.getElementById('pg_subCat').value = p.subCat || '';
+        document.getElementById('pg_name').value = p.name || '';
+        document.getElementById('pg_desc').value = p.desc || '';
+        document.getElementById('pg_price').value = p.price || 0;
+        document.getElementById('pg_icon').value = p.icon || '';
+    }
+    document.querySelector('.admin-modal').scrollTop = 0;
+}
+
+function fetchStats(btn) {
+    if(btn) btn.innerText = "⏳ กำลังโหลด...";
+    fetch(API_URL, { method: "POST", body: JSON.stringify({ action: "get_stats" }) })
+    .then(res => res.json())
+    .then(data => {
+        if(btn) btn.innerText = "🔄 โหลดสถิติล่าสุด";
+        if(data.success) {
+            document.getElementById('stats-container').innerHTML = `
+                <div class="stat-card"><h4>👥 คนเข้าชมทั้งหมด</h4><p>${data.views.toLocaleString()} ครั้ง</p></div>
+                <div class="stat-card"><h4>📦 ออเดอร์ที่กดสั่ง</h4><p>${data.orders.toLocaleString()} ออเดอร์</p></div>
+                <div class="stat-card highlight"><h4>💰 ยอดขายโดยประมาณ</h4><p>${data.revenue.toLocaleString()} ฿</p></div>`;
+        } else {
+            document.getElementById('stats-container').innerHTML = "<p style='text-align:center;color:#ff3b3b;grid-column:1/-1;'>ไม่สามารถโหลดสถิติได้</p>";
+        }
+    }).catch(() => { if(btn) btn.innerText = "🔄 โหลดสถิติล่าสุด"; });
+}
+
+function checkShopStatus() {
+    const badge = document.getElementById('shopStatusBadge');
+    if(!badge) return;
+    const indicator = badge.querySelector('.status-indicator');
+    const textEl = badge.querySelector('.status-text');
+    if(storeInfo.status === 'closed') {
+        if(indicator) indicator.classList.add('closed');
+        if(textEl) { textEl.classList.add('closed'); textEl.innerText = "ปิดให้บริการชั่วคราว"; }
+    } else {
+        if(indicator) indicator.classList.remove('closed');
+        if(textEl) { textEl.classList.remove('closed'); textEl.innerText = "เปิดให้บริการ"; }
+    }
+}
+
+// โหลดข้อมูลทันทีเมื่อเปิดหน้าเว็บ
+window.addEventListener('DOMContentLoaded', loadData);
 </script>
 </body>
 </html>
