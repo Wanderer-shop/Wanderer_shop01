@@ -55,18 +55,32 @@ strong, b {
 @keyframes floatUp { 0% { transform: translateY(0) rotate(0deg) scale(0.8); } 100% { transform: translateY(-120vh) rotate(360deg) scale(1.2); } }
 @keyframes twinkle { 0%, 100% { opacity: 0.2; text-shadow: 0 0 5px rgba(255,255,255,0.1); } 50% { opacity: 0.8; text-shadow: 0 0 15px rgba(59, 150, 245, 0.8); } }
 
-/* 🌟 ป้ายสถานะ เปิด/ปิด ร้าน (มุมบนซ้าย - คงไว้ 100%) */
+/* 🌟 ป้ายสถานะ เปิด/ปิด ร้าน (มุมบนซ้าย - คงไว้ 100% ปรับเฉพาะไฟกระพริบและสี) */
 .shop-status-badge { 
     position: absolute; top: 15px; left: 15px; background: rgba(0,0,0,0.5); 
     backdrop-filter: blur(5px); padding: 5px 12px; border-radius: 20px; 
     display: flex; align-items: center; gap: 8px; z-index: 10; border: 1px solid rgba(255,255,255,0.1); 
 }
-.status-indicator { width: 10px; height: 10px; background: #00FF00; border-radius: 50%; box-shadow: 0 0 8px #00FF00; }
-.status-indicator.closed { background: #FF0000; box-shadow: 0 0 8px #FF0000; }
-.status-indicator.warning { background: #FFA500; box-shadow: 0 0 8px #FFA500; }
+
+/* อนิเมชั่นไฟกระพริบตามสถานะ */
+@keyframes blink-status {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.85); }
+}
+
+.status-indicator { 
+    width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
+    background: #00FF00; box-shadow: 0 0 8px #00FF00; 
+    animation: blink-status 1.5s infinite ease-in-out; 
+}
+.status-indicator.orange { background: #FF9800; box-shadow: 0 0 8px #FF9800; }
+.status-indicator.yellow { background: #FFEB3B; box-shadow: 0 0 8px #FFEB3B; }
+.status-indicator.red { background: #FF3B3B; box-shadow: 0 0 8px #FF3B3B; }
+
 .status-text { font-size: 14px; color: #fff; font-weight: normal !important; -webkit-text-stroke: 0.3px currentColor; }
-.status-text.closed { color: #FF4444; }
-.status-text.warning { color: #FFA500; }
+.status-text.orange { color: #FF9800; }
+.status-text.yellow { color: #FFEB3B; }
+.status-text.red { color: #FF3B3B; }
 
 /* 🌟 ป้าย NEW กระพริบ (คงไว้ 100%) */
 .badge-new-top-left {
@@ -241,7 +255,7 @@ strong, b {
 
 <!-- Header (คงโครงสร้างหลักไว้ 100%) -->
 <div class="hero">
-  <!-- 🌟 ป้ายสถานะร้านมุมบนซ้าย -->
+  <!-- 🌟 ป้ายสถานะร้านมุมบนซ้าย (ไร้อิโมจิ + ไฟกระพริบตามสถานะ) -->
   <div class="shop-status-badge" id="shopStatusBadge">
       <div class="status-indicator"></div>
       <span class="status-text">เปิดร้าน / พร้อมตอบ</span>
@@ -396,14 +410,14 @@ strong, b {
         </select>
       </div>
       
-      <!-- 🌟 ส่วนจัดการร้านค้า (สถานะร้านเชื่อมกับป้ายมุมซ้ายบน) -->
+      <!-- 🌟 ส่วนจัดการร้านค้า (อัปเดตตัวเลือกไร้อิโมจิ) -->
       <div id="zone-store" style="display:none; border: 1px solid #ddd; padding: 10px; border-radius: 8px;">
-        <label style="font-size: 13px; color: #555; font-weight:bold;">🟢 ตั้งค่าสถานะร้านค้า (แสดงที่ป้ายมุมซ้ายบนของเว็บ):</label>
+        <label style="font-size: 13px; color: #555; font-weight:bold;">ตั้งค่าสถานะร้านค้า (แสดงที่ป้ายมุมซ้ายบนของเว็บ):</label>
         <select id="store_status" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 8px; font-family: inherit;">
-          <option value="🟢 เปิดร้าน / พร้อมตอบ">🟢 เปิดร้าน / พร้อมตอบ</option>
-          <option value="🟠 ตอบช้า (ติดธุระ)">🟠 ตอบช้า (ติดธุระ)</option>
-          <option value="🟡 พักส่ง-ไม่ว่างตอบ">🟡 พักส่ง-ไม่ว่างตอบ</option>
-          <option value="🔴 ปิดให้บริการชั่วคราว">🔴 ปิดให้บริการชั่วคราว</option>
+          <option value="เปิดร้าน / พร้อมตอบ">🟢 เปิดร้าน / พร้อมตอบ (สีเขียว)</option>
+          <option value="ตอบช้า (ติดธุระ)">🟠 ตอบช้า (ติดธุระ) (สีส้ม)</option>
+          <option value="พักส่ง-ไม่ว่างตอบ">🟡 พักส่ง-ไม่ว่างตอบ (สีเหลือง)</option>
+          <option value="ปิดให้บริการชั่วคราว">🔴 ปิดให้บริการชั่วคราว (สีแดง)</option>
         </select>
 
         <label style="font-size: 13px; color: #555;">ลิงก์โลโก้ร้าน:</label>
@@ -555,31 +569,35 @@ function processLoadedData(data) {
   }
 }
 
+/* 🌟 อัปเดตเงื่อนไขสถานะร้านค้า (ตัดอิโมจิออกทั้งหมด รองรับ 4 สี) */
 function updateShopStatusBadge() {
     const badge = document.getElementById('shopStatusBadge');
     const indicator = badge?.querySelector('.status-indicator');
     const text = badge?.querySelector('.status-text');
     if (!badge || !indicator || !text) return;
 
-    let status = storeInfo.status || '🟢 เปิดร้าน / พร้อมตอบ';
+    // ดึงค่าและจัดการทั้งข้อมูลเก่า (ที่มีอิโมจิติดมา) และข้อมูลใหม่
+    let rawStatus = storeInfo.status || 'เปิดร้าน / พร้อมตอบ';
     
+    // ล้าง Class สีเดิมออกทั้งหมดก่อน
     indicator.className = 'status-indicator';
     text.className = 'status-text';
 
-    if (status.includes('🔴') || status === 'closed' || status === '🔴 ปิดร้าน / ไม่พร้อมตอบ') {
-        indicator.classList.add('closed');
-        text.classList.add('closed');
-        text.innerText = '🔴 ปิดร้าน / ไม่พร้อมตอบ';
-    } else if (status.includes('🟠')) {
-        indicator.classList.add('warning');
-        text.classList.add('warning');
-        text.innerText = '🟠 ตอบช้า (ติดธุระ)';
-    } else if (status.includes('🟡')) {
-        indicator.classList.add('warning');
-        text.classList.add('warning');
-        text.innerText = '🟡 พักส่ง / ไม่ว่างตอบ';
+    if (rawStatus.includes('ปิด') || rawStatus.includes('🔴') || rawStatus === 'closed') {
+        indicator.classList.add('red');
+        text.classList.add('red');
+        text.innerText = 'ปิดร้าน / ไม่พร้อมตอบ';
+    } else if (rawStatus.includes('ตอบช้า') || rawStatus.includes('🟠')) {
+        indicator.classList.add('orange');
+        text.classList.add('orange');
+        text.innerText = 'ตอบช้า (ติดธุระ)';
+    } else if (rawStatus.includes('พักส่ง') || rawStatus.includes('🟡')) {
+        indicator.classList.add('yellow');
+        text.classList.add('yellow');
+        text.innerText = 'พักส่ง- / ไม่ว่างตอบ';
     } else {
-        text.innerText = '🟢 เปิดร้าน / พร้อมตอบ';
+        // ค่าเริ่มต้น (สีเขียว)
+        text.innerText = 'เปิดร้าน / พร้อมตอบ';
     }
 }
 
@@ -1105,7 +1123,7 @@ function renderAdminTabButtons() {
 
 function openAdmin() { 
     document.getElementById('adminOverlay').style.display = 'flex'; clearAdminForm(); renderAdminTabButtons(); 
-    document.getElementById('store_status').value = storeInfo.status || '🟢 เปิดร้าน / พร้อมตอบ';
+    document.getElementById('store_status').value = storeInfo.status || 'เปิดร้าน / พร้อมตอบ';
     document.getElementById('store_logo').value = storeInfo.logo || ''; 
     document.getElementById('store_media').value = storeInfo.mediaLink || ''; 
     document.getElementById('store_mediaText').value = storeInfo.mediaText || ''; 
@@ -1159,7 +1177,7 @@ function submitStoreAction(event) {
     if (event) event.preventDefault();
     let payload = {
         action: "save_store",
-        status: document.getElementById('store_status')?.value || storeInfo.status || "🟢 เปิดร้าน / พร้อมตอบ",
+        status: document.getElementById('store_status')?.value || storeInfo.status || "เปิดร้าน / พร้อมตอบ",
         welcome: storeInfo.welcome || "",
         line: document.getElementById('store_line')?.value || storeInfo.line || "",
         hours: document.getElementById('store_hours')?.value || storeInfo.hours || "",
