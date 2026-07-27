@@ -24,24 +24,15 @@
     --border-color: #C49646; 
     --text-muted: #555;
     
-    /* ================== 🌟 ตั้งค่าขนาดตัวอักษรและความหนาจากในโค้ด (ปรับขนาดให้พอดีและอ่านง่าย) ================== */
-    /* 1. โซนการ์ดสินค้าและโปรโมชัน (Item Cards / Package Cards) */
+    /* ================== 🌟 ตั้งค่าขนาดตัวอักษรและความหนาจากในโค้ด ================== */
     --font-card-h: 16px;       /* หัวข้อการ์ดสินค้า / ชื่อแอปพลิเคชัน */
     --font-card-t: 13px;       /* รายละเอียดใต้ชื่อแอป / คำอธิบายแพ็กเกจย่อย */
-    
-    /* 2. โซนขั้นตอนเลือกซื้อสินค้า (Accordion Steps Box ด้านบน) */
     --font-step-h: 16px;       /* หัวข้อกล่อง "💡 วิธีใช้งานเว็บ: วิธีเลือกซื้อสินค้าและสั่งของ" */
     --font-step-t: 13.5px;     /* ข้อความอธิบายขั้นตอนข้อที่ 1 - 5 */
-    
-    /* 3. โซนกล่องข้อความอื่นๆ ในเว็บ (ประกาศร้าน / การ์ดรีวิว / สรุปติดต่อ) */
     --font-box-h: 17px;        /* หัวข้อกล่องข้อมูลร้าน / หัวข้อการ์ดประกาศ / หัวข้อป็อปอัป */
     --font-box-t: 14px;        /* ข้อความรายละเอียดภายในกล่อง / เงื่อนไขรับประกัน */
-    
-    /* 4. โซนหัวข้อและเมนูนำทางหลัก (Header & Tabs) */
     --font-main-h: 24px;       /* ชื่อร้านบนสุดของเว็บ (Wanderer_Shop) */
     --font-main-t: 14px;       /* ข้อความยินดีต้อนรับ และข้อความบนปุ่มแท็บเมนู */
-    
-    /* ความหนาของตัวอักษรโดยรวม (แนะนำ 500 หรือ 600 เพื่อให้ฟอนต์อ่านง่ายคมชัดพอดี) */
     --custom-font-weight: 500;
 }
 
@@ -123,12 +114,6 @@ strong, b {
 .sticky-fixed-filter { position: fixed !important; top: 65px !important; left: 50% !important; transform: translateX(-50%) !important; width: 92% !important; max-width: 760px !important; z-index: 999 !important; background: rgba(10, 29, 58, 0.95) !important; backdrop-filter: blur(10px); padding: 10px 15px !important; border-radius: 20px !important; box-shadow: 0 6px 25px rgba(0,0,0,0.6) !important; border: 1px solid rgba(255,255,255,0.2) !important; animation: slideDownNav 0.25s ease; margin-bottom: 0 !important; }
 @keyframes slideDownNav { from { opacity: 0; transform: translate(-50%, -15px); } to { opacity: 1; transform: translate(-50%, 0); } }
 
-/* ================== 🌟 2. เพิ่ม "หมวดหมู่ย่อย" (Sub-categories / Filter Pills) ================== */
-.filter-pills-wrap { display: flex; gap: 8px; overflow-x: auto; margin-bottom: 20px; padding-bottom: 4px; scrollbar-width: none; justify-content: flex-start; }
-.filter-pills-wrap::-webkit-scrollbar { display: none; }
-.pill-btn { flex: 0 0 auto; padding: 6px 14px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.08); color: #fff; font-size: 13px; cursor: pointer; transition: 0.2s; font-family: inherit; }
-.pill-btn.active { background: linear-gradient(135deg, var(--secondary), #ff7597); border-color: var(--secondary); font-weight: bold; box-shadow: 0 2px 10px rgba(255,75,126,0.4); }
-
 /* แถบแยกหมวดหมู่ */
 .category-separator { background: linear-gradient(90deg, var(--primary), transparent); color: #fff; padding: 8px 15px; font-size: 15px; border-left: 4px solid var(--secondary); margin: 20px 0 5px 0; border-radius: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); font-weight: normal !important; -webkit-text-stroke: 0.3px currentColor; }
 
@@ -148,12 +133,6 @@ strong, b {
 .sort-select { padding: 10px 15px; border-radius: 20px; border: none; font-family: inherit; font-size: 13px; outline: none; box-shadow: 0 4px 15px rgba(0,0,0,0.2); cursor: pointer; background: var(--bg-card); color: var(--bg-main); font-weight: normal !important; -webkit-text-stroke: 0.3px currentColor; }
 
 .grid-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
-
-/* ================== 🌟 5. ป้ายกำกับ (Badges) เพื่อชี้นำสายตา ================== */
-.card-badge-eye { position: absolute; top: 10px; left: 10px; padding: 3px 10px; border-radius: 10px; font-size: 10px; font-weight: bold !important; z-index: 5; box-shadow: 0 2px 6px rgba(0,0,0,0.3); color: #fff; -webkit-text-stroke: 0px; }
-.badge-bestseller { background: linear-gradient(135deg, #FF4B7E, #FF8000); }
-.badge-fast { background: linear-gradient(135deg, #00B09B, #96C93D); }
-.badge-sale { background: linear-gradient(135deg, #8A2387, #E94057); }
 
 /* 🌟 โซน 1: การ์ดสินค้า / โปรโมชัน */
 .item-card { background: var(--bg-card); border: 2px solid transparent; border-radius: 16px; padding: 18px 15px; display: flex; flex-direction: column; align-items: center; text-align: center; position: relative; cursor: pointer; transition: all 0.2s ease; color: #000; min-height: 185px; overflow: hidden; }
@@ -322,15 +301,6 @@ strong, b {
     </select>
   </div>
 
-  <!-- 🌟 2. เพิ่ม "หมวดหมู่ย่อย" (Sub-categories / Filter Pills) ใต้กล่องค้นหา -->
-  <div id="filterPills" class="filter-pills-wrap" style="display:none;">
-      <button class="pill-btn active" onclick="filterSubCat('ทั้งหมด', this)">🔥 ทั้งหมด</button>
-      <button class="pill-btn" onclick="filterSubCat('ดูหนัง/ซีรีส์', this)">🎬 ดูหนัง/ซีรีส์</button>
-      <button class="pill-btn" onclick="filterSubCat('ฟังเพลง', this)">🎧 ฟังเพลง</button>
-      <button class="pill-btn" onclick="filterSubCat('ทำงาน/เรียน', this)">💼 ทำงาน/เรียน</button>
-      <button class="pill-btn" onclick="filterSubCat('แอพจีน', this)">  แอพจีน</button>
-  </div>
-
   <div class="grid-container" id="productGrid"></div>
 </div>
 
@@ -355,9 +325,9 @@ strong, b {
   <div class="package-modal-box">
     <span class="close-modal-btn" onclick="closePackageModal()">×</span>
     <div class="package-modal-header" id="modalAppName">📦 เลือกแพ็กเกจ</div>
+    <!-- 💡 แสดงรายละเอียดแอพภายใน Pop-up เท่านั้น -->
     <div class="package-modal-sub" id="modalAppDesc"></div>
     
-    <!-- 💡 วิธีที่ 1: กล่องข้อความแบบ "เปลี่ยนตามแพ็กเกจที่เลือก" (Dynamic Info Box) -->
     <div id="dynamicInfoBox" class="dynamic-info-box" style="display: none;"></div>
     
     <div class="package-modal-list" id="modalPackageList"></div>
@@ -407,22 +377,12 @@ strong, b {
       
       <div id="zone-premium-game" style="display:none; border: 1px solid #ddd; padding: 10px; border-radius: 8px;">
         <input type="text" id="pg_cat" placeholder="ชื่อแอปหลัก / หมวดหมู่">
-        <textarea id="pg_appDesc" placeholder="รายละเอียดใต้ชื่อแอป (ขึ้นบรรทัดใหม่ได้)" rows="3"></textarea>
+        <textarea id="pg_appDesc" placeholder="รายละเอียดใต้ชื่อแอป (แสดงใน Pop-up เท่านั้น)" rows="3"></textarea>
         <input type="text" id="pg_subCat" placeholder="หมวดหมู่แพ็กเกจ [จัดกลุ่ม]">
         <input type="text" id="pg_name" placeholder="ชื่อแพ็กเกจย่อย">
         <textarea id="pg_desc" placeholder="รายละเอียดแพ็กเกจย่อย (ขึ้นบรรทัดใหม่ได้)" rows="2"></textarea>
         <input type="number" id="pg_price" placeholder="ราคา (บาท)">
         <input type="text" id="pg_icon" placeholder="รูปลิงก์ไอคอนแอป">
-        
-        <!-- 🌟 1. เพิ่มตัวเลือก "หมวดหมู่ย่อย (Filter Pill)" สำหรับให้แอดมินเลือกกำหนดหมวดหมู่ของแอปได้ -->
-        <label style="font-size: 13px; color: #555; display:block; margin-top:5px; margin-bottom:5px;">หมวดหมู่ย่อย (Filter Pill):</label>
-        <select id="pg_filterPill" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 8px; font-family: inherit;">
-            <option value="ดูหนัง/ซีรีส์">🎬 ดูหนัง/ซีรีส์</option>
-            <option value="ฟังเพลง">🎧 ฟังเพลง</option>
-            <option value="ทำงาน/เรียน">💼 ทำงาน/เรียน</option>
-            <option value="แอพจีน">  แอพจีน</option>
-            <option value="อื่นๆ">📌 อื่นๆ / ทั่วไป</option>
-        </select>
       </div>
 
       <div id="zone-ios-android" style="display:none; border: 1px solid #ddd; padding: 10px; border-radius: 8px;">
@@ -502,14 +462,12 @@ strong, b {
 </div>
 
 <script>
-// 🚀 URL ของคุณ
 const API_URL = "https://script.google.com/macros/s/AKfycbxcs3Smz6vGPDDHtjrhDSZ8Y18MsijDdz4CW9w45BpEeZAB60EpIqSUmw4sYKKyAWzO/exec"; 
 
 let allProducts = []; let cart = []; let currentTab = "info"; let storeInfo = {}; let tabsList = []; 
 let viewLevel = 'apps'; let selectedAppName = ''; let localCustomCards = []; let editingCardIndex = -1;
-let isAdmin = false; let currentSubFilter = 'ทั้งหมด';
+let isAdmin = false;
 
-// ================== 🌟 4. ทำแถบเมนูและช่องค้นหาแบบติดเพดาน (Sticky Navigation) ==================
 window.addEventListener('scroll', () => {
     const tc = document.getElementById('tabContainer');
     const fr = document.querySelector('.filter-row');
@@ -522,21 +480,12 @@ window.addEventListener('scroll', () => {
     }
 });
 
-// ================== 🌟 3. ปรับกล่อง "ขั้นตอนเลือกสินค้าในเว็บ" ให้ย่อ/ขยายได้ (Accordion) ==================
 function toggleStepsBox() {
     const box = document.getElementById('stepsBox');
     const arrow = document.getElementById('stepsArrow');
     if (!box) return;
     box.classList.toggle('open');
     if (arrow) arrow.innerText = box.classList.contains('open') ? '▴' : '▾';
-}
-
-// ================== 🌟 2. เพิ่ม "หมวดหมู่ย่อย" (Sub-categories / Filter Pills) ==================
-function filterSubCat(cat, btn) {
-    currentSubFilter = cat;
-    document.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('active'));
-    if (btn) btn.classList.add('active');
-    renderProducts();
 }
 
 async function recordVisit() {
@@ -636,17 +585,6 @@ function switchTab(tabName) {
   
   let searchInput = document.getElementById('searchInput'); if(searchInput) searchInput.value = '';
   document.getElementById('dynamicBackBtn').style.display = 'none';
-  
-  // 🌟 2. แสดงปุ่มกรองด่วน (Filter Pills) เฉพาะในแท็บแอพพรีเมี่ยม
-  if (tabName === 'แอพพรีเมี่ยม' || tabName === 'แอพพรีเมียม') {
-      document.getElementById('filterPills').style.display = 'flex';
-  } else {
-      document.getElementById('filterPills').style.display = 'none';
-  }
-  currentSubFilter = 'ทั้งหมด';
-  document.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('active'));
-  let firstPill = document.querySelector('.pill-btn');
-  if (firstPill) firstPill.classList.add('active');
 
   if(tabName === 'info') {
       document.getElementById('stepsBox').style.display = 'none';
@@ -657,7 +595,6 @@ function switchTab(tabName) {
   }
 }
 
-// ================== 🌟 1. เปลี่ยนวิธีแสดงแพ็กเกจสินค้าเป็น Popup (Modal) แทนการขยายด้านล่าง ==================
 function openPackages(appName) { 
     selectedAppName = appName; 
     const overlay = document.getElementById('packageModalOverlay');
@@ -702,7 +639,6 @@ function renderModalPackages() {
     updateDynamicInfoBox();
 }
 
-// ================== 💡 วิธีที่ 1: กล่องข้อความแบบ "เปลี่ยนตามแพ็กเกจที่เลือก" (Dynamic Info Box) ==================
 function updateDynamicInfoBox() {
     const infoBox = document.getElementById('dynamicInfoBox');
     if (!infoBox) return;
@@ -771,32 +707,9 @@ function applySearch() {
 
 function getAppIcon(appName) { const app = allProducts.find(p => p.cat === appName && p.icon); return app ? app.icon : null; }
 
-// ================== 🌟 5. ฟังก์ชันสร้างป้ายกำกับ (Badges) เพื่อชี้นำสายตา ==================
-function getEyeBadge(name) {
-    let n = (name || '').toLowerCase();
-    if (/netflix|chatgpt|youtube|canva|spotify/.test(n)) return `<div class="card-badge-eye badge-bestseller">🔥 ขายดี</div>`;
-    if (/disney|prime|hbo|office|microsoft|adobe/.test(n)) return `<div class="card-badge-eye badge-sale">💖 ลดราคา</div>`;
-    return `<div class="card-badge-eye badge-fast">⚡ ส่งไว</div>`;
-}
-
 function renderProducts() {
   const grid = document.getElementById('productGrid'); const sortType = document.getElementById('sortSelect').value;
   let products = allProducts.filter(p => p.tab === currentTab);
-  
-  // 🌟 2. กรองข้อมูลตาม "หมวดหมู่ย่อย" (Filter Pills) โดยเช็คจากค่าที่แอดมินตั้ง หรือคีย์เวิร์ดสำรอง
-  if (currentTab === 'แอพพรีเมี่ยม' || currentTab === 'แอพพรีเมียม') {
-      if (currentSubFilter !== 'ทั้งหมด') {
-          products = products.filter(p => {
-              if (p.filterPill && p.filterPill === currentSubFilter) return true;
-              let name = (p.cat || p.name || '').toLowerCase();
-              if (currentSubFilter === 'ดูหนัง/ซีรีส์') return /netflix|disney|prime|hbo|iqiyi|viu|wetv|bilibili|youtube|apple tv|k-drama|หนัง|ซีรีส์/.test(name);
-              if (currentSubFilter === 'ฟังเพลง') return /spotify|music|tidal|joox|youtube music|ฟังเพลง/.test(name);
-              if (currentSubFilter === 'ทำงาน/เรียน') return /chatgpt|canva|office|microsoft|adobe|zoom|google|notion|grammarly|duolingo|goodnotes|gpt|ai|เรียน|ทำงาน/.test(name);
-              if (currentSubFilter === 'แอพจีน') return /iqiyi|wetv|bilibili|youku|mangotv|baidu|จีน/.test(name);
-              return false;
-          });
-      }
-  }
 
   if (sortType === 'name') products.sort((a,b) => (a.cat || a.name || '').localeCompare(b.cat || b.name || ''));
   if (sortType === 'price') products.sort((a,b) => a.price - b.price);
@@ -839,7 +752,6 @@ function renderProducts() {
 
         let cardStr = `<div class="item-card ${isCardSelected ? 'selected' : ''}">
             ${newBadge}
-            ${getEyeBadge(app.title)}
             <div class="app-status ${app.status === 'ready' ? 'status-ready' : 'status-notready'}">${app.status === 'ready' ? '🟢 พร้อมส่ง' : '🔴 ไม่พร้อม'}</div>
             ${app.icon ? `<img src="${app.icon}" loading="lazy" onerror="this.style.display='none'" class="card-icon">` : '<div class="card-icon"></div>'}
             <div class="card-title">${app.title}</div>
@@ -870,8 +782,8 @@ function renderProducts() {
   else {
     if (viewLevel === 'apps') {
       let uniqueApps = {};
-      products.forEach(p => { if (!uniqueApps[p.cat]) uniqueApps[p.cat] = { cat: p.cat, icon: p.icon || getAppIcon(p.cat), appDesc: p.appDesc }; });
-      html = Object.values(uniqueApps).map(app => `<div class="item-card" onclick="openPackages('${app.cat}')">${getEyeBadge(app.cat)}${app.icon ? `<img src="${app.icon}" loading="lazy" onerror="this.style.display='none'" class="card-icon">` : '<div class="card-icon"></div>'}<div class="card-title">${app.cat || 'ไม่ระบุชื่อ'}</div>${app.appDesc ? `<div class="card-desc" style="color:var(--primary); font-weight:600; width:100%;">${app.appDesc}</div>` : ''}</div>`).join('');
+      products.forEach(p => { if (!uniqueApps[p.cat]) uniqueApps[p.cat] = { cat: p.cat, icon: p.icon || getAppIcon(p.cat) }; });
+      html = Object.values(uniqueApps).map(app => `<div class="item-card" onclick="openPackages('${app.cat}')">${app.icon ? `<img src="${app.icon}" loading="lazy" onerror="this.style.display='none'" class="card-icon">` : '<div class="card-icon"></div>'}<div class="card-title">${app.cat || 'ไม่ระบุชื่อ'}</div></div>`).join('');
     } else {
       let pkgProducts = products.filter(p => p.cat === selectedAppName);
       let appDescription = pkgProducts.length > 0 ? (pkgProducts[0].appDesc || '') : '';
@@ -1168,7 +1080,6 @@ function clearAdminForm() {
     document.getElementById('a_id').value = ''; 
     document.getElementById('ia_group').value = '📱 แอพอื่นๆ'; 
     if(document.getElementById('ia_isNew')) document.getElementById('ia_isNew').checked = false;
-    if(document.getElementById('pg_filterPill')) document.getElementById('pg_filterPill').value = 'ดูหนัง/ซีรีส์';
 }
 
 function switchAdminFormTab(tabVal, btnElement) { document.getElementById('a_tab').value = tabVal; document.querySelectorAll('.admin-tab-btn').forEach(b => b.classList.remove('active')); if(btnElement) btnElement.classList.add('active'); toggleAdminFields(); }
@@ -1327,7 +1238,6 @@ function submitAdminAction(event, action) {
         payload.desc = document.getElementById('pg_desc')?.value || '';
         payload.price = Number(document.getElementById('pg_price')?.value) || 0;
         payload.icon = document.getElementById('pg_icon')?.value || '';
-        payload.filterPill = document.getElementById('pg_filterPill')?.value || '';
     }
 
     if (action === 'add' && (!payload.name && !payload.cat)) {
@@ -1366,7 +1276,6 @@ function sendAdminPost(payload) {
     });
 }
 
-// ================== 🌟 ฟังก์ชันที่ขาดหายไปจากโค้ดต้นฉบับ (เติมให้ครบถ้วนแล้ว) ==================
 function renderAdminProductList(tab) {
     const container = document.getElementById('admin-product-list');
     if (!container) return;
@@ -1423,7 +1332,6 @@ function selectProductForEdit(id) {
         if (document.getElementById('pg_desc')) document.getElementById('pg_desc').value = p.desc || '';
         if (document.getElementById('pg_price')) document.getElementById('pg_price').value = p.price || '';
         if (document.getElementById('pg_icon')) document.getElementById('pg_icon').value = p.icon || '';
-        if (document.getElementById('pg_filterPill')) document.getElementById('pg_filterPill').value = p.filterPill || 'ดูหนัง/ซีรีส์';
     }
     alert("✅ ดึงข้อมูลสินค้ามาที่ฟอร์มแล้ว สามารถแก้ไขแล้วกดปุ่ม '💾 บันทึกแก้ไข' ด้านล่างได้เลยค่ะ");
 }
@@ -1467,7 +1375,6 @@ function fetchStats(btn) {
     });
 }
 
-// ================== 🌟 คำสั่งเริ่มต้นโหลดข้อมูลทันทีเมื่อเปิดหน้าเว็บ (สิ่งที่ขาดไปทำให้ข้อมูลไม่ขึ้น) ==================
 window.addEventListener('DOMContentLoaded', () => {
     loadData();
 });
