@@ -55,7 +55,7 @@ strong, b {
 @keyframes floatUp { 0% { transform: translateY(0) rotate(0deg) scale(0.8); } 100% { transform: translateY(-120vh) rotate(360deg) scale(1.2); } }
 @keyframes twinkle { 0%, 100% { opacity: 0.2; text-shadow: 0 0 5px rgba(255,255,255,0.1); } 50% { opacity: 0.8; text-shadow: 0 0 15px rgba(59, 150, 245, 0.8); } }
 
-/* 🌟 ป้ายสถานะ เปิด/ปิด ร้าน (มุมบนซ้าย - คงไว้และปรับให้อัปเดตเวลาอัตโนมัติ) */
+/* 🌟 ป้ายสถานะ เปิด/ปิด ร้าน (มุมบนซ้าย - รองรับสถานะจากหน้า Admin) */
 .shop-status-badge { 
     position: absolute; top: 15px; left: 15px; background: rgba(0,0,0,0.5); 
     backdrop-filter: blur(5px); padding: 5px 12px; border-radius: 20px; 
@@ -63,32 +63,10 @@ strong, b {
 }
 .status-indicator { width: 10px; height: 10px; background: #00FF00; border-radius: 50%; box-shadow: 0 0 8px #00FF00; }
 .status-indicator.closed { background: #FF0000; box-shadow: 0 0 8px #FF0000; }
-.status-text { font-size: 15px; color: #fff; font-weight: normal !important; -webkit-text-stroke: 0.3px currentColor; }
+.status-indicator.warning { background: #FFA500; box-shadow: 0 0 8px #FFA500; }
+.status-text { font-size: 14px; color: #fff; font-weight: normal !important; -webkit-text-stroke: 0.3px currentColor; }
 .status-text.closed { color: #FF4444; }
-
-/* 🌟 ส่วน Badges (ปุ่มกลมเล็กๆ ด้านบน) ที่ต้องคงไว้ 100% */
-.header-badges {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    justify-content: center;
-    margin: 10px 0 5px 0;
-    z-index: 10;
-}
-.header-badge-item {
-    padding: 4px 14px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 500;
-    background: rgba(255, 255, 255, 0.15);
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    color: #fff;
-    backdrop-filter: blur(5px);
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-}
+.status-text.warning { color: #FFA500; }
 
 /* 🌟 ป้าย NEW กระพริบ (คงไว้ 100%) */
 .badge-new-top-left {
@@ -108,13 +86,13 @@ strong, b {
 }
 @keyframes blinker { 50% { opacity: 0.2; } }
 
-/* 🌟 Header ทั้งหมดคงไว้ 100% (ปรับโครงสร้างแท็บให้ใหญ่และพอดีกับหน้าอุปกรณ์) */
-.hero { background: linear-gradient(135deg, var(--bg-main) 0%, rgba(59,150,245,0.2) 100%); padding: 60px 20px 55px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; position: relative; border-bottom: 2px solid var(--border-color); margin-bottom: 45px; box-shadow: 0 4px 30px rgba(10,29,58,0.5); }
+/* 🌟 Header ทั้งหมดคงไว้ 100% (ปรับโครงสร้างและขนาดข้อความให้พอดีหน้าเว็บ) */
+.hero { background: linear-gradient(135deg, var(--bg-main) 0%, rgba(59,150,245,0.2) 100%); padding: 55px 20px 50px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; position: relative; border-bottom: 2px solid var(--border-color); margin-bottom: 45px; box-shadow: 0 4px 30px rgba(10,29,58,0.5); }
 #shopLogo { width: 190px; height: 190px; border-radius: 50%; object-fit: cover; margin-bottom: 12px; border: 2px solid var(--border-color); box-shadow: 0 0 15px rgba(196,150,70,0.4); background: #fff; }
 .hero-title { font-family: 'LowellCustom', sans-serif; font-size: var(--font-main-h); color: #fff; margin-bottom: 4px; letter-spacing: 0.5px; text-shadow: 0 0 15px rgba(59,150,245,0.6); cursor: pointer; user-select: none; font-weight: normal !important; -webkit-text-stroke: 0.6px currentColor; }
-#welcomeText { font-size: var(--font-main-t) !important; font-weight: normal; color: rgba(255,255,255,0.9); cursor: pointer; margin-top: 5px; -webkit-text-stroke: 0.1px currentColor; }
+#welcomeText { font-size: clamp(13px, 3.8vw, 16px) !important; font-weight: normal; color: rgba(255,255,255,0.9); cursor: pointer; margin-top: 6px; margin-bottom: 15px; max-width: 90%; line-height: 1.4; word-wrap: break-word; -webkit-text-stroke: 0.1px currentColor; }
 
-/* 🌟 แท็บเมนูหลัก (ปรับขยายขนาดให้ใหญ่ขึ้นอีกและพอดีกับหน้าเว็บของอุปกรณ์ที่เปิด) */
+/* 🌟 แท็บเมนูหลัก (พอดีกับหน้าเว็บของอุปกรณ์ที่เปิด) */
 .tab-container { 
     position: absolute; bottom: -24px; left: 50%; transform: translateX(-50%); display: flex; background: var(--bg-card); border: 2px solid var(--border-color); border-radius: 35px; padding: 6px; width: 96%; max-width: 600px; z-index: 10; box-shadow: 0 6px 25px rgba(0,0,0,0.5); overflow-x: auto; scrollbar-width: none; justify-content: flex-start; transition: all 0.25s ease; gap: 4px;
 }
@@ -261,22 +239,19 @@ strong, b {
 
 <div id="admin-badge" onclick="openAdmin()">+</div>
 
-<!-- Header (คงไว้ 100%) -->
+<!-- Header (คงโครงสร้างหลักไว้ 100%) -->
 <div class="hero">
-  <!-- ป้ายสถานะร้าน (มุมบนซ้าย จะคำนวณเปิด/ปิดอัตโนมัติตามเวลาทำการ) -->
+  <!-- 🌟 ป้ายสถานะร้านมุมบนซ้าย (เชื่อมต่อตัวเลือกจากหน้า Admin) -->
   <div class="shop-status-badge" id="shopStatusBadge">
       <div class="status-indicator"></div>
-      <span class="status-text">เปิดให้บริการ</span>
+      <span class="status-text">เปิดร้าน / พร้อมตอบ</span>
   </div>
 
   <img src="https://via.placeholder.com/190/E1E8EE/3B96F5?text=Logo" id="shopLogo" alt="Logo" loading="lazy" onerror="this.onerror=null; this.src='https://via.placeholder.com/190/E1E8EE/3B96F5?text=No+Logo';">
   <div class="hero-title" id="shopNameBtn">Wanderer_Shop</div>
   <div class="hero-sub" id="welcomeText">ยินดีต้อนรับสู่ร้าน Wanderer_Shop</div>
   
-  <!-- 🌟 ส่วน Badges (ปุ่มกลมเล็กๆ ด้านบน) ที่ต้องคงไว้ 100% ปรับสถานะร้านเองได้ระหว่างวันผ่านแอดมิน -->
-  <div id="headerBadges" class="header-badges"></div>
-
-  <!-- 🌟 แท็บเมนู (ขยายขนาดให้ใหญ่ขึ้นและพอดีกับหน้าอุปกรณ์ที่เปิด) -->
+  <!-- 🌟 แท็บเมนู (พอดีกับหน้าอุปกรณ์ที่เปิด) -->
   <div class="tab-container" id="tabContainer"></div>
 </div>
 
@@ -421,9 +396,9 @@ strong, b {
         </select>
       </div>
       
-      <!-- 🌟 ส่วนจัดการร้านค้า (ปรับเพิ่มป้ายเปิด/ปิดระหว่างวัน) -->
+      <!-- 🌟 ส่วนจัดการร้านค้า (สถานะร้านเชื่อมกับป้ายมุมซ้ายบน) -->
       <div id="zone-store" style="display:none; border: 1px solid #ddd; padding: 10px; border-radius: 8px;">
-        <label style="font-size: 13px; color: #555; font-weight:bold;">🟢 ตั้งค่าสถานะร้านค้าระหว่างวัน (แสดงที่ป้าย Badges กลมด้านบน):</label>
+        <label style="font-size: 13px; color: #555; font-weight:bold;">🟢 ตั้งค่าสถานะร้านค้า (แสดงที่ป้ายมุมซ้ายบนของเว็บ):</label>
         <select id="store_status" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 8px; font-family: inherit;">
           <option value="🟢 เปิดร้าน / พร้อมตอบ">🟢 เปิดร้าน / พร้อมตอบ</option>
           <option value="🟠 ตอบช้า (ติดธุระ)">🟠 ตอบช้า (ติดธุระ)</option>
@@ -479,10 +454,9 @@ let allProducts = []; let cart = []; let currentTab = "info"; let storeInfo = {}
 let viewLevel = 'apps'; let selectedAppName = ''; let localCustomCards = []; let editingCardIndex = -1;
 let isAdmin = false;
 
-// 🌟 เรียกโหลดข้อมูลทันทีที่เปิดหน้าเว็บ และเริ่มนับเวลาทำการอัตโนมัติ
+// 🌟 เรียกโหลดข้อมูลทันทีที่เปิดหน้าเว็บ
 document.addEventListener("DOMContentLoaded", () => {
     loadData();
-    setInterval(autoUpdateShopStatus, 60000); // เช็กเวลาทำการทุกๆ 1 นาที
 });
 
 window.addEventListener('scroll', () => {
@@ -569,8 +543,7 @@ function processLoadedData(data) {
   if(storeInfo.welcome && welcomeEl) welcomeEl.innerText = storeInfo.welcome;
   if(storeInfo.logo && document.getElementById('shopLogo')) document.getElementById('shopLogo').src = storeInfo.logo;
   
-  autoUpdateShopStatus(); // 🌟 อัปเดตป้ายเปิด/ปิดมุมบนซ้ายทันทีตามเวลาจริง
-  renderHeaderBadges();   // 🌟 อัปเดตส่วน Badges ปุ่มกลมเล็กๆ ด้านบน (คงไว้ 100%)
+  updateShopStatusBadge(); // 🌟 อัปเดตป้ายสถานะมุมซ้ายบนตามค่าจาก Admin
   renderTabs(); 
   if(currentTab === 'info') renderInfoPage(); else renderProducts();
   recordVisit(); 
@@ -582,69 +555,33 @@ function processLoadedData(data) {
   }
 }
 
-// 🌟 ฟังก์ชันคำนวณป้ายเปิด/ปิดตามเวลาทำการจริงโดยอัตโนมัติ (มุมบนซ้าย)
-function autoUpdateShopStatus() {
+// 🌟 ฟังก์ชันแสดงผลป้ายสถานะมุมบนซ้าย โดยดึงค่าสถานะจากหน้า Admin โดยตรง
+function updateShopStatusBadge() {
     const badge = document.getElementById('shopStatusBadge');
     const indicator = badge?.querySelector('.status-indicator');
     const text = badge?.querySelector('.status-text');
     if (!badge || !indicator || !text) return;
 
-    let isOpen = true;
-    let hoursStr = storeInfo.hours || '10:30 - 00:30น.';
-    let matches = hoursStr.match(/([0-9]{1,2}):([0-9]{2})\s*-\s*([0-9]{1,2}):([0-9]{2})/);
+    let status = storeInfo.status || '🟢 เปิดร้าน / พร้อมตอบ';
+    
+    indicator.className = 'status-indicator';
+    text.className = 'status-text';
 
-    if (matches) {
-        let now = new Date();
-        let curHour = now.getHours();
-        let curMin = now.getMinutes();
-        let curTime = curHour * 60 + curMin;
-
-        let startHour = parseInt(matches[1], 10);
-        let startMin = parseInt(matches[2], 10);
-        let startTime = startHour * 60 + startMin;
-
-        let endHour = parseInt(matches[3], 10);
-        let endMin = parseInt(matches[4], 10);
-        let endTime = endHour * 60 + endMin;
-
-        if (endTime < startTime) {
-            isOpen = (curTime >= startTime || curTime <= endTime);
-        } else {
-            isOpen = (curTime >= startTime && curTime <= endTime);
-        }
-    }
-
-    if (!isOpen || storeInfo.status === 'closed' || storeInfo.status === '🔴 ปิดให้บริการชั่วคราว') {
+    if (status.includes('🔴') || status === 'closed' || status === '🔴 ปิดให้บริการชั่วคราว') {
         indicator.classList.add('closed');
         text.classList.add('closed');
-        text.innerText = 'นอกเวลาทำการ / ปิดร้าน';
+        text.innerText = '🔴 ปิดให้บริการชั่วคราว';
+    } else if (status.includes('🟠')) {
+        indicator.classList.add('warning');
+        text.classList.add('warning');
+        text.innerText = '🟠 ตอบช้า (ติดธุระ)';
+    } else if (status.includes('🟡')) {
+        indicator.classList.add('warning');
+        text.classList.add('warning');
+        text.innerText = '🟡 พักส่ง-ไม่ว่างตอบ';
     } else {
-        indicator.classList.remove('closed');
-        text.classList.remove('closed');
-        text.innerText = 'เปิดร้าน / พร้อมตอบ';
+        text.innerText = '🟢 เปิดร้าน / พร้อมตอบ';
     }
-}
-
-// 🌟 ฟังก์ชันแสดงผล Badges ด้านบน (คงไว้ 100% ตามโครงสร้างเดิม และแสดงสถานะที่แอดมินปรับได้)
-function renderHeaderBadges() {
-    const badgesContainer = document.getElementById("headerBadges");
-    if (!badgesContainer) return;
-    
-    let statusDisplay = storeInfo.status || '🟢 เปิดร้าน / พร้อมตอบ';
-    if (statusDisplay === 'open' || statusDisplay === '🟢 พร้อมส่ง') statusDisplay = '🟢 เปิดร้าน / พร้อมตอบ';
-    if (statusDisplay === 'closed') statusDisplay = '🔴 ปิดให้บริการชั่วคราว';
-
-    badgesContainer.innerHTML = `
-        <span class="header-badge-item" style="background: rgba(59, 150, 245, 0.25); border-color: #3B96F5;">
-            สถานะ: ${statusDisplay}
-        </span>
-        <span class="header-badge-item" style="background: rgba(0, 211, 0, 0.25); border-color: #00d300;">
-            ⏰ เวลาทำการ: ${storeInfo.hours || '10:30-00:30น.'}
-        </span>
-        <span class="header-badge-item" style="background: rgba(255, 75, 126, 0.25); border-color: #FF4B7E;">
-            💬 Line: ${storeInfo.line || '@997yfsig'}
-        </span>
-    `;
 }
 
 function renderTabs() {
