@@ -413,6 +413,7 @@ strong, b {
         <button class="admin-btn product-btn" style="background:#00d300;" onclick="submitAdminAction(event, 'add')">➕ เพิ่มสินค้าใหม่</button>
         <button class="admin-btn product-btn" style="background:#3B96F5;" onclick="submitAdminAction(event, 'edit_product')">💾 บันทึกแก้ไข</button>
         <button class="admin-btn product-btn" style="background:#ff3b3b;" onclick="submitAdminAction(event, 'delete_product')">🗑️ ลบสินค้า</button>
+        <button class="admin-btn store-btn" style="background:#00d300; display:none;" onclick="submitStoreAction(event)">💾 บันทึกข้อมูลร้านค้า</button>
       </div>
       
       <div id="admin-product-list-container" style="display:none; margin-top: 20px;">
@@ -432,6 +433,11 @@ const API_URL = "https://script.google.com/macros/s/AKfycbyMMkO-V_OqbtwYng4zWwo-
 let allProducts = []; let cart = []; let currentTab = "info"; let storeInfo = {}; let tabsList = []; 
 let viewLevel = 'apps'; let selectedAppName = ''; let localCustomCards = []; let editingCardIndex = -1;
 let isAdmin = false;
+
+// 🌟 เรียกโหลดข้อมูลทันทีที่เปิดหน้าเว็บ
+document.addEventListener("DOMContentLoaded", () => {
+    loadData();
+});
 
 window.addEventListener('scroll', () => {
     const tc = document.getElementById('tabContainer');
@@ -507,8 +513,11 @@ async function loadData() {
 }
 
 function processLoadedData(data) {
-  allProducts = data.products.map((p, i) => { if (!p.id) p.id = 'temp_' + i; return p; }) || [];
-  storeInfo = data.storeInfo || {}; tabsList = data.tabs || []; localCustomCards = storeInfo.customCards || [];
+  if (!data) return;
+  allProducts = (data.products || []).map((p, i) => { if (!p.id) p.id = 'temp_' + i; return p; });
+  storeInfo = data.storeInfo || {}; 
+  tabsList = data.tabs || []; 
+  localCustomCards = storeInfo.customCards || [];
   
   const welcomeEl = document.getElementById('welcomeText');
   if(storeInfo.welcome && welcomeEl) welcomeEl.innerText = storeInfo.welcome;
@@ -610,7 +619,6 @@ function renderModalPackages() {
     updateDynamicInfoBox();
 }
 
-/* 🌟 แสดงรายละเอียดแพ็กเกจย่อยใน Pop-up (กล่องสีเหลือง) เฉพาะตอนเลือกสินค้า */
 function updateDynamicInfoBox() {
     const infoBox = document.getElementById('dynamicInfoBox');
     if (!infoBox) return;
@@ -794,7 +802,6 @@ function renderProducts() {
   grid.innerHTML = html; applySearch(); 
 }
 
-/* 🌟 ฟังก์ชันสร้างการ์ดแพ็กเกจย่อย */
 function generatePackageCard(p) {
   const isSelected = cart.some(item => item.id === p.id);
   let statusColor = p.status === 'ready' ? '#00d300' : '#ff3b3b';
@@ -1079,13 +1086,19 @@ function toggleAdminFields() {
       let el = document.getElementById(id);
       if(el) el.style.display = 'none';
   });
-  document.querySelectorAll('.product-btn').forEach(b => b.style.display = 'none'); document.querySelector('.store-btn').style.display = 'none';
+  document.querySelectorAll('.product-btn, .store-btn').forEach(b => b.style.display = 'none');
   
   if (tab === "STORE_INFO") { 
       document.getElementById('zone-store').style.display = 'block'; 
-      document.querySelector('.store-btn').style.display = 'block'; 
+      let btn = document.querySelector('.store-btn');
+      if (btn) btn.style.display = 'block'; 
   } 
-  else if (tab === "CUSTOM_CARDS") { document.getElementById('zone-custom-cards').style.display = 'block'; document.querySelector('.store-btn').style.display = 'block'; renderAdminCustomCards(); } 
+  else if (tab === "CUSTOM_CARDS") { 
+      document.getElementById('zone-custom-cards').style.display = 'block'; 
+      let btn = document.querySelector('.store-btn');
+      if (btn) btn.style.display = 'block'; 
+      renderAdminCustomCards(); 
+  } 
   else if (tab === "MANAGE_TABS") { document.getElementById('zone-tabs').style.display = 'block'; } 
   else if (tab.includes("IOS") || tab.includes("iOS")) { document.getElementById('zone-ios-android').style.display = 'block'; document.getElementById('zone-product-status').style.display = 'block'; document.querySelectorAll('.product-btn').forEach(b => b.style.display = 'block'); } 
   else { document.getElementById('zone-premium-game').style.display = 'block'; document.getElementById('zone-product-status').style.display = 'block'; document.querySelectorAll('.product-btn').forEach(b => b.style.display = 'block'); }
@@ -1150,7 +1163,7 @@ function addCustomCard() {
     document.getElementById('cc_desc').value = '';
     document.getElementById('cc_images').value = '';
     renderAdminCustomCards();
-    alert("เพิ่ม/แก้ไขการ์ดเรียบร้อย อย่าลืมกดปุ่ม '💾 บันทึกข้อมูลร้าน/การ์ด' ด้านล่างเพื่อยืนยัน");
+    alert("เพิ่ม/แก้ไขการ์ดเรียบร้อย อย่าลืมกดปุ่ม '💾 บันทึกข้อมูลร้านค้า' ด้านล่างเพื่อยืนยัน");
 }
 
 function renderAdminCustomCards() {
@@ -1264,7 +1277,6 @@ function sendAdminPost(payload) {
     });
 }
 
-/* 🌟 ปรับแต่งการแสดงผลส่วน "📦 สินค้าในแท็บนี้" ให้เหมือนรูปที่ 2 */
 function renderAdminProductList(tab) {
     const container = document.getElementById('admin-product-list');
     if (!container) return;
@@ -1294,54 +1306,48 @@ function renderAdminProductList(tab) {
                 </div>
             </div>
             <div class="admin-list-actions" style="display: flex; gap: 6px; flex-shrink: 0;">
-                <button type="button" class="btn-sm-edit" style="background: #ff9800; color: #fff; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-size: 13px;" onclick="selectProductForEdit('${p.id}')">✏️</button>
-                <button type="button" class="btn-sm-del" style="background: #ff3b3b; color: #fff; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-size: 13px;" onclick="deleteProductDirectly('${p.id}')">🗑️</button>
+                <button type="button" class="btn-sm-edit" style="background: #ff9800; color: #fff; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 13px;" onclick="populateAdminEdit('${p.id}')">✏️ แก้ไข</button>
+                <button type="button" class="btn-sm-del" style="background: #ff3b3b; color: #fff; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 13px;" onclick="deleteAdminProduct('${p.id}')">🗑️ ลบ</button>
             </div>
         </div>`;
     });
     container.innerHTML = html;
 }
 
-function deleteProductDirectly(id) {
-    if (confirm("ยืนยันการลบสินค้านี้?")) {
-        document.getElementById('a_id').value = id;
-        submitAdminAction(null, 'delete_product');
-    }
-}
-
-function selectProductForEdit(id) {
+function populateAdminEdit(id) {
     const p = allProducts.find(x => x.id === id);
     if (!p) return;
-    
     document.getElementById('a_id').value = p.id || '';
-    if (document.getElementById('a_status')) document.getElementById('a_status').value = p.status || 'ready';
-    
+    document.getElementById('a_status').value = p.status || 'ready';
+
     const tab = document.getElementById('a_tab').value;
     if (tab.includes("IOS") || tab.includes("iOS")) {
-        if (document.getElementById('ia_cat')) document.getElementById('ia_cat').value = p.name || p.cat || '';
-        if (document.getElementById('ia_desc')) document.getElementById('ia_desc').value = p.desc || '';
-        if (document.getElementById('ia_price')) document.getElementById('ia_price').value = p.price || '';
-        if (document.getElementById('ia_icon')) document.getElementById('ia_icon').value = p.icon || '';
-        if (document.getElementById('ia_group')) document.getElementById('ia_group').value = p.subCat || '📱 แอพอื่นๆ';
-        if (document.getElementById('ia_isNew')) document.getElementById('ia_isNew').checked = (p.isNew === true || String(p.isNew).trim().toLowerCase() === "true");
-        
-        let osArr = p.os ? p.os.split('/') : [];
-        if (document.getElementById('os_ios')) document.getElementById('os_ios').checked = osArr.includes('iOS');
-        if (document.getElementById('os_android')) document.getElementById('os_android').checked = osArr.includes('Android');
+        document.getElementById('ia_cat').value = p.cat || p.name || '';
+        document.getElementById('ia_desc').value = p.desc || '';
+        document.getElementById('ia_price').value = p.price || 0;
+        document.getElementById('ia_icon').value = p.icon || '';
+        document.getElementById('ia_group').value = p.subCat || '📱 แอพอื่นๆ';
+        if (document.getElementById('ia_isNew')) {
+            document.getElementById('ia_isNew').checked = (p.isNew === true || String(p.isNew).toLowerCase() === "true" || String(p.isNew) === "1");
+        }
+        let osList = p.os ? p.os.split('/') : [];
+        document.getElementById('os_ios').checked = osList.includes('iOS');
+        document.getElementById('os_android').checked = osList.includes('Android');
     } else {
-        if (document.getElementById('pg_cat')) document.getElementById('pg_cat').value = p.cat || '';
-        if (document.getElementById('pg_appDesc')) document.getElementById('pg_appDesc').value = p.appDesc || '';
-        if (document.getElementById('pg_subCat')) document.getElementById('pg_subCat').value = p.subCat || '';
-        if (document.getElementById('pg_name')) document.getElementById('pg_name').value = p.name || '';
-        if (document.getElementById('pg_desc')) document.getElementById('pg_desc').value = p.desc || '';
-        if (document.getElementById('pg_price')) document.getElementById('pg_price').value = p.price || '';
-        if (document.getElementById('pg_icon')) document.getElementById('pg_icon').value = p.icon || '';
+        document.getElementById('pg_cat').value = p.cat || '';
+        document.getElementById('pg_appDesc').value = p.appDesc || '';
+        document.getElementById('pg_subCat').value = p.subCat || '';
+        document.getElementById('pg_name').value = p.name || '';
+        document.getElementById('pg_desc').value = p.desc || '';
+        document.getElementById('pg_price').value = p.price || 0;
+        document.getElementById('pg_icon').value = p.icon || '';
     }
 }
 
-window.onload = () => {
-    loadData();
-};
+function deleteAdminProduct(id) {
+    document.getElementById('a_id').value = id;
+    submitAdminAction(null, 'delete_product');
+}
 </script>
 </body>
 </html>
