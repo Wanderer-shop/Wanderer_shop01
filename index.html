@@ -66,6 +66,30 @@ strong, b {
 .status-text { font-size: 15px; color: #fff; font-weight: normal !important; -webkit-text-stroke: 0.3px currentColor; }
 .status-text.closed { color: #FF4444; }
 
+/* 🌟 ส่วน Badges (ปุ่มกลมเล็กๆ ด้านบน) ที่ต้องคงไว้ 100% */
+.header-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin: 10px 0 5px 0;
+    z-index: 10;
+}
+.header-badge-item {
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: #fff;
+    backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
 /* 🌟 ป้าย NEW กระพริบ (คงไว้ 100%) */
 .badge-new-top-left {
     position: absolute;
@@ -241,6 +265,10 @@ strong, b {
   <img src="https://via.placeholder.com/190/E1E8EE/3B96F5?text=Logo" id="shopLogo" alt="Logo" loading="lazy" onerror="this.onerror=null; this.src='https://via.placeholder.com/190/E1E8EE/3B96F5?text=No+Logo';">
   <div class="hero-title" id="shopNameBtn">Wanderer_Shop</div>
   <div class="hero-sub" id="welcomeText">ยินดีต้อนรับสู่ร้าน Wanderer_Shop</div>
+  
+  <!-- ส่วน Badges (ปุ่มกลมเล็กๆ ด้านบน) ที่ต้องคงไว้ 100% -->
+  <div id="headerBadges" class="header-badges"></div>
+
   <div class="tab-container" id="tabContainer"></div>
 </div>
 
@@ -524,6 +552,7 @@ function processLoadedData(data) {
   if(storeInfo.logo && document.getElementById('shopLogo')) document.getElementById('shopLogo').src = storeInfo.logo;
   
   checkShopStatus(); 
+  renderHeaderBadges(); // 🌟 อัปเดตส่วน Badges ปุ่มกลมเล็กๆ ด้านบน
   renderTabs(); 
   if(currentTab === 'info') renderInfoPage(); else renderProducts();
   recordVisit(); 
@@ -533,6 +562,23 @@ function processLoadedData(data) {
       let activeTabInput = document.getElementById('a_tab');
       if(activeTabInput) renderAdminProductList(activeTabInput.value); 
   }
+}
+
+// 🌟 ฟังก์ชันแสดงผล Badges ด้านบน (คงไว้ 100% ตามโครงสร้างระบบ)[cite: 11, 12]
+function renderHeaderBadges() {
+    const badgesContainer = document.getElementById("headerBadges");
+    if (!badgesContainer) return;
+    badgesContainer.innerHTML = `
+        <span class="header-badge-item" style="background: rgba(59, 150, 245, 0.25); border-color: #3B96F5;">
+            🟢 สถานะ: ${storeInfo.status === 'closed' ? 'ปิดบริการ' : (storeInfo.status || 'เปิดบริการ')}
+        </span>
+        <span class="header-badge-item" style="background: rgba(0, 211, 0, 0.25); border-color: #00d300;">
+            ⏰ เวลาทำการ: ${storeInfo.hours || '10:30-00:30น.'}
+        </span>
+        <span class="header-badge-item" style="background: rgba(255, 75, 126, 0.25); border-color: #FF4B7E;">
+            💬 Line: ${storeInfo.line || '@997yfsig'}
+        </span>
+    `;
 }
 
 function renderTabs() {
@@ -1277,6 +1323,7 @@ function sendAdminPost(payload) {
     });
 }
 
+// 🌟 ส่วนที่ได้รับการแก้ไขและเติมเต็มจนจบไฟล์เพื่อแก้ปัญหาหน้าขาว[cite: 11, 12]
 function renderAdminProductList(tab) {
     const container = document.getElementById('admin-product-list');
     if (!container) return;
@@ -1305,48 +1352,51 @@ function renderAdminProductList(tab) {
                     ราคา: <span style="color: #111; font-weight: bold;">${p.price || 0}฿</span> | สถานะ: ${statusText}
                 </div>
             </div>
-            <div class="admin-list-actions" style="display: flex; gap: 6px; flex-shrink: 0;">
-                <button type="button" class="btn-sm-edit" style="background: #ff9800; color: #fff; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 13px;" onclick="populateAdminEdit('${p.id}')">✏️ แก้ไข</button>
-                <button type="button" class="btn-sm-del" style="background: #ff3b3b; color: #fff; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 13px;" onclick="deleteAdminProduct('${p.id}')">🗑️ ลบ</button>
+            <div class="admin-list-actions" style="display: flex; gap: 6px;">
+                <button type="button" class="btn-sm-edit" onclick="selectProductForEdit('${p.id}')">✏️ แก้ไข</button>
+                <button type="button" class="btn-sm-del" onclick="deleteProductById('${p.id}', '${p.tab}')">🗑️ ลบ</button>
             </div>
         </div>`;
     });
     container.innerHTML = html;
 }
 
-function populateAdminEdit(id) {
-    const p = allProducts.find(x => x.id === id);
+function selectProductForEdit(id) {
+    const p = allProducts.find(item => item.id === id);
     if (!p) return;
+    
     document.getElementById('a_id').value = p.id || '';
     document.getElementById('a_status').value = p.status || 'ready';
-
+    
     const tab = document.getElementById('a_tab').value;
     if (tab.includes("IOS") || tab.includes("iOS")) {
-        document.getElementById('ia_cat').value = p.cat || p.name || '';
-        document.getElementById('ia_desc').value = p.desc || '';
-        document.getElementById('ia_price').value = p.price || 0;
-        document.getElementById('ia_icon').value = p.icon || '';
-        document.getElementById('ia_group').value = p.subCat || '📱 แอพอื่นๆ';
-        if (document.getElementById('ia_isNew')) {
-            document.getElementById('ia_isNew').checked = (p.isNew === true || String(p.isNew).toLowerCase() === "true" || String(p.isNew) === "1");
+        if(document.getElementById('ia_cat')) document.getElementById('ia_cat').value = p.cat || p.name || '';
+        if(document.getElementById('ia_desc')) document.getElementById('ia_desc').value = p.desc || '';
+        if(document.getElementById('ia_price')) document.getElementById('ia_price').value = p.price || 0;
+        if(document.getElementById('ia_icon')) document.getElementById('ia_icon').value = p.icon || '';
+        if(document.getElementById('ia_group')) document.getElementById('ia_group').value = p.subCat || '📱 แอพอื่นๆ';
+        if(document.getElementById('ia_isNew')) {
+            let isNewStr = String(p.isNew).trim().toLowerCase();
+            document.getElementById('ia_isNew').checked = (p.isNew === true || isNewStr === "true" || isNewStr === "1" || isNewStr === "yes" || isNewStr === "new");
         }
-        let osList = p.os ? p.os.split('/') : [];
-        document.getElementById('os_ios').checked = osList.includes('iOS');
-        document.getElementById('os_android').checked = osList.includes('Android');
+        if(document.getElementById('os_ios')) document.getElementById('os_ios').checked = (p.os && p.os.includes('iOS'));
+        if(document.getElementById('os_android')) document.getElementById('os_android').checked = (p.os && p.os.includes('Android'));
     } else {
-        document.getElementById('pg_cat').value = p.cat || '';
-        document.getElementById('pg_appDesc').value = p.appDesc || '';
-        document.getElementById('pg_subCat').value = p.subCat || '';
-        document.getElementById('pg_name').value = p.name || '';
-        document.getElementById('pg_desc').value = p.desc || '';
-        document.getElementById('pg_price').value = p.price || 0;
-        document.getElementById('pg_icon').value = p.icon || '';
+        if(document.getElementById('pg_cat')) document.getElementById('pg_cat').value = p.cat || '';
+        if(document.getElementById('pg_appDesc')) document.getElementById('pg_appDesc').value = p.appDesc || '';
+        if(document.getElementById('pg_subCat')) document.getElementById('pg_subCat').value = p.subCat || '';
+        if(document.getElementById('pg_name')) document.getElementById('pg_name').value = p.name || '';
+        if(document.getElementById('pg_desc')) document.getElementById('pg_desc').value = p.desc || '';
+        if(document.getElementById('pg_price')) document.getElementById('pg_price').value = p.price || 0;
+        if(document.getElementById('pg_icon')) document.getElementById('pg_icon').value = p.icon || '';
     }
+    
+    alert("ดึงข้อมูลสินค้า \"" + (p.name || p.cat || id) + "\" ขึ้นมาแก้ไขแล้ว กรุณาแก้ไขข้อความด้านบนแล้วกดปุ่ม '💾 บันทึกแก้ไข'");
 }
 
-function deleteAdminProduct(id) {
-    document.getElementById('a_id').value = id;
-    submitAdminAction(null, 'delete_product');
+function deleteProductById(id, tab) {
+    if (!confirm("คุณต้องการลบรายการสินค้านี้ใช่หรือไม่?")) return;
+    sendAdminPost({ action: 'delete_product', id: id, tab: tab });
 }
 </script>
 </body>
