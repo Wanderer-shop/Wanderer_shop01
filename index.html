@@ -145,15 +145,12 @@ strong, b {
 .disabled-item { opacity: 0.6; cursor: not-allowed !important; pointer-events: none; }
 .os-btn.disabled-btn { opacity: 0.5; cursor: not-allowed !important; pointer-events: none; background: #ccc; color: #777; border-color: #bbb; }
 
-/* การ์ดแพ็กเกจย่อย */
-.package-card { background: var(--bg-card); border: 2px solid transparent; border-radius: 12px; padding: 14px 15px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; position: relative; color: #000; transition: 0.2s; margin-bottom: 10px; gap: 8px; min-height: 60px; }
-.package-card.no-desc { padding: 10px 15px !important; min-height: 48px !important; }
+/* การ์ดแพ็กเกจย่อย (ปรับแก้ซ่อนข้อความสีดำ) */
+.package-card { background: var(--bg-card); border: 2px solid transparent; border-radius: 12px; padding: 10px 15px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; position: relative; color: #000; transition: 0.2s; margin-bottom: 10px; gap: 8px; min-height: 48px; }
 .package-card.selected { border-color: var(--primary); background: #ffffff !important; box-shadow: 0 4px 12px rgba(59, 150, 245, 0.2); }
 .pkg-left-col { flex: 1.2; display: flex; align-items: center; gap: 8px; text-align: left; justify-content: flex-start; }
 .status-dot-pkg { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
 .package-title { font-size: var(--font-card-h); color: var(--bg-main); font-weight: bold; line-height: 1.2; word-break: break-word; -webkit-text-stroke: 0.3px currentColor; }
-.pkg-mid-col { flex: 1.5; padding: 0 5px; text-align: center; }
-.package-desc { font-size: var(--font-card-t); color: var(--text-muted); white-space: pre-line; line-height: 1.3; }
 .pkg-right-col { flex: 0.8; display: flex; align-items: center; justify-content: flex-end; }
 .package-price { font-size: var(--font-card-t); color: var(--secondary); font-weight: bold; white-space: nowrap; -webkit-text-stroke: 0.3px currentColor; }
 
@@ -194,7 +191,7 @@ strong, b {
 .package-modal-sub { font-size: 13px; color: #0a1d3a; background: #f0f7ff; border: 1px solid #cce3ff; border-left: 4px solid var(--primary); padding: 10px 14px; border-radius: 8px; text-align: left; margin-bottom: 12px; white-space: pre-line; line-height: 1.4; }
 .package-modal-list { overflow-y: auto; flex: 1; padding-right: 4px; max-height: 50vh; }
 
-/* 🌟 กล่องรายละเอียดแพ็กเกจเมื่อคลิกเลือกสินค้า */
+/* 🌟 กล่องข้อความรายละเอียดแพ็กเกจสีเหลืองตอนกดเลือกแพ็กเกจ */
 .dynamic-info-box { background: #fff3cd; border: 1px solid #ffeeba; border-left: 4px solid var(--secondary); padding: 12px 14px; border-radius: 8px; margin-bottom: 12px; font-size: 13px; color: #856404; line-height: 1.5; transition: all 0.3s ease; white-space: pre-line; text-align: left; }
 
 /* โหมด Admin */
@@ -310,7 +307,7 @@ strong, b {
     <div class="package-modal-header" id="modalAppName">📦 เลือกแพ็กเกจ</div>
     <div class="package-modal-sub" id="modalAppDesc" style="display: none;"></div>
     
-    <!-- 🌟 กล่องข้อความรายละเอียดแพ็กเกจตอนลูกค้ากดเลือกแพ็กเกจ -->
+    <!-- 🌟 กล่องข้อความรายละเอียดแพ็กเกจสีเหลืองตอนลูกค้ากดเลือกแพ็กเกจ -->
     <div id="dynamicInfoBox" class="dynamic-info-box" style="display: none;"></div>
     
     <div class="package-modal-list" id="modalPackageList"></div>
@@ -559,7 +556,6 @@ function processLoadedData(data) {
   }
 }
 
-// 🌟 ตัด Reviews ออกแบบไม่เหลือซาก
 function renderTabs() {
   const tc = document.getElementById('tabContainer');
   if (!tc) return;
@@ -654,7 +650,7 @@ function renderModalPackages() {
     updateDynamicInfoBox();
 }
 
-// 🌟 แสดงรายละเอียดแพ็กเกจย่อยใน Pop-up
+// 🌟 แสดงรายละเอียดแพ็กเกจย่อยใน Pop-up (กล่องสีเหลือง) เฉพาะตอนเลือกสินค้า
 function updateDynamicInfoBox() {
     const infoBox = document.getElementById('dynamicInfoBox');
     if (!infoBox) return;
@@ -782,7 +778,6 @@ function renderProducts() {
         osButtons += `</div>`;
         let minPrice = Math.min(...prices); let maxPrice = Math.max(...prices); let priceText = minPrice === maxPrice ? `${minPrice} ฿` : `${minPrice} - ${maxPrice} ฿`;
         
-        // 🌟 คงป้าย NEW กระพริบไว้ที่แท็บ iOS-Android 100%
         let newBadge = hasNew ? `<div class="badge-new-top-left">NEW</div>` : '';
 
         let cardStr = `<div class="item-card ${isCardSelected ? 'selected' : ''}">
@@ -826,7 +821,6 @@ function renderProducts() {
           }
       });
       
-      // 🌟 โชว์รายละเอียดแอป (appDesc) ใต้ชื่อแอปบนการ์ดสินค้า
       html = Object.values(uniqueApps).map(app => `
         <div class="item-card" onclick="openPackages('${app.cat}')">
           ${app.icon ? `<img src="${app.icon}" loading="lazy" onerror="this.style.display='none'" class="card-icon">` : '<div class="card-icon"></div>'}
@@ -854,20 +848,17 @@ function renderProducts() {
   grid.innerHTML = html; applySearch(); 
 }
 
+/* 🌟 ฟังก์ชันสร้างการ์ดแพ็กเกจย่อย (ลบข้อความสีดำตรงกลางออกแล้ว) */
 function generatePackageCard(p) {
   const isSelected = cart.some(item => item.id === p.id);
   let statusColor = p.status === 'ready' ? '#00d300' : '#ff3b3b';
   let disabledClass = p.status === 'notready' ? 'disabled-item' : '';
-  let noDescClass = (!p.desc || p.desc.trim() === '') ? 'no-desc' : '';
 
-  return `<div class="package-card ${isSelected ? 'selected' : ''} ${disabledClass} ${noDescClass}" onclick="toggleItem('${p.id}')">
+  return `<div class="package-card ${isSelected ? 'selected' : ''} ${disabledClass}" onclick="toggleItem('${p.id}')">
       <div class="pkg-left-col">
           <div class="check-circle"></div>
           <div class="status-dot-pkg" style="background:${statusColor}; box-shadow:0 0 5px ${statusColor};"></div>
           <div class="package-title">${p.name}</div>
-      </div>
-      <div class="pkg-mid-col">
-          ${p.desc ? `<div class="package-desc">${p.desc}</div>` : ''}
       </div>
       <div class="pkg-right-col">
           <div class="package-price">${p.price} ฿</div>
@@ -1094,7 +1085,6 @@ function confirmCheckout() {
   closeCheckoutModal();
 }
 
-// 🌟 ตัด Reviews ออกจากแถบเมนูแอดมินแบบ 100%
 function renderAdminTabButtons() {
     let html = `<button type="button" class="admin-tab-btn active" onclick="switchAdminFormTab('STORE_INFO', this)">⚙️ ร้านค้า</button>
                 <button type="button" class="admin-tab-btn" onclick="switchAdminFormTab('แอพพรีเมี่ยม', this)">📦 พรีเมี่ยม</button>
@@ -1359,7 +1349,6 @@ function renderAdminProductList(tab) {
     container.innerHTML = html;
 }
 
-// 🌟 ฟังก์ชันดึงข้อมูลสินค้ามาใส่ในช่องแก้ไขแอดมิน (ทำงานครบทุกช่อง)
 function selectProductForEdit(id) {
     const p = allProducts.find(x => x.id === id);
     if (!p) return;
@@ -1391,7 +1380,6 @@ function selectProductForEdit(id) {
     }
 }
 
-// เริ่มต้นระบบ
 window.onload = () => {
     loadData();
 };
