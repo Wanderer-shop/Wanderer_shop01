@@ -55,7 +55,7 @@ strong, b {
 @keyframes floatUp { 0% { transform: translateY(0) rotate(0deg) scale(0.8); } 100% { transform: translateY(-120vh) rotate(360deg) scale(1.2); } }
 @keyframes twinkle { 0%, 100% { opacity: 0.2; text-shadow: 0 0 5px rgba(255,255,255,0.1); } 50% { opacity: 0.8; text-shadow: 0 0 15px rgba(59, 150, 245, 0.8); } }
 
-/* 🌟 ป้ายสถานะ เปิด/ปิด ร้าน (คงไว้ 100%) */
+/* 🌟 ป้ายสถานะ เปิด/ปิด ร้าน (มุมบนซ้าย - คงไว้และปรับให้อัปเดตเวลาอัตโนมัติ) */
 .shop-status-badge { 
     position: absolute; top: 15px; left: 15px; background: rgba(0,0,0,0.5); 
     backdrop-filter: blur(5px); padding: 5px 12px; border-radius: 20px; 
@@ -108,15 +108,21 @@ strong, b {
 }
 @keyframes blinker { 50% { opacity: 0.2; } }
 
-/* 🌟 Header ทั้งหมดคงไว้ 100% */
+/* 🌟 Header ทั้งหมดคงไว้ 100% (ปรับโครงสร้างแท็บให้ใหญ่และพอดีกับหน้าอุปกรณ์) */
 .hero { background: linear-gradient(135deg, var(--bg-main) 0%, rgba(59,150,245,0.2) 100%); padding: 60px 20px 55px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; position: relative; border-bottom: 2px solid var(--border-color); margin-bottom: 45px; box-shadow: 0 4px 30px rgba(10,29,58,0.5); }
 #shopLogo { width: 190px; height: 190px; border-radius: 50%; object-fit: cover; margin-bottom: 12px; border: 2px solid var(--border-color); box-shadow: 0 0 15px rgba(196,150,70,0.4); background: #fff; }
 .hero-title { font-family: 'LowellCustom', sans-serif; font-size: var(--font-main-h); color: #fff; margin-bottom: 4px; letter-spacing: 0.5px; text-shadow: 0 0 15px rgba(59,150,245,0.6); cursor: pointer; user-select: none; font-weight: normal !important; -webkit-text-stroke: 0.6px currentColor; }
 #welcomeText { font-size: var(--font-main-t) !important; font-weight: normal; color: rgba(255,255,255,0.9); cursor: pointer; margin-top: 5px; -webkit-text-stroke: 0.1px currentColor; }
-.tab-container { position: absolute; bottom: -20px; left: 50%; transform: translateX(-50%); display: flex; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 30px; padding: 4px; width: 95%; max-width: 500px; z-index: 10; box-shadow: 0 4px 20px rgba(0,0,0,0.4); overflow-x: auto; scrollbar-width: none; justify-content: flex-start; transition: all 0.25s ease; }
+
+/* 🌟 แท็บเมนูหลัก (ปรับขยายขนาดให้ใหญ่ขึ้นอีกและพอดีกับหน้าเว็บของอุปกรณ์ที่เปิด) */
+.tab-container { 
+    position: absolute; bottom: -24px; left: 50%; transform: translateX(-50%); display: flex; background: var(--bg-card); border: 2px solid var(--border-color); border-radius: 35px; padding: 6px; width: 96%; max-width: 600px; z-index: 10; box-shadow: 0 6px 25px rgba(0,0,0,0.5); overflow-x: auto; scrollbar-width: none; justify-content: flex-start; transition: all 0.25s ease; gap: 4px;
+}
 .tab-container::-webkit-scrollbar { display: none; }
-.tab-btn { flex: 0 0 auto; padding: 8px 16px; border-radius: 25px; border: none; font-family: inherit; font-size: var(--font-main-t); cursor: pointer; transition: all 0.3s ease; background: transparent; color: var(--text-muted); white-space: nowrap; font-weight: var(--custom-font-weight) !important; -webkit-text-stroke: 0.3px currentColor;}
-.tab-btn.active { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: #fff; box-shadow: 0 2px 10px rgba(255,75,126,0.3); }
+.tab-btn { 
+    flex: 1 0 auto; padding: 10px 20px; border-radius: 30px; border: none; font-family: inherit; font-size: 16px; cursor: pointer; transition: all 0.3s ease; background: transparent; color: var(--text-muted); white-space: nowrap; font-weight: bold !important; -webkit-text-stroke: 0.4px currentColor; text-align: center;
+}
+.tab-btn.active { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: #fff; box-shadow: 0 3px 12px rgba(255,75,126,0.4); transform: scale(1.03); }
 .content { max-width: 800px; margin: 0 auto; padding: 0 20px 50px; position: relative; z-index: 5; }
 
 /* กล่องขั้นตอนสั่งซื้อ */
@@ -128,8 +134,8 @@ strong, b {
 .steps-container .highlight { color: var(--secondary); font-size: calc(var(--font-step-t) - 1px); display: block; margin-top: 2px; }
 
 /* Sticky nav */
-.sticky-fixed-tabs { position: fixed !important; top: 10px !important; left: 50% !important; transform: translateX(-50%) !important; bottom: auto !important; z-index: 1000 !important; background: rgba(225, 232, 238, 0.95) !important; backdrop-filter: blur(10px); box-shadow: 0 6px 25px rgba(0,0,0,0.6) !important; animation: slideDownNav 0.25s ease; }
-.sticky-fixed-filter { position: fixed !important; top: 65px !important; left: 50% !important; transform: translateX(-50%) !important; width: 92% !important; max-width: 760px !important; z-index: 999 !important; background: rgba(10, 29, 58, 0.95) !important; backdrop-filter: blur(10px); padding: 10px 15px !important; border-radius: 20px !important; box-shadow: 0 6px 25px rgba(0,0,0,0.6) !important; border: 1px solid rgba(255,255,255,0.2) !important; animation: slideDownNav 0.25s ease; margin-bottom: 0 !important; }
+.sticky-fixed-tabs { position: fixed !important; top: 10px !important; left: 50% !important; transform: translateX(-50%) !important; bottom: auto !important; z-index: 1000 !important; background: rgba(225, 232, 238, 0.98) !important; backdrop-filter: blur(10px); box-shadow: 0 6px 25px rgba(0,0,0,0.6) !important; animation: slideDownNav 0.25s ease; width: 94% !important; max-width: 600px !important; }
+.sticky-fixed-filter { position: fixed !important; top: 72px !important; left: 50% !important; transform: translateX(-50%) !important; width: 92% !important; max-width: 760px !important; z-index: 999 !important; background: rgba(10, 29, 58, 0.95) !important; backdrop-filter: blur(10px); padding: 10px 15px !important; border-radius: 20px !important; box-shadow: 0 6px 25px rgba(0,0,0,0.6) !important; border: 1px solid rgba(255,255,255,0.2) !important; animation: slideDownNav 0.25s ease; margin-bottom: 0 !important; }
 @keyframes slideDownNav { from { opacity: 0; transform: translate(-50%, -15px); } to { opacity: 1; transform: translate(-50%, 0); } }
 
 .category-separator { background: linear-gradient(90deg, var(--primary), transparent); color: #fff; padding: 8px 15px; font-size: 15px; border-left: 4px solid var(--secondary); margin: 20px 0 5px 0; border-radius: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); font-weight: normal !important; -webkit-text-stroke: 0.3px currentColor; }
@@ -257,6 +263,7 @@ strong, b {
 
 <!-- Header (คงไว้ 100%) -->
 <div class="hero">
+  <!-- ป้ายสถานะร้าน (มุมบนซ้าย จะคำนวณเปิด/ปิดอัตโนมัติตามเวลาทำการ) -->
   <div class="shop-status-badge" id="shopStatusBadge">
       <div class="status-indicator"></div>
       <span class="status-text">เปิดให้บริการ</span>
@@ -266,9 +273,10 @@ strong, b {
   <div class="hero-title" id="shopNameBtn">Wanderer_Shop</div>
   <div class="hero-sub" id="welcomeText">ยินดีต้อนรับสู่ร้าน Wanderer_Shop</div>
   
-  <!-- ส่วน Badges (ปุ่มกลมเล็กๆ ด้านบน) ที่ต้องคงไว้ 100% -->
+  <!-- 🌟 ส่วน Badges (ปุ่มกลมเล็กๆ ด้านบน) ที่ต้องคงไว้ 100% ปรับสถานะร้านเองได้ระหว่างวันผ่านแอดมิน -->
   <div id="headerBadges" class="header-badges"></div>
 
+  <!-- 🌟 แท็บเมนู (ขยายขนาดให้ใหญ่ขึ้นและพอดีกับหน้าอุปกรณ์ที่เปิด) -->
   <div class="tab-container" id="tabContainer"></div>
 </div>
 
@@ -413,13 +421,22 @@ strong, b {
         </select>
       </div>
       
+      <!-- 🌟 ส่วนจัดการร้านค้า (ปรับเพิ่มป้ายเปิด/ปิดระหว่างวัน) -->
       <div id="zone-store" style="display:none; border: 1px solid #ddd; padding: 10px; border-radius: 8px;">
+        <label style="font-size: 13px; color: #555; font-weight:bold;">🟢 ตั้งค่าสถานะร้านค้าระหว่างวัน (แสดงที่ป้าย Badges กลมด้านบน):</label>
+        <select id="store_status" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 8px; font-family: inherit;">
+          <option value="🟢 เปิดร้าน / พร้อมตอบ">🟢 เปิดร้าน / พร้อมตอบ</option>
+          <option value="🟠 ตอบช้า (ติดธุระ)">🟠 ตอบช้า (ติดธุระ)</option>
+          <option value="🟡 พักส่ง-ไม่ว่างตอบ">🟡 พักส่ง-ไม่ว่างตอบ</option>
+          <option value="🔴 ปิดให้บริการชั่วคราว">🔴 ปิดให้บริการชั่วคราว</option>
+        </select>
+
         <label style="font-size: 13px; color: #555;">ลิงก์โลโก้ร้าน:</label>
         <input type="text" id="store_logo" placeholder="ลิงก์โลโก้ร้าน (URL)">
         <input type="text" id="store_media" placeholder="ลิงก์วิดีโอ โปรโมต (URL .mp4)">
         <textarea id="store_mediaText" placeholder="กล่องข้อความใต้วิดีโอ (ขึ้นบรรทัดใหม่ได้)" rows="3"></textarea>
         <input type="text" id="store_line" placeholder="ช่องทางติดต่อ ไอดี Line (ใส่ @ ด้วย)">
-        <input type="text" id="store_hours" placeholder="เวลาทำการ (เช่น 10:00 - 22:00)">
+        <input type="text" id="store_hours" placeholder="เวลาทำการ (เช่น 10:30 - 00:30น.)">
         <textarea id="store_warranty" placeholder="การรับประกัน (เงื่อนไข, ขึ้นบรรทัดใหม่ได้)" rows="3"></textarea>
       </div>
 
@@ -456,15 +473,16 @@ strong, b {
 </div>
 
 <script>
-const API_URL = "https://script.google.com/macros/s/AKfycbziVwZe3alAjph9RSl3DaPwsxhOr5IE2_Sz8_ilZOeDJTZLptYC2G-61wJINylgPEo-/exec"; 
+const API_URL = "https://script.google.com/macros/s/AKfycbwm-KV-o96eUjUfbYyqLrypk22CUglQLUvUufJmFZXM_f-z8oysO9N86jAo2KyyoAlH/exec"; 
 
 let allProducts = []; let cart = []; let currentTab = "info"; let storeInfo = {}; let tabsList = []; 
 let viewLevel = 'apps'; let selectedAppName = ''; let localCustomCards = []; let editingCardIndex = -1;
 let isAdmin = false;
 
-// 🌟 เรียกโหลดข้อมูลทันทีที่เปิดหน้าเว็บ
+// 🌟 เรียกโหลดข้อมูลทันทีที่เปิดหน้าเว็บ และเริ่มนับเวลาทำการอัตโนมัติ
 document.addEventListener("DOMContentLoaded", () => {
     loadData();
+    setInterval(autoUpdateShopStatus, 60000); // เช็กเวลาทำการทุกๆ 1 นาที
 });
 
 window.addEventListener('scroll', () => {
@@ -551,8 +569,8 @@ function processLoadedData(data) {
   if(storeInfo.welcome && welcomeEl) welcomeEl.innerText = storeInfo.welcome;
   if(storeInfo.logo && document.getElementById('shopLogo')) document.getElementById('shopLogo').src = storeInfo.logo;
   
-  checkShopStatus(); 
-  renderHeaderBadges(); // 🌟 อัปเดตส่วน Badges ปุ่มกลมเล็กๆ ด้านบน
+  autoUpdateShopStatus(); // 🌟 อัปเดตป้ายเปิด/ปิดมุมบนซ้ายทันทีตามเวลาจริง
+  renderHeaderBadges();   // 🌟 อัปเดตส่วน Badges ปุ่มกลมเล็กๆ ด้านบน (คงไว้ 100%)
   renderTabs(); 
   if(currentTab === 'info') renderInfoPage(); else renderProducts();
   recordVisit(); 
@@ -564,13 +582,61 @@ function processLoadedData(data) {
   }
 }
 
-// 🌟 ฟังก์ชันแสดงผล Badges ด้านบน (คงไว้ 100% ตามโครงสร้างระบบ)[cite: 11, 12]
+// 🌟 ฟังก์ชันคำนวณป้ายเปิด/ปิดตามเวลาทำการจริงโดยอัตโนมัติ (มุมบนซ้าย)
+function autoUpdateShopStatus() {
+    const badge = document.getElementById('shopStatusBadge');
+    const indicator = badge?.querySelector('.status-indicator');
+    const text = badge?.querySelector('.status-text');
+    if (!badge || !indicator || !text) return;
+
+    let isOpen = true;
+    let hoursStr = storeInfo.hours || '10:30 - 00:30น.';
+    let matches = hoursStr.match(/([0-9]{1,2}):([0-9]{2})\s*-\s*([0-9]{1,2}):([0-9]{2})/);
+
+    if (matches) {
+        let now = new Date();
+        let curHour = now.getHours();
+        let curMin = now.getMinutes();
+        let curTime = curHour * 60 + curMin;
+
+        let startHour = parseInt(matches[1], 10);
+        let startMin = parseInt(matches[2], 10);
+        let startTime = startHour * 60 + startMin;
+
+        let endHour = parseInt(matches[3], 10);
+        let endMin = parseInt(matches[4], 10);
+        let endTime = endHour * 60 + endMin;
+
+        if (endTime < startTime) {
+            isOpen = (curTime >= startTime || curTime <= endTime);
+        } else {
+            isOpen = (curTime >= startTime && curTime <= endTime);
+        }
+    }
+
+    if (!isOpen || storeInfo.status === 'closed' || storeInfo.status === '🔴 ปิดให้บริการชั่วคราว') {
+        indicator.classList.add('closed');
+        text.classList.add('closed');
+        text.innerText = 'นอกเวลาทำการ / ปิดร้าน';
+    } else {
+        indicator.classList.remove('closed');
+        text.classList.remove('closed');
+        text.innerText = 'เปิดร้าน / พร้อมตอบ';
+    }
+}
+
+// 🌟 ฟังก์ชันแสดงผล Badges ด้านบน (คงไว้ 100% ตามโครงสร้างเดิม และแสดงสถานะที่แอดมินปรับได้)
 function renderHeaderBadges() {
     const badgesContainer = document.getElementById("headerBadges");
     if (!badgesContainer) return;
+    
+    let statusDisplay = storeInfo.status || '🟢 เปิดร้าน / พร้อมตอบ';
+    if (statusDisplay === 'open' || statusDisplay === '🟢 พร้อมส่ง') statusDisplay = '🟢 เปิดร้าน / พร้อมตอบ';
+    if (statusDisplay === 'closed') statusDisplay = '🔴 ปิดให้บริการชั่วคราว';
+
     badgesContainer.innerHTML = `
         <span class="header-badge-item" style="background: rgba(59, 150, 245, 0.25); border-color: #3B96F5;">
-            🟢 สถานะ: ${storeInfo.status === 'closed' ? 'ปิดบริการ' : (storeInfo.status || 'เปิดบริการ')}
+            สถานะ: ${statusDisplay}
         </span>
         <span class="header-badge-item" style="background: rgba(0, 211, 0, 0.25); border-color: #00d300;">
             ⏰ เวลาทำการ: ${storeInfo.hours || '10:30-00:30น.'}
@@ -1103,6 +1169,7 @@ function renderAdminTabButtons() {
 
 function openAdmin() { 
     document.getElementById('adminOverlay').style.display = 'flex'; clearAdminForm(); renderAdminTabButtons(); 
+    document.getElementById('store_status').value = storeInfo.status || '🟢 เปิดร้าน / พร้อมตอบ';
     document.getElementById('store_logo').value = storeInfo.logo || ''; 
     document.getElementById('store_media').value = storeInfo.mediaLink || ''; 
     document.getElementById('store_mediaText').value = storeInfo.mediaText || ''; 
@@ -1152,28 +1219,11 @@ function toggleAdminFields() {
   if (tab !== "STORE_INFO" && tab !== "MANAGE_TABS" && tab !== "CUSTOM_CARDS") { document.getElementById('admin-product-list-container').style.display = 'block'; renderAdminProductList(tab); } else { document.getElementById('admin-product-list-container').style.display = 'none'; }
 }
 
-function checkShopStatus() {
-    const badge = document.getElementById('shopStatusBadge');
-    const indicator = badge?.querySelector('.status-indicator');
-    const text = badge?.querySelector('.status-text');
-    if (!badge || !indicator || !text) return;
-
-    if (storeInfo.status === 'closed') {
-        indicator.classList.add('closed');
-        text.classList.add('closed');
-        text.innerText = 'ปิดร้าน / ไม่พร้อมตอบ';
-    } else {
-        indicator.classList.remove('closed');
-        text.classList.remove('closed');
-        text.innerText = 'เปิดร้าน / พร้อมตอบ';
-    }
-}
-
 function submitStoreAction(event) {
     if (event) event.preventDefault();
     let payload = {
         action: "save_store",
-        status: storeInfo.status || "open",
+        status: document.getElementById('store_status')?.value || storeInfo.status || "open",
         welcome: storeInfo.welcome || "",
         line: document.getElementById('store_line')?.value || storeInfo.line || "",
         hours: document.getElementById('store_hours')?.value || storeInfo.hours || "",
@@ -1323,7 +1373,6 @@ function sendAdminPost(payload) {
     });
 }
 
-// 🌟 ส่วนที่ได้รับการแก้ไขและเติมเต็มจนจบไฟล์เพื่อแก้ปัญหาหน้าขาว[cite: 11, 12]
 function renderAdminProductList(tab) {
     const container = document.getElementById('admin-product-list');
     if (!container) return;
