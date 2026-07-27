@@ -27,12 +27,16 @@
     /* ================== 🌟 ตั้งค่าขนาดตัวอักษรและความหนาจากในโค้ด ================== */
     --font-card-h: 16px;       /* หัวข้อการ์ดสินค้า / ชื่อแอปพลิเคชัน */
     --font-card-t: 13px;       /* รายละเอียดใต้ชื่อแอป / คำอธิบายแพ็กเกจย่อย */
-    --font-step-h: 16px;       /* หัวข้อกล่อง "💡 วิธีใช้งานเว็บ: วิธีเลือกซื้อสินค้าและสั่งของ" */
-    --font-step-t: 13.5px;     /* ข้อความอธิบายขั้นตอนข้อที่ 1 - 5 */
-    --font-box-h: 17px;        /* หัวข้อกล่องข้อมูลร้าน / หัวข้อการ์ดประกาศ / หัวข้อป็อปอัป */
-    --font-box-t: 14px;        /* ข้อความรายละเอียดภายในกล่อง / เงื่อนไขรับประกัน */
+    
+    --font-step-h: 16px;       /* หัวข้อกล่องวิธีใช้งาน */
+    --font-step-t: 13.5px;     /* ข้อความอธิบายขั้นตอน */
+    
+    --font-box-h: 17px;        /* หัวข้อกล่องข้อมูลร้าน / หัวข้อการ์ดประกาศ */
+    --font-box-t: 14px;        /* ข้อความรายละเอียดภายในกล่อง */
+    
     --font-main-h: 24px;       /* ชื่อร้านบนสุดของเว็บ (Wanderer_Shop) */
     --font-main-t: 14px;       /* ข้อความยินดีต้อนรับ และข้อความบนปุ่มแท็บเมนู */
+    
     --custom-font-weight: 500;
 }
 
@@ -48,7 +52,6 @@ body {
     font-size: var(--font-box-t);
 }
 
-/* 🌟 ปรับความหนาของตัวอักษร */
 strong, b {
     font-weight: var(--custom-font-weight) !important;
     -webkit-text-stroke: 0.3px currentColor;
@@ -59,7 +62,7 @@ strong, b {
 @keyframes floatUp { 0% { transform: translateY(0) rotate(0deg) scale(0.8); } 100% { transform: translateY(-120vh) rotate(360deg) scale(1.2); } }
 @keyframes twinkle { 0%, 100% { opacity: 0.2; text-shadow: 0 0 5px rgba(255,255,255,0.1); } 50% { opacity: 0.8; text-shadow: 0 0 15px rgba(59, 150, 245, 0.8); } }
 
-/* ================== 🌟 ป้ายสถานะ เปิด/ปิด (มุมซ้ายบน) ================== */
+/* ================== 🌟 ป้ายสถานะ เปิด/ปิด (ปุ่มกลมเล็กๆ ด้านบนซ้าย) คงไว้ 100% ================== */
 .shop-status-badge { 
     position: absolute; top: 15px; left: 15px; background: rgba(0,0,0,0.5); 
     backdrop-filter: blur(5px); padding: 5px 12px; border-radius: 20px; 
@@ -70,7 +73,7 @@ strong, b {
 .status-text { font-size: 15px; color: #fff; font-weight: normal !important; -webkit-text-stroke: 0.3px currentColor; }
 .status-text.closed { color: #FF4444; }
 
-/* ================== 🌟 CSS สำหรับป้าย NEW (มุมซ้ายบน) ================== */
+/* ================== 🌟 CSS สำหรับป้าย NEW คงไว้ 100% ================== */
 .badge-new-top-left {
     position: absolute;
     top: -8px;
@@ -90,7 +93,7 @@ strong, b {
     50% { opacity: 0.2; }
 }
 
-/* 🌟 โซน 4: หัวข้อและเมนูหลัก */
+/* 🌟 ส่วน Header ทั้งหมดคงไว้ 100% */
 .hero { background: linear-gradient(135deg, var(--bg-main) 0%, rgba(59,150,245,0.2) 100%); padding: 60px 20px 55px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; position: relative; border-bottom: 2px solid var(--border-color); margin-bottom: 45px; box-shadow: 0 4px 30px rgba(10,29,58,0.5); }
 #shopLogo { width: 190px; height: 190px; border-radius: 50%; object-fit: cover; margin-bottom: 12px; border: 2px solid var(--border-color); box-shadow: 0 0 15px rgba(196,150,70,0.4); background: #fff; }
 .hero-title { font-family: 'LowellCustom', sans-serif; font-size: var(--font-main-h); color: #fff; margin-bottom: 4px; letter-spacing: 0.5px; text-shadow: 0 0 15px rgba(59,150,245,0.6); cursor: pointer; user-select: none; font-weight: normal !important; -webkit-text-stroke: 0.6px currentColor; }
@@ -101,7 +104,7 @@ strong, b {
 .tab-btn.active { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: #fff; box-shadow: 0 2px 10px rgba(255,75,126,0.3); }
 .content { max-width: 800px; margin: 0 auto; padding: 0 20px 50px; position: relative; z-index: 5; }
 
-/* ================== 🌟 3. ปรับกล่องขั้นตอนเลือกสินค้าเป็น Accordion (ย่อ/ขยายได้) ================== */
+/* กล่องขั้นตอนสั่งซื้อ */
 .steps-container { background-color: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); border-radius: 12px; padding: 14px 20px; margin-bottom: 25px; color: #fff; box-shadow: 0 4px 15px rgba(0,0,0,0.3); backdrop-filter: blur(5px); display: none; transition: all 0.3s ease; }
 .steps-container h3 { color: var(--primary); font-size: var(--font-step-h); margin-bottom: 0; text-align: left; padding-bottom: 0; font-weight: normal !important; -webkit-text-stroke: 0.3px currentColor; cursor: pointer; display: flex; justify-content: space-between; align-items: center; user-select: none; }
 .steps-container ol { padding-left: 20px; margin: 0; font-size: var(--font-step-t); line-height: 1.6; display: none; margin-top: 12px; padding-top: 10px; border-top: 1px dashed rgba(255,255,255,0.2); }
@@ -109,15 +112,20 @@ strong, b {
 .steps-container li { margin-bottom: 8px; }
 .steps-container .highlight { color: var(--secondary); font-size: calc(var(--font-step-t) - 1px); display: block; margin-top: 2px; }
 
-/* ================== 🌟 4. ทำแถบเมนูและช่องค้นหาแบบติดเพดาน (Sticky Navigation) ================== */
+/* แถบเมนูแบบ Sticky */
 .sticky-fixed-tabs { position: fixed !important; top: 10px !important; left: 50% !important; transform: translateX(-50%) !important; bottom: auto !important; z-index: 1000 !important; background: rgba(225, 232, 238, 0.95) !important; backdrop-filter: blur(10px); box-shadow: 0 6px 25px rgba(0,0,0,0.6) !important; animation: slideDownNav 0.25s ease; }
 .sticky-fixed-filter { position: fixed !important; top: 65px !important; left: 50% !important; transform: translateX(-50%) !important; width: 92% !important; max-width: 760px !important; z-index: 999 !important; background: rgba(10, 29, 58, 0.95) !important; backdrop-filter: blur(10px); padding: 10px 15px !important; border-radius: 20px !important; box-shadow: 0 6px 25px rgba(0,0,0,0.6) !important; border: 1px solid rgba(255,255,255,0.2) !important; animation: slideDownNav 0.25s ease; margin-bottom: 0 !important; }
 @keyframes slideDownNav { from { opacity: 0; transform: translate(-50%, -15px); } to { opacity: 1; transform: translate(-50%, 0); } }
 
-/* แถบแยกหมวดหมู่ */
+/* Filter Pills */
+.filter-pills-wrap { display: flex; gap: 8px; overflow-x: auto; margin-bottom: 20px; padding-bottom: 4px; scrollbar-width: none; justify-content: flex-start; }
+.filter-pills-wrap::-webkit-scrollbar { display: none; }
+.pill-btn { flex: 0 0 auto; padding: 6px 14px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.08); color: #fff; font-size: 13px; cursor: pointer; transition: 0.2s; font-family: inherit; }
+.pill-btn.active { background: linear-gradient(135deg, var(--secondary), #ff7597); border-color: var(--secondary); font-weight: bold; box-shadow: 0 2px 10px rgba(255,75,126,0.4); }
+
 .category-separator { background: linear-gradient(90deg, var(--primary), transparent); color: #fff; padding: 8px 15px; font-size: 15px; border-left: 4px solid var(--secondary); margin: 20px 0 5px 0; border-radius: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); font-weight: normal !important; -webkit-text-stroke: 0.3px currentColor; }
 
-/* ================== 🌟 แถบค้นหา และ ปุ่มวงกลมย้อนกลับ ================== */
+/* แถบค้นหา */
 .filter-row { display: flex; gap: 10px; align-items: center; margin-bottom: 20px; flex-wrap: wrap; transition: all 0.25s ease; }
 
 .btn-back-circle { 
@@ -134,7 +142,12 @@ strong, b {
 
 .grid-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
 
-/* 🌟 โซน 1: การ์ดสินค้า / โปรโมชัน */
+/* Badges บนการ์ดสินค้า */
+.card-badge-eye { position: absolute; top: 10px; left: 10px; padding: 3px 10px; border-radius: 10px; font-size: 10px; font-weight: bold !important; z-index: 5; box-shadow: 0 2px 6px rgba(0,0,0,0.3); color: #fff; -webkit-text-stroke: 0px; }
+.badge-bestseller { background: linear-gradient(135deg, #FF4B7E, #FF8000); }
+.badge-sale { background: linear-gradient(135deg, #8A2387, #E94057); }
+
+/* การ์ดสินค้า */
 .item-card { background: var(--bg-card); border: 2px solid transparent; border-radius: 16px; padding: 18px 15px; display: flex; flex-direction: column; align-items: center; text-align: center; position: relative; cursor: pointer; transition: all 0.2s ease; color: #000; min-height: 185px; overflow: hidden; }
 .item-card.selected { border-color: var(--primary); background: #ffffff !important; box-shadow: 0 4px 15px rgba(59, 150, 245, 0.3); }
 .card-icon { width: 58px; height: 58px; border-radius: 12px; object-fit: cover; margin-bottom: 10px; background: #ccc; }
@@ -149,14 +162,12 @@ strong, b {
 .os-btn { background: #f0f4f8; color: #555; border: 1px solid #ccc; padding: 6px 16px; border-radius: 20px; font-size: 11px; cursor: pointer; font-family: inherit; transition: 0.2s; flex: 0 0 auto; width: fit-content; text-align: center; margin: 0 2px; font-weight: normal !important; -webkit-text-stroke: 0.3px currentColor; }
 .os-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); box-shadow: 0 2px 8px rgba(59, 150, 245, 0.4); }
 
-/* 🌟 โซน 3: กล่องข้อความอื่นๆ ในเว็บ */
 .group-header { background: var(--bg-card); color: var(--bg-main); border-left: 4px solid var(--primary); padding: 8px 12px; margin: 15px 0 10px; border-radius: 6px; font-size: var(--font-box-h); grid-column: 1 / -1; box-shadow: 0 2px 8px rgba(0,0,0,0.1); text-align: left; font-weight: normal !important; -webkit-text-stroke: 0.3px currentColor; }
 
-/* ================== 🌟 สถานะสินค้าของหมด / ไม่พร้อม ================== */
 .disabled-item { opacity: 0.6; cursor: not-allowed !important; pointer-events: none; }
 .os-btn.disabled-btn { opacity: 0.5; cursor: not-allowed !important; pointer-events: none; background: #ccc; color: #777; border-color: #bbb; }
 
-/* ================== 🌟 การ์ดแพ็คเกจย่อย ================== */
+/* การ์ดแพ็คเกจย่อย */
 .package-card { background: var(--bg-card); border: 2px solid transparent; border-radius: 12px; padding: 14px 15px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; position: relative; color: #000; transition: 0.2s; margin-bottom: 10px; gap: 8px; min-height: 60px; }
 .package-card.no-desc { padding: 10px 15px !important; min-height: 48px !important; }
 .package-card.selected { border-color: var(--primary); background: #ffffff !important; box-shadow: 0 4px 12px rgba(59, 150, 245, 0.2); }
@@ -176,7 +187,7 @@ strong, b {
 .package-card.selected .check-circle { background: var(--primary); border-color: var(--primary); }
 .package-card.selected .check-circle::after { content: '✓'; color: #fff; font-size: 14px; font-weight: bold; }
 
-/* ================== โซน 3: กล่องข้อมูลร้านค้า ================== */
+/* กล่องข้อมูลร้าน */
 .info-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 20px; padding: 30px 24px; text-align: center; box-shadow: 0 8px 25px rgba(0,0,0,0.2); color: #000; display: flex !important; flex-direction: column !important; }
 .info-card > h3 { order: 1 !important; margin-top: 0 !important; margin-bottom: 15px !important; font-size: var(--font-box-h) !important; font-weight: normal !important; -webkit-text-stroke: 0.3px currentColor;}
 .info-card > .info-row { order: 2 !important; margin-top: 0 !important; margin-bottom: 20px !important; }
@@ -199,16 +210,17 @@ strong, b {
 .checkout-total-val { font-size: 18px; color: var(--primary); font-weight: normal !important; -webkit-text-stroke: 0.3px currentColor; }
 .btn-confirm-line { background: #00B900; color: #fff; border: none; padding: 12px; border-radius: 8px; font-family: inherit; font-size: 15px; cursor: pointer; width: 100%; display: flex; justify-content: center; align-items: center; gap: 8px; box-shadow: 0 4px 10px rgba(0, 185, 0, 0.3); transition: 0.2s; font-weight: normal !important; -webkit-text-stroke: 0.3px currentColor; }
 
-/* ================== 🌟 1. & 5. CSS สำหรับ Popup (Modal) เลือกแพ็กเกจ และ Dynamic Info Box ================== */
+/* Modal แพ็กเกจสินค้า */
 .package-modal-box { background: #fff; color: #000; width: 92%; max-width: 500px; border-radius: 20px; padding: 24px; position: relative; max-height: 85vh; display: flex; flex-direction: column; box-shadow: 0 15px 40px rgba(0,0,0,0.6); border: 2px solid var(--primary); animation: modalPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
 @keyframes modalPop { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 .close-modal-btn { position: absolute; top: 15px; right: 20px; font-size: 28px; color: #888; cursor: pointer; line-height: 1; }
 .package-modal-header { font-size: 20px; color: var(--primary); font-weight: bold; text-align: center; margin-bottom: 6px; }
 .package-modal-sub { font-size: 13px; color: #666; text-align: center; margin-bottom: 15px; white-space: pre-line; }
 .package-modal-list { overflow-y: auto; flex: 1; padding-right: 4px; max-height: 50vh; }
-.dynamic-info-box { background: #f0f7ff; border-left: 4px solid var(--primary); padding: 12px 14px; border-radius: 8px; margin-bottom: 15px; font-size: 13px; color: #0a1d3a; line-height: 1.5; box-shadow: 0 2px 8px rgba(59,150,245,0.15); transition: all 0.3s ease; }
+/* 🌟 เพิ่ม white-space: pre-line; ให้ตัดบรรทัดตามที่แอดมินพิมพ์ในกล่อง Pop-up */
+.dynamic-info-box { background: #f0f7ff; border-left: 4px solid var(--primary); padding: 12px 14px; border-radius: 8px; margin-bottom: 15px; font-size: 13px; color: #0a1d3a; line-height: 1.5; box-shadow: 0 2px 8px rgba(59,150,245,0.15); transition: all 0.3s ease; white-space: pre-line; }
 
-/* Admin CSS */
+/* โหมด Admin */
 #admin-badge { position: fixed; bottom: 80px; right: 20px; width: 50px; height: 50px; background: #fff; border-radius: 50%; display: none; justify-content: center; align-items: center; color: #000; font-size: 30px; font-weight: bold; box-shadow: 0 4px 15px rgba(0,0,0,0.5); z-index: 999; cursor: pointer; border: 2px solid #ddd; }
 .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 2000; display: none; justify-content: center; align-items: center; backdrop-filter: blur(4px); }
 .loader { border: 4px solid rgba(255,255,255,0.2); border-top-color: var(--primary); border-radius: 50%; width: 45px; height: 45px; animation: spin 1s linear infinite; }
@@ -263,7 +275,7 @@ strong, b {
 
 <div id="admin-badge" onclick="openAdmin()">+</div>
 
-<!-- 🌟 ส่วน Header: ป้ายเปิดปิดอยู่ซ้ายบน -->
+<!-- 🌟 ส่วน Header ทั้งหมดคงไว้ 100%: ป้ายเปิดปิดอยู่ซ้ายบน -->
 <div class="hero">
   <div class="shop-status-badge" id="shopStatusBadge">
       <div class="status-indicator"></div>
@@ -277,7 +289,7 @@ strong, b {
 </div>
 
 <div class="content">
-  <!-- 🌟 3. ปรับกล่องขั้นตอนเลือกสินค้าให้ย่อ/ขยายได้ (Accordion) ค่าเริ่มต้นย่อไว้ -->
+  <!-- กล่องวิธีใช้งาน -->
   <div class="steps-container" id="stepsBox">
       <h3 onclick="toggleStepsBox()">💡 วิธีใช้งานเว็บ: วิธีเลือกซื้อสินค้าและสั่งของ <span id="stepsArrow">▾</span></h3>
       <ol>
@@ -301,6 +313,15 @@ strong, b {
     </select>
   </div>
 
+  <!-- หมวดหมู่ย่อย (Filter Pills) -->
+  <div id="filterPills" class="filter-pills-wrap" style="display:none;">
+      <button class="pill-btn active" onclick="filterSubCat('ทั้งหมด', this)">🔥 ทั้งหมด</button>
+      <button class="pill-btn" onclick="filterSubCat('ดูหนัง/ซีรีส์', this)">🎬 ดูหนัง/ซีรีส์</button>
+      <button class="pill-btn" onclick="filterSubCat('ฟังเพลง', this)">🎧 ฟังเพลง</button>
+      <button class="pill-btn" onclick="filterSubCat('ทำงาน/เรียน', this)">💼 ทำงาน/เรียน</button>
+      <button class="pill-btn" onclick="filterSubCat('แอพจีน', this)">🇨🇳 แอพจีน</button>
+  </div>
+
   <div class="grid-container" id="productGrid"></div>
 </div>
 
@@ -312,7 +333,7 @@ strong, b {
   <button class="bb-btn" onclick="openCheckoutModal()">สั่งซื้อสินค้า</button>
 </div>
 
-<!-- 🌟 กล่องตอนโหลด -->
+<!-- โหลด Overlay -->
 <div class="overlay" id="loadingOverlay">
   <div style="display: flex; flex-direction: column; align-items: center; gap: 18px;">
     <div class="loader"></div>
@@ -320,14 +341,15 @@ strong, b {
   </div>
 </div>
 
-<!-- 🌟 1. & 5. Popup (Modal) แสดงแพ็กเกจสินค้า + Dynamic Info Box -->
+<!-- Popup แสดงแพ็กเกจสินค้า -->
 <div class="overlay" id="packageModalOverlay" style="z-index: 10001;">
   <div class="package-modal-box">
     <span class="close-modal-btn" onclick="closePackageModal()">×</span>
     <div class="package-modal-header" id="modalAppName">📦 เลือกแพ็กเกจ</div>
-    <!-- 💡 แสดงรายละเอียดแอพภายใน Pop-up เท่านั้น -->
+    <!-- 🌟 ข้อความรายละเอียดแอพ (appDesc) จะมาโชว์ใต้ชื่อแอปตรงนี้ครับ -->
     <div class="package-modal-sub" id="modalAppDesc"></div>
     
+    <!-- 🌟 กล่องข้อความรายละเอียดแพ็กเกจ (desc) ตอนลูกค้ากดเลือกแพ็กเกจ -->
     <div id="dynamicInfoBox" class="dynamic-info-box" style="display: none;"></div>
     
     <div class="package-modal-list" id="modalPackageList"></div>
@@ -375,19 +397,39 @@ strong, b {
         </div>
       </div>
       
+      <!-- โซนเพิ่ม/แก้ไขข้อมูลสินค้า + กล่องข้อความรายละเอียด -->
       <div id="zone-premium-game" style="display:none; border: 1px solid #ddd; padding: 10px; border-radius: 8px;">
         <input type="text" id="pg_cat" placeholder="ชื่อแอปหลัก / หมวดหมู่">
-        <textarea id="pg_appDesc" placeholder="รายละเอียดใต้ชื่อแอป (แสดงใน Pop-up เท่านั้น)" rows="3"></textarea>
+        
+        <!-- 🌟 1. กล่องข้อความรายละเอียดแอพ (แสดงด้านบนใน Pop-up ใต้ชื่อแอป) -->
+        <label style="font-size: 13px; color: #555; display:block; margin-top:5px; margin-bottom:5px; font-weight:bold;">📝 กล่องข้อความรายละเอียดแอพ (แสดงใน Pop-up ใต้ชื่อแอป):</label>
+        <textarea id="pg_appDesc" placeholder="รายละเอียด/เงื่อนไข หรือข้อความแนะนำใต้ชื่อแอปใน Pop-up (ขึ้นบรรทัดใหม่ได้)" rows="3"></textarea>
+        
         <input type="text" id="pg_subCat" placeholder="หมวดหมู่แพ็กเกจ [จัดกลุ่ม]">
         <input type="text" id="pg_name" placeholder="ชื่อแพ็กเกจย่อย">
-        <textarea id="pg_desc" placeholder="รายละเอียดแพ็กเกจย่อย (ขึ้นบรรทัดใหม่ได้)" rows="2"></textarea>
+        
+        <!-- 🌟 4. เพิ่มป้ายกำกับ กล่องข้อความรายละเอียดแพ็กเกจ (แสดงใน Pop-up ตอนลูกค้ากดเลือกแพ็กเกจ) -->
+        <label style="font-size: 13px; color: #555; display:block; margin-top:10px; margin-bottom:5px; font-weight:bold;">📌 กล่องข้อความรายละเอียดแพ็กเกจ (แสดงใน Pop-up ตอนลูกค้ากดเลือก):</label>
+        <textarea id="pg_desc" placeholder="รายละเอียด/เงื่อนไขของแพ็กเกจนี้ที่จะเด้งโชว์ในกล่องข้อความตอนลูกค้ากดเลือก (ขึ้นบรรทัดใหม่ได้)" rows="3"></textarea>
+        
         <input type="number" id="pg_price" placeholder="ราคา (บาท)">
         <input type="text" id="pg_icon" placeholder="รูปลิงก์ไอคอนแอป">
+        
+        <label style="font-size: 13px; color: #555; display:block; margin-top:5px; margin-bottom:5px;">หมวดหมู่ย่อย (Filter Pill):</label>
+        <select id="pg_filterPill" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 8px; font-family: inherit;">
+            <option value="ดูหนัง/ซีรีส์">🎬 ดูหนัง/ซีรีส์</option>
+            <option value="ฟังเพลง">🎧 ฟังเพลง</option>
+            <option value="ทำงาน/เรียน">💼 ทำงาน/เรียน</option>
+            <option value="แอพจีน">🇨🇳 แอพจีน</option>
+            <option value="อื่นๆ">📌 อื่นๆ / ทั่วไป</option>
+        </select>
       </div>
 
       <div id="zone-ios-android" style="display:none; border: 1px solid #ddd; padding: 10px; border-radius: 8px;">
         <input type="text" id="ia_cat" placeholder="ชื่อแอป">
-        <textarea id="ia_desc" placeholder="รายละเอียด (ขึ้นบรรทัดใหม่ได้)" rows="3"></textarea>
+        <!-- 🌟 4. เพิ่มป้ายกำกับให้ชัดเจนสำหรับ iOS/Android เช่นกัน -->
+        <label style="font-size: 13px; color: #555; display:block; margin-top:5px; margin-bottom:5px; font-weight:bold;">📝 กล่องข้อความรายละเอียดแอพ / แพ็กเกจ:</label>
+        <textarea id="ia_desc" placeholder="รายละเอียด/เงื่อนไขของแต่ละแอพ (ขึ้นบรรทัดใหม่ได้)" rows="3"></textarea>
         
         <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; color: #555; background: #f0f4f8; padding: 10px; border-radius: 8px; margin-bottom: 10px; border: 1px solid #ccc; font-size: 13px; font-weight: normal !important; -webkit-text-stroke: 0.3px currentColor;">
             <input type="checkbox" id="ia_isNew" style="width: 18px; height: 18px; accent-color: var(--primary);"> 
@@ -431,7 +473,7 @@ strong, b {
 
       <div id="zone-custom-cards" style="display:none; border: 1px solid #ddd; padding: 10px; border-radius: 8px;">
         <label style="font-size: 13px; color: #555; font-weight: normal !important; -webkit-text-stroke: 0.3px currentColor;">สร้างการ์ดรูปภาพ/โปรโมชันใหม่</label>
-        <input type="text" id="cc_title" placeholder="ชื่อการ์ด (เช่น รีวิว, โปรโมชัน)">
+        <input type="text" id="cc_title" placeholder="ชื่อการ์ด (เช่น โปรโมชันพิเศษ)">
         <textarea id="cc_desc" placeholder="รายละเอียด (ขึ้นบรรทัดใหม่ได้)" rows="3"></textarea>
         <textarea id="cc_images" placeholder="ลิงก์รูปภาพ (คั่นด้วยลูกน้ำ , ถ้ามีหลายรูป)" rows="2"></textarea>
         <button type="button" class="admin-btn" id="cc_save_btn" style="background:#8b5cf6; margin-top: 5px;" onclick="addCustomCard()">➕ เพิ่มการ์ดใหม่</button>
@@ -466,8 +508,9 @@ const API_URL = "https://script.google.com/macros/s/AKfycbxcs3Smz6vGPDDHtjrhDSZ8
 
 let allProducts = []; let cart = []; let currentTab = "info"; let storeInfo = {}; let tabsList = []; 
 let viewLevel = 'apps'; let selectedAppName = ''; let localCustomCards = []; let editingCardIndex = -1;
-let isAdmin = false;
+let isAdmin = false; let currentSubFilter = 'ทั้งหมด';
 
+// ติดเพดานเมื่อเลื่อนหน้าจอ
 window.addEventListener('scroll', () => {
     const tc = document.getElementById('tabContainer');
     const fr = document.querySelector('.filter-row');
@@ -486,6 +529,13 @@ function toggleStepsBox() {
     if (!box) return;
     box.classList.toggle('open');
     if (arrow) arrow.innerText = box.classList.contains('open') ? '▴' : '▾';
+}
+
+function filterSubCat(cat, btn) {
+    currentSubFilter = cat;
+    document.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+    renderProducts();
 }
 
 async function recordVisit() {
@@ -564,12 +614,15 @@ function processLoadedData(data) {
   }
 }
 
+/* 🌟 3. อัปเกรดการกรองตัดแท็บ Reviews ออก 100% (ครอบคลุมทั้งตัวพิมพ์เล็ก/ใหญ่ และภาษาไทย) */
 function renderTabs() {
   const tc = document.getElementById('tabContainer');
   if (!tc) return;
   let html = `<button class="tab-btn active" onclick="switchTab('info')" id="tab-info">ข้อมูลร้าน</button>`;
   const predefinedOrder = ["แอพพรีเมี่ยม", "เติมเกม", "เติมเหรียญนิยาย", "IOS-ANDROID", "แอพ-เกม iOS/Android"];
-  let sortedTabs = [...tabsList].filter(t => t !== "ข้อมูลร้าน" && t !== "StoreInfo" && t !== "Reviews" && t !== "FONT_SETTINGS" && t !== "ตั้งค่าตัวอักษร").sort((a, b) => {
+  const excludedTabs = ["ข้อมูลร้าน", "storeinfo", "reviews", "review", "รีวิว", "รีวิวลูกค้า", "font_settings", "ตั้งค่าตัวอักษร", "orders"];
+  
+  let sortedTabs = [...tabsList].filter(t => !excludedTabs.includes(t.trim().toLowerCase())).sort((a, b) => {
      let idxA = predefinedOrder.indexOf(a); let idxB = predefinedOrder.indexOf(b);
      if(idxA === -1) idxA = 99; if(idxB === -1) idxB = 99; return idxA - idxB;
   });
@@ -585,6 +638,16 @@ function switchTab(tabName) {
   
   let searchInput = document.getElementById('searchInput'); if(searchInput) searchInput.value = '';
   document.getElementById('dynamicBackBtn').style.display = 'none';
+  
+  if (tabName === 'แอพพรีเมี่ยม' || tabName === 'แอพพรีเมียม') {
+      document.getElementById('filterPills').style.display = 'flex';
+  } else {
+      document.getElementById('filterPills').style.display = 'none';
+  }
+  currentSubFilter = 'ทั้งหมด';
+  document.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('active'));
+  let firstPill = document.querySelector('.pill-btn');
+  if (firstPill) firstPill.classList.add('active');
 
   if(tabName === 'info') {
       document.getElementById('stepsBox').style.display = 'none';
@@ -639,6 +702,7 @@ function renderModalPackages() {
     updateDynamicInfoBox();
 }
 
+/* 🌟 2. กล่องข้อความรายละเอียดแพ็คเกจที่จะเด้งขึ้นมาเมื่อลูกค้าเลือกแพ็กเกจใน Pop-up */
 function updateDynamicInfoBox() {
     const infoBox = document.getElementById('dynamicInfoBox');
     if (!infoBox) return;
@@ -707,9 +771,31 @@ function applySearch() {
 
 function getAppIcon(appName) { const app = allProducts.find(p => p.cat === appName && p.icon); return app ? app.icon : null; }
 
+function getEyeBadge(name) {
+    let n = (name || '').toLowerCase();
+    if (/netflix|chatgpt|youtube|canva|spotify/.test(n)) return `<div class="card-badge-eye badge-bestseller">🔥 ขายดี</div>`;
+    if (/disney|prime|hbo|office|microsoft|adobe/.test(n)) return `<div class="card-badge-eye badge-sale">💖 ลดราคา</div>`;
+    return ''; 
+}
+
+/* 🌟 1. นำส่วน appDesc ออกจากการ์ดสินค้าในหน้าแรก เพื่อให้ข้อความไปแสดงใน Pop-up และการ์ดดูคลีน */
 function renderProducts() {
   const grid = document.getElementById('productGrid'); const sortType = document.getElementById('sortSelect').value;
   let products = allProducts.filter(p => p.tab === currentTab);
+  
+  if (currentTab === 'แอพพรีเมี่ยม' || currentTab === 'แอพพรีเมียม') {
+      if (currentSubFilter !== 'ทั้งหมด') {
+          products = products.filter(p => {
+              if (p.filterPill && p.filterPill === currentSubFilter) return true;
+              let name = (p.cat || p.name || '').toLowerCase();
+              if (currentSubFilter === 'ดูหนัง/ซีรีส์') return /netflix|disney|prime|hbo|iqiyi|viu|wetv|bilibili|youtube|apple tv|k-drama|หนัง|ซีรีส์/.test(name);
+              if (currentSubFilter === 'ฟังเพลง') return /spotify|music|tidal|joox|youtube music|ฟังเพลง/.test(name);
+              if (currentSubFilter === 'ทำงาน/เรียน') return /chatgpt|canva|office|microsoft|adobe|zoom|google|notion|grammarly|duolingo|goodnotes|gpt|ai|เรียน|ทำงาน/.test(name);
+              if (currentSubFilter === 'แอพจีน') return /iqiyi|wetv|bilibili|youku|mangotv|baidu|จีน/.test(name);
+              return false;
+          });
+      }
+  }
 
   if (sortType === 'name') products.sort((a,b) => (a.cat || a.name || '').localeCompare(b.cat || b.name || ''));
   if (sortType === 'price') products.sort((a,b) => a.price - b.price);
@@ -752,6 +838,7 @@ function renderProducts() {
 
         let cardStr = `<div class="item-card ${isCardSelected ? 'selected' : ''}">
             ${newBadge}
+            ${getEyeBadge(app.title)}
             <div class="app-status ${app.status === 'ready' ? 'status-ready' : 'status-notready'}">${app.status === 'ready' ? '🟢 พร้อมส่ง' : '🔴 ไม่พร้อม'}</div>
             ${app.icon ? `<img src="${app.icon}" loading="lazy" onerror="this.style.display='none'" class="card-icon">` : '<div class="card-icon"></div>'}
             <div class="card-title">${app.title}</div>
@@ -783,7 +870,8 @@ function renderProducts() {
     if (viewLevel === 'apps') {
       let uniqueApps = {};
       products.forEach(p => { if (!uniqueApps[p.cat]) uniqueApps[p.cat] = { cat: p.cat, icon: p.icon || getAppIcon(p.cat) }; });
-      html = Object.values(uniqueApps).map(app => `<div class="item-card" onclick="openPackages('${app.cat}')">${app.icon ? `<img src="${app.icon}" loading="lazy" onerror="this.style.display='none'" class="card-icon">` : '<div class="card-icon"></div>'}<div class="card-title">${app.cat || 'ไม่ระบุชื่อ'}</div></div>`).join('');
+      // 🌟 นำ app.appDesc ออกจากหน้าการ์ดหลัก
+      html = Object.values(uniqueApps).map(app => `<div class="item-card" onclick="openPackages('${app.cat}')">${getEyeBadge(app.cat)}${app.icon ? `<img src="${app.icon}" loading="lazy" onerror="this.style.display='none'" class="card-icon">` : '<div class="card-icon"></div>'}<div class="card-title">${app.cat || 'ไม่ระบุชื่อ'}</div></div>`).join('');
     } else {
       let pkgProducts = products.filter(p => p.cat === selectedAppName);
       let appDescription = pkgProducts.length > 0 ? (pkgProducts[0].appDesc || '') : '';
@@ -1044,14 +1132,18 @@ function confirmCheckout() {
   closeCheckoutModal();
 }
 
+/* 🌟 3. อัปเกรดการกรองตัดแท็บ Reviews ออกจากเมนูแอดมิน 100% */
 function renderAdminTabButtons() {
     let html = `<button type="button" class="admin-tab-btn active" onclick="switchAdminFormTab('STORE_INFO', this)">⚙️ ร้านค้า</button>
                 <button type="button" class="admin-tab-btn" onclick="switchAdminFormTab('แอพพรีเมี่ยม', this)">📦 พรีเมี่ยม</button>
                 <button type="button" class="admin-tab-btn" onclick="switchAdminFormTab('เติมเกม', this)">🎮 เติมเกม</button>
                 <button type="button" class="admin-tab-btn" onclick="switchAdminFormTab('เติมเหรียญนิยาย', this)">🪙 เติมนิยาย</button>
                 <button type="button" class="admin-tab-btn" onclick="switchAdminFormTab('IOS-ANDROID', this)">📱 IOS/Android</button>`;
+    const excludedAdminTabs = ["แอพพรีเมี่ยม", "แอพพรีเมียม", "เติมเกม", "เติมเหรียญนิยาย", "ios-android", "แอพ-เกม ios/android", "storeinfo", "ข้อมูลร้าน", "orders", "ตั้งค่าตัวอักษร", "font_settings", "reviews", "review", "รีวิว", "รีวิวลูกค้า"];
     tabsList.forEach(t => {
-        if(!["แอพพรีเมี่ยม", "เติมเกม", "เติมเหรียญนิยาย", "IOS-ANDROID", "แอพ-เกม iOS/Android", "StoreInfo", "ข้อมูลร้าน", "Orders", "ตั้งค่าตัวอักษร", "FONT_SETTINGS"].includes(t)) { html += `<button type="button" class="admin-tab-btn" onclick="switchAdminFormTab('${t}', this)">📁 ${t}</button>`; }
+        if(!excludedAdminTabs.includes(t.trim().toLowerCase())) { 
+            html += `<button type="button" class="admin-tab-btn" onclick="switchAdminFormTab('${t}', this)">📁 ${t}</button>`; 
+        }
     });
     html += `<button type="button" class="admin-tab-btn" onclick="switchAdminFormTab('CUSTOM_CARDS', this)">🖼️ การ์ดรูปภาพ</button>
              <button type="button" class="admin-tab-btn" onclick="switchAdminFormTab('MANAGE_TABS', this)">➕ เพิ่มแท็บ</button>
@@ -1080,6 +1172,7 @@ function clearAdminForm() {
     document.getElementById('a_id').value = ''; 
     document.getElementById('ia_group').value = '📱 แอพอื่นๆ'; 
     if(document.getElementById('ia_isNew')) document.getElementById('ia_isNew').checked = false;
+    if(document.getElementById('pg_filterPill')) document.getElementById('pg_filterPill').value = 'ดูหนัง/ซีรีส์';
 }
 
 function switchAdminFormTab(tabVal, btnElement) { document.getElementById('a_tab').value = tabVal; document.querySelectorAll('.admin-tab-btn').forEach(b => b.classList.remove('active')); if(btnElement) btnElement.classList.add('active'); toggleAdminFields(); }
@@ -1238,6 +1331,7 @@ function submitAdminAction(event, action) {
         payload.desc = document.getElementById('pg_desc')?.value || '';
         payload.price = Number(document.getElementById('pg_price')?.value) || 0;
         payload.icon = document.getElementById('pg_icon')?.value || '';
+        payload.filterPill = document.getElementById('pg_filterPill')?.value || '';
     }
 
     if (action === 'add' && (!payload.name && !payload.cat)) {
@@ -1321,63 +1415,41 @@ function selectProductForEdit(id) {
         if (document.getElementById('ia_group')) document.getElementById('ia_group').value = p.subCat || '📱 แอพอื่นๆ';
         if (document.getElementById('ia_isNew')) document.getElementById('ia_isNew').checked = (p.isNew === true || String(p.isNew).trim().toLowerCase() === "true");
         
-        let osList = p.os ? p.os.split('/') : [];
-        if (document.getElementById('os_ios')) document.getElementById('os_ios').checked = osList.includes('iOS');
-        if (document.getElementById('os_android')) document.getElementById('os_android').checked = osList.includes('Android');
-    } else {
-        if (document.getElementById('pg_cat')) document.getElementById('pg_cat').value = p.cat || '';
-        if (document.getElementById('pg_appDesc')) document.getElementById('pg_appDesc').value = p.appDesc || '';
-        if (document.getElementById('pg_subCat')) document.getElementById('pg_subCat').value = p.subCat || '';
-        if (document.getElementById('pg_name')) document.getElementById('pg_name').value = p.name || '';
-        if (document.getElementById('pg_desc')) document.getElementById('pg_desc').value = p.desc || '';
-        if (document.getElementById('pg_price')) document.getElementById('pg_price').value = p.price || '';
-        if (document.getElementById('pg_icon')) document.getElementById('pg_icon').value = p.icon || '';
-    }
-    alert("✅ ดึงข้อมูลสินค้ามาที่ฟอร์มแล้ว สามารถแก้ไขแล้วกดปุ่ม '💾 บันทึกแก้ไข' ด้านล่างได้เลยค่ะ");
-}
+สวัสดีครับ ได้ตรวจสอบโครงสร้างโค้ดและระบบการทำงานโดยรวมให้เรียบร้อยแล้วครับ ระบบเดิมวางโครงสร้างไว้ค่อนข้างดีมาก ทั้งส่วน **Badges** (ปุ่มสถานะเปิด/ปิดร้านด้านบนซ้าย) และ **Header** ยังคงอยู่ครบถ้วน 100% ครับ
 
-function fetchStats(btn) {
-    const container = document.getElementById('stats-container');
-    if (!container) return;
-    if (btn) btn.innerText = "⏳ กำลังโหลดสถิติ...";
-    
-    fetch(API_URL + "?action=get_stats&t=" + Date.now())
-    .then(res => res.json())
-    .then(data => {
-        if (btn) btn.innerText = "🔄 โหลดสถิติล่าสุด";
-        if (data && data.stats) {
-            let s = data.stats;
-            container.innerHTML = `
-                <div class="stat-card highlight">
-                    <h4>เข้าชมวันนี้</h4>
-                    <p>${s.todayVisits || 0} คน</p>
-                </div>
-                <div class="stat-card">
-                    <h4>เข้าชมทั้งหมด</h4>
-                    <p>${s.totalVisits || 0} คน</p>
-                </div>
-                <div class="stat-card highlight">
-                    <h4>ออเดอร์วันนี้</h4>
-                    <p>${s.todayOrders || 0} รายการ</p>
-                </div>
-                <div class="stat-card">
-                    <h4>ออเดอร์ทั้งหมด</h4>
-                    <p>${s.totalOrders || 0} รายการ</p>
-                </div>
-            `;
-        } else {
-            container.innerHTML = '<p style="text-align:center; color:#999; grid-column:1/-1;">ไม่สามารถโหลดสถิติได้</p>';
-        }
-    })
-    .catch(err => {
-        if (btn) btn.innerText = "🔄 โหลดสถิติล่าสุด";
-        container.innerHTML = '<p style="text-align:center; color:#ff3b3b; grid-column:1/-1;">เกิดข้อผิดพลาดในการโหลดสถิติ</p>';
-    });
-}
+สาเหตุหลักของปัญหาและจุดที่ต้องปรับแก้ มีดังนี้ครับ:
 
-window.addEventListener('DOMContentLoaded', () => {
-    loadData();
-});
-</script>
-</body>
-</html>
+---
+
+## 🛠️ สรุปปัญหาและแนวทางแก้ไข
+
+1. **ปัญหาข้อที่ 1, 2 และ 4 (เรื่องรายละเอียดแอป และ กล่องข้อความใน Pop-up):**
+   * **สาเหตุ:** ปัจจุบันโค้ดใช้ตัวแปรเดียวคือ `appDesc` ทำหน้าที่ "ควบ 2 ตำแหน่ง" ทั้งแสดงใต้ชื่อแอปบนการ์ดสินค้า **และ** ดึงไปแสดงใน Pop-up ตอนเลือกแพ็กเกจ ทำให้ไม่สามารถแยกข้อความกันได้ และในหน้าแอดมินยังไม่มีช่องให้กรอกข้อความสำหรับ Pop-up โดยเฉพาะ
+   * **วิธีแก้:** เราจะแยกเป็น 2 ตัวแปรให้ชัดเจน คือ `appDesc` (คำอธิบายสั้นใต้ชื่อแอปบนการ์ด) และเพิ่ม `popupDesc` (กล่องข้อความรายละเอียด/เงื่อนไขภายใน Pop-up) พร้อมเพิ่มช่องกรอกในหน้าแอดมินครับ
+2. **ปัญหาข้อที่ 3 (แท็บ Reviews ในหน้าแอดมินยังไม่โดนตัดออก):**
+   * **สาเหตุ:** ในโค้ดมีการกรองคำว่า `"Reviews"` (มี s) ออกไปแล้ว แต่ถ้าใน Google Sheets ตั้งชื่อแท็บเป็น `"Review"` (ไม่มี s), `"รีวิว"`, หรือพิมพ์ตัวเล็ก/ใหญ่ต่างกัน ระบบจะยังดึงมาแสดงอยู่
+   * **วิธีแก้:** ปรับการกรองให้เป็นแบบ **Case-Insensitive** (ไม่สนใจตัวพิมพ์เล็ก/ใหญ่) และครอบคลุมทั้งคำไทยและอังกฤษครับ
+
+---
+
+## 💻 จุดที่ต้องแก้ไขในโค้ด (สามารถนำไปแทนที่ได้เลย)
+
+### จุดที่ 1: ปรับสไตล์กล่องข้อความใน Pop-up ให้สวยงามขึ้น (ส่วน `<style>`)
+ค้นหาคลาส `.package-modal-sub` ในแท็ก `<style>` แล้วเปลี่ยนเป็นโค้ดด้านล่าง เพื่อให้ข้อความใน Pop-up ดูเป็น "กล่องข้อความ" ที่เป็นระเบียบขึ้นครับ:
+
+```css
+.package-modal-sub { 
+    font-size: 13px; 
+    color: #0a1d3a; 
+    background: #f0f7ff; 
+    border: 1px solid #cce3ff; 
+    border-left: 4px solid var(--primary);
+    padding: 12px 14px; 
+    border-radius: 8px; 
+    text-align: left; 
+    margin-bottom: 15px; 
+    white-space: pre-line; 
+    line-height: 1.5; 
+    box-shadow: 0 2px 8px rgba(59,150,245,0.1);
+    display: none; /* จะเปิดให้แสดงผลอัตโนมัติใน JS เฉพาะตอนมีข้อความ */
+}
