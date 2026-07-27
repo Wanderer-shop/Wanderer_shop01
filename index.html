@@ -55,7 +55,7 @@ strong, b {
 @keyframes floatUp { 0% { transform: translateY(0) rotate(0deg) scale(0.8); } 100% { transform: translateY(-120vh) rotate(360deg) scale(1.2); } }
 @keyframes twinkle { 0%, 100% { opacity: 0.2; text-shadow: 0 0 5px rgba(255,255,255,0.1); } 50% { opacity: 0.8; text-shadow: 0 0 15px rgba(59, 150, 245, 0.8); } }
 
-/* 🌟 ป้ายสถานะ เปิด/ปิด ร้าน (มุมบนซ้าย - รองรับสถานะจากหน้า Admin) */
+/* 🌟 ป้ายสถานะ เปิด/ปิด ร้าน (มุมบนซ้าย - คงไว้ 100%) */
 .shop-status-badge { 
     position: absolute; top: 15px; left: 15px; background: rgba(0,0,0,0.5); 
     backdrop-filter: blur(5px); padding: 5px 12px; border-radius: 20px; 
@@ -86,13 +86,13 @@ strong, b {
 }
 @keyframes blinker { 50% { opacity: 0.2; } }
 
-/* 🌟 Header ทั้งหมดคงไว้ 100% (ปรับโครงสร้างและขนาดข้อความให้พอดีหน้าเว็บ) */
+/* 🌟 Header ทั้งหมดคงไว้ 100% */
 .hero { background: linear-gradient(135deg, var(--bg-main) 0%, rgba(59,150,245,0.2) 100%); padding: 55px 20px 50px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; position: relative; border-bottom: 2px solid var(--border-color); margin-bottom: 45px; box-shadow: 0 4px 30px rgba(10,29,58,0.5); }
 #shopLogo { width: 190px; height: 190px; border-radius: 50%; object-fit: cover; margin-bottom: 12px; border: 2px solid var(--border-color); box-shadow: 0 0 15px rgba(196,150,70,0.4); background: #fff; }
 .hero-title { font-family: 'LowellCustom', sans-serif; font-size: var(--font-main-h); color: #fff; margin-bottom: 4px; letter-spacing: 0.5px; text-shadow: 0 0 15px rgba(59,150,245,0.6); cursor: pointer; user-select: none; font-weight: normal !important; -webkit-text-stroke: 0.6px currentColor; }
 #welcomeText { font-size: clamp(13px, 3.8vw, 16px) !important; font-weight: normal; color: rgba(255,255,255,0.9); cursor: pointer; margin-top: 6px; margin-bottom: 15px; max-width: 90%; line-height: 1.4; word-wrap: break-word; -webkit-text-stroke: 0.1px currentColor; }
 
-/* 🌟 แท็บเมนูหลัก (พอดีกับหน้าเว็บของอุปกรณ์ที่เปิด) */
+/* 🌟 แท็บเมนูหลัก */
 .tab-container { 
     position: absolute; bottom: -24px; left: 50%; transform: translateX(-50%); display: flex; background: var(--bg-card); border: 2px solid var(--border-color); border-radius: 35px; padding: 6px; width: 96%; max-width: 600px; z-index: 10; box-shadow: 0 6px 25px rgba(0,0,0,0.5); overflow-x: auto; scrollbar-width: none; justify-content: flex-start; transition: all 0.25s ease; gap: 4px;
 }
@@ -241,7 +241,7 @@ strong, b {
 
 <!-- Header (คงโครงสร้างหลักไว้ 100%) -->
 <div class="hero">
-  <!-- 🌟 ป้ายสถานะร้านมุมบนซ้าย (เชื่อมต่อตัวเลือกจากหน้า Admin) -->
+  <!-- 🌟 ป้ายสถานะร้านมุมบนซ้าย -->
   <div class="shop-status-badge" id="shopStatusBadge">
       <div class="status-indicator"></div>
       <span class="status-text">เปิดร้าน / พร้อมตอบ</span>
@@ -251,7 +251,7 @@ strong, b {
   <div class="hero-title" id="shopNameBtn">Wanderer_Shop</div>
   <div class="hero-sub" id="welcomeText">ยินดีต้อนรับสู่ร้าน Wanderer_Shop</div>
   
-  <!-- 🌟 แท็บเมนู (พอดีกับหน้าอุปกรณ์ที่เปิด) -->
+  <!-- 🌟 แท็บเมนู -->
   <div class="tab-container" id="tabContainer"></div>
 </div>
 
@@ -305,7 +305,7 @@ strong, b {
     <div class="package-modal-header" id="modalAppName">📦 เลือกแพ็กเกจ</div>
     <div class="package-modal-sub" id="modalAppDesc" style="display: none;"></div>
     
-    <!-- 🌟 กล่องข้อความรายละเอียดแพ็กเกจสีเหลืองตอนลูกค้ากดเลือกแพ็กเกจ -->
+    <!-- 🌟 กล่องข้อความรายละเอียดแพ็กเกจสีเหลือง -->
     <div id="dynamicInfoBox" class="dynamic-info-box" style="display: none;"></div>
     
     <div class="package-modal-list" id="modalPackageList"></div>
@@ -348,13 +348,13 @@ strong, b {
       <div id="zone-premium-game" style="display:none; border: 1px solid #ddd; padding: 10px; border-radius: 8px;">
         <input type="text" id="pg_cat" placeholder="ชื่อแอปหลัก / หมวดหมู่">
         
-        <label style="font-size: 13px; color: #555; display:block; margin-top:5px; margin-bottom:5px; font-weight:bold;">📝 กล่องข้อความรายละเอียดแอพ (แสดงใต้อยู่บนการ์ดสินค้า และด้านบน Pop-up):</label>
+        <label style="font-size: 13px; color: #555; display:block; margin-top:5px; margin-bottom:5px; font-weight:bold;">📝 กล่องข้อความรายละเอียดแอพ:</label>
         <textarea id="pg_appDesc" placeholder="รายละเอียด/เงื่อนไข หรือข้อความแนะนำแอป (ขึ้นบรรทัดใหม่ได้)" rows="3"></textarea>
         
         <input type="text" id="pg_subCat" placeholder="หมวดหมู่แพ็กเกจ [จัดกลุ่ม]">
         <input type="text" id="pg_name" placeholder="ชื่อแพ็กเกจย่อย">
         
-        <label style="font-size: 13px; color: #555; display:block; margin-top:10px; margin-bottom:5px; font-weight:bold;">📌 กล่องข้อความรายละเอียดแพ็กเกจ (แสดงตอนลูกค้ากดเลือกแพ็กเกจใน Pop-up):</label>
+        <label style="font-size: 13px; color: #555; display:block; margin-top:10px; margin-bottom:5px; font-weight:bold;">📌 กล่องข้อความรายละเอียดแพ็กเกจ (แสดงตอนลูกค้ากดเลือก):</label>
         <textarea id="pg_desc" placeholder="รายละเอียด/เงื่อนไขของแพ็กเกจย่อยนี้ (ขึ้นบรรทัดใหม่ได้)" rows="3"></textarea>
         
         <input type="number" id="pg_price" placeholder="ราคา (บาท)">
@@ -448,13 +448,13 @@ strong, b {
 </div>
 
 <script>
-const API_URL = "https://script.google.com/macros/s/AKfycbziVwZe3alAjph9RSl3DaPwsxhOr5IE2_Sz8_ilZOeDJTZLptYC2G-61wJINylgPEo-/exec"; 
+// ⚠️ สำคัญมาก: เปลี่ยนลิงก์ด้านล่างนี้ให้เป็น Web App URL ใหม่ที่ได้จาก Apps Script ของคุณครับ
+const API_URL = "https://script.google.com/macros/s/AKfycbwtdqy4C4VPdyHtAKKi0gT7TuaPcIFSGk3DzZQa5nSS_Gae_XIKrNbhrBMpfi1z4_Sz/exec"; 
 
 let allProducts = []; let cart = []; let currentTab = "info"; let storeInfo = {}; let tabsList = []; 
 let viewLevel = 'apps'; let selectedAppName = ''; let localCustomCards = []; let editingCardIndex = -1;
 let isAdmin = false;
 
-// 🌟 เรียกโหลดข้อมูลทันทีที่เปิดหน้าเว็บ
 document.addEventListener("DOMContentLoaded", () => {
     loadData();
 });
@@ -543,7 +543,7 @@ function processLoadedData(data) {
   if(storeInfo.welcome && welcomeEl) welcomeEl.innerText = storeInfo.welcome;
   if(storeInfo.logo && document.getElementById('shopLogo')) document.getElementById('shopLogo').src = storeInfo.logo;
   
-  updateShopStatusBadge(); // 🌟 อัปเดตป้ายสถานะมุมซ้ายบนตามค่าจาก Admin
+  updateShopStatusBadge(); 
   renderTabs(); 
   if(currentTab === 'info') renderInfoPage(); else renderProducts();
   recordVisit(); 
@@ -555,7 +555,6 @@ function processLoadedData(data) {
   }
 }
 
-// 🌟 ฟังก์ชันแสดงผลป้ายสถานะมุมบนซ้าย โดยดึงค่าสถานะจากหน้า Admin โดยตรง
 function updateShopStatusBadge() {
     const badge = document.getElementById('shopStatusBadge');
     const indicator = badge?.querySelector('.status-indicator');
@@ -567,10 +566,10 @@ function updateShopStatusBadge() {
     indicator.className = 'status-indicator';
     text.className = 'status-text';
 
-    if (status.includes('🔴') || status === 'closed' || status === '🔴 ปิดให้บริการชั่วคราว') {
+    if (status.includes('🔴') || status === 'closed' || status === '🔴 ปิดร้าน / ไม่พร้อมตอบ') {
         indicator.classList.add('closed');
         text.classList.add('closed');
-        text.innerText = '🔴 ปิดให้บริการชั่วคราว';
+        text.innerText = '🔴 ปิดร้าน / ไม่พร้อมตอบ';
     } else if (status.includes('🟠')) {
         indicator.classList.add('warning');
         text.classList.add('warning');
@@ -578,7 +577,7 @@ function updateShopStatusBadge() {
     } else if (status.includes('🟡')) {
         indicator.classList.add('warning');
         text.classList.add('warning');
-        text.innerText = '🟡 พักส่ง-ไม่ว่างตอบ';
+        text.innerText = '🟡 พักส่ง / ไม่ว่างตอบ';
     } else {
         text.innerText = '🟢 เปิดร้าน / พร้อมตอบ';
     }
@@ -589,7 +588,7 @@ function renderTabs() {
   if (!tc) return;
   let html = `<button class="tab-btn active" onclick="switchTab('info')" id="tab-info">ข้อมูลร้าน</button>`;
   const predefinedOrder = ["แอพพรีเมี่ยม", "เติมเกม", "เติมเหรียญนิยาย", "IOS-ANDROID", "แอพ-เกม iOS/Android"];
-  const excludedTabs = ["ข้อมูลร้าน", "storeinfo", "reviews", "review", "รีวิว", "รีวิวลูกค้า", "font_settings", "ตั้งค่าตัวอักษร", "orders"];
+  const excludedTabs = ["ข้อมูลร้าน", "storeinfo", "reviews", "review", "รีวิว", "รีวิวลูกค้า", "font_settings", "ตั้งค่าตัวอักษร", "orders", "สถิติ", "visits"];
   
   let sortedTabs = [...tabsList].filter(t => !excludedTabs.includes(t.trim().toLowerCase())).sort((a, b) => {
      let idxA = predefinedOrder.indexOf(a); let idxB = predefinedOrder.indexOf(b);
@@ -1093,7 +1092,7 @@ function renderAdminTabButtons() {
                 <button type="button" class="admin-tab-btn" onclick="switchAdminFormTab('เติมเกม', this)">🎮 เติมเกม</button>
                 <button type="button" class="admin-tab-btn" onclick="switchAdminFormTab('เติมเหรียญนิยาย', this)">🪙 เติมนิยาย</button>
                 <button type="button" class="admin-tab-btn" onclick="switchAdminFormTab('IOS-ANDROID', this)">📱 IOS/Android</button>`;
-    const excludedAdminTabs = ["แอพพรีเมี่ยม", "แอพพรีเมียม", "เติมเกม", "เติมเหรียญนิยาย", "ios-android", "แอพ-เกม ios/android", "storeinfo", "ข้อมูลร้าน", "orders", "ตั้งค่าตัวอักษร", "font_settings", "reviews", "review", "รีวิว", "รีวิวลูกค้า"];
+    const excludedAdminTabs = ["แอพพรีเมี่ยม", "แอพพรีเมียม", "เติมเกม", "เติมเหรียญนิยาย", "ios-android", "แอพ-เกม ios/android", "storeinfo", "ข้อมูลร้าน", "orders", "ตั้งค่าตัวอักษร", "font_settings", "reviews", "review", "รีวิว", "รีวิวลูกค้า", "สถิติ", "visits"];
     tabsList.forEach(t => {
         if(!excludedAdminTabs.includes(t.trim().toLowerCase())) { 
             html += `<button type="button" class="admin-tab-btn" onclick="switchAdminFormTab('${t}', this)">📁 ${t}</button>`; 
@@ -1160,7 +1159,7 @@ function submitStoreAction(event) {
     if (event) event.preventDefault();
     let payload = {
         action: "save_store",
-        status: document.getElementById('store_status')?.value || storeInfo.status || "open",
+        status: document.getElementById('store_status')?.value || storeInfo.status || "🟢 เปิดร้าน / พร้อมตอบ",
         welcome: storeInfo.welcome || "",
         line: document.getElementById('store_line')?.value || storeInfo.line || "",
         hours: document.getElementById('store_hours')?.value || storeInfo.hours || "",
