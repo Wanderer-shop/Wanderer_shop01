@@ -108,11 +108,6 @@ strong, b {
 .sticky-fixed-filter { position: fixed !important; top: 65px !important; left: 50% !important; transform: translateX(-50%) !important; width: 92% !important; max-width: 760px !important; z-index: 999 !important; background: rgba(10, 29, 58, 0.95) !important; backdrop-filter: blur(10px); padding: 10px 15px !important; border-radius: 20px !important; box-shadow: 0 6px 25px rgba(0,0,0,0.6) !important; border: 1px solid rgba(255,255,255,0.2) !important; animation: slideDownNav 0.25s ease; margin-bottom: 0 !important; }
 @keyframes slideDownNav { from { opacity: 0; transform: translate(-50%, -15px); } to { opacity: 1; transform: translate(-50%, 0); } }
 
-.filter-pills-wrap { display: flex; gap: 8px; overflow-x: auto; margin-bottom: 20px; padding-bottom: 4px; scrollbar-width: none; justify-content: flex-start; }
-.filter-pills-wrap::-webkit-scrollbar { display: none; }
-.pill-btn { flex: 0 0 auto; padding: 6px 14px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.08); color: #fff; font-size: 13px; cursor: pointer; transition: 0.2s; font-family: inherit; }
-.pill-btn.active { background: linear-gradient(135deg, var(--secondary), #ff7597); border-color: var(--secondary); font-weight: bold; box-shadow: 0 2px 10px rgba(255,75,126,0.4); }
-
 .category-separator { background: linear-gradient(90deg, var(--primary), transparent); color: #fff; padding: 8px 15px; font-size: 15px; border-left: 4px solid var(--secondary); margin: 20px 0 5px 0; border-radius: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); font-weight: normal !important; -webkit-text-stroke: 0.3px currentColor; }
 
 .filter-row { display: flex; gap: 10px; align-items: center; margin-bottom: 20px; flex-wrap: wrap; transition: all 0.25s ease; }
@@ -145,7 +140,7 @@ strong, b {
 .disabled-item { opacity: 0.6; cursor: not-allowed !important; pointer-events: none; }
 .os-btn.disabled-btn { opacity: 0.5; cursor: not-allowed !important; pointer-events: none; background: #ccc; color: #777; border-color: #bbb; }
 
-/* การ์ดแพ็กเกจย่อย (ปรับแก้ซ่อนข้อความสีดำ) */
+/* การ์ดแพ็กเกจย่อย */
 .package-card { background: var(--bg-card); border: 2px solid transparent; border-radius: 12px; padding: 10px 15px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; position: relative; color: #000; transition: 0.2s; margin-bottom: 10px; gap: 8px; min-height: 48px; }
 .package-card.selected { border-color: var(--primary); background: #ffffff !important; box-shadow: 0 4px 12px rgba(59, 150, 245, 0.2); }
 .pkg-left-col { flex: 1.2; display: flex; align-items: center; gap: 8px; text-align: left; justify-content: flex-start; }
@@ -206,12 +201,12 @@ strong, b {
 .admin-modal { background: #fff; color: #000; width: 90%; max-width: 680px; max-height: 85vh; overflow-y: auto; border-radius: 16px; padding: 20px; position: relative; }
 .admin-form input, .admin-form select, .admin-form textarea { width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 8px; font-family: inherit; }
 .admin-btn { padding: 10px 15px; border: none; border-radius: 8px; cursor: pointer; width: 100%; font-family: inherit; color:#fff;}
-.admin-list-item { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #eee; background: #fff;}
+.admin-list-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; border-bottom: 1px solid #eee; background: #fff;}
 .admin-list-item:last-child { border-bottom: none; }
 .admin-list-info { display: flex; flex-direction: column; flex: 1; }
-.admin-list-actions { display: flex; gap: 8px; }
-.btn-sm-edit { background: #ff9800; color: #fff; border: none; padding: 6px 10px; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: normal !important; -webkit-text-stroke: 0.3px currentColor; }
-.btn-sm-del { background: #ff3b3b; color: #fff; border: none; padding: 6px 10px; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: normal !important; -webkit-text-stroke: 0.3px currentColor; }
+.admin-list-actions { display: flex; gap: 6px; }
+.btn-sm-edit { background: #ff9800; color: #fff; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: normal !important; }
+.btn-sm-del { background: #ff3b3b; color: #fff; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: normal !important; }
 .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-top: 15px; margin-bottom: 20px; }
 .admin-tab-scroll-container { display: flex; gap: 8px; overflow-x: auto; margin-bottom: 15px; padding-bottom: 8px; scrollbar-width: thin; }
 .admin-tab-scroll-container::-webkit-scrollbar { height: 4px; }
@@ -271,14 +266,6 @@ strong, b {
       <option value="name">เรียงอักษร</option>
       <option value="price">เรียงราคา</option>
     </select>
-  </div>
-
-  <div id="filterPills" class="filter-pills-wrap" style="display:none;">
-      <button class="pill-btn active" onclick="filterSubCat('ทั้งหมด', this)">🔥 ทั้งหมด</button>
-      <button class="pill-btn" onclick="filterSubCat('ดูหนัง/ซีรีส์', this)">🎬 ดูหนัง/ซีรีส์</button>
-      <button class="pill-btn" onclick="filterSubCat('ฟังเพลง', this)">🎧 ฟังเพลง</button>
-      <button class="pill-btn" onclick="filterSubCat('ทำงาน/เรียน', this)">💼 ทำงาน/เรียน</button>
-      <button class="pill-btn" onclick="filterSubCat('แอพจีน', this)">🇨🇳 แอพจีน</button>
   </div>
 
   <div class="grid-container" id="productGrid"></div>
@@ -361,15 +348,6 @@ strong, b {
         
         <input type="number" id="pg_price" placeholder="ราคา (บาท)">
         <input type="text" id="pg_icon" placeholder="รูปลิงก์ไอคอนแอป">
-        
-        <label style="font-size: 13px; color: #555; display:block; margin-top:5px; margin-bottom:5px;">หมวดหมู่ย่อย (Filter Pill):</label>
-        <select id="pg_filterPill" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 8px; font-family: inherit;">
-            <option value="ดูหนัง/ซีรีส์">🎬 ดูหนัง/ซีรีส์</option>
-            <option value="ฟังเพลง">🎧 ฟังเพลง</option>
-            <option value="ทำงาน/เรียน">💼 ทำงาน/เรียน</option>
-            <option value="แอพจีน">🇨🇳 แอพจีน</option>
-            <option value="อื่นๆ">📌 อื่นๆ / ทั่วไป</option>
-        </select>
       </div>
 
       <div id="zone-ios-android" style="display:none; border: 1px solid #ddd; padding: 10px; border-radius: 8px;">
@@ -435,7 +413,6 @@ strong, b {
         <button class="admin-btn product-btn" style="background:#00d300;" onclick="submitAdminAction(event, 'add')">➕ เพิ่มสินค้าใหม่</button>
         <button class="admin-btn product-btn" style="background:#3B96F5;" onclick="submitAdminAction(event, 'edit_product')">💾 บันทึกแก้ไข</button>
         <button class="admin-btn product-btn" style="background:#ff3b3b;" onclick="submitAdminAction(event, 'delete_product')">🗑️ ลบสินค้า</button>
-        <button class="admin-btn store-btn" style="background:#3B96F5; display:none;" onclick="submitStoreAction(event)">💾 บันทึกข้อมูลร้าน/การ์ด</button>
       </div>
       
       <div id="admin-product-list-container" style="display:none; margin-top: 20px;">
@@ -454,7 +431,7 @@ const API_URL = "https://script.google.com/macros/s/AKfycbwvK4bEoa9WZhpyspiHUOSy
 
 let allProducts = []; let cart = []; let currentTab = "info"; let storeInfo = {}; let tabsList = []; 
 let viewLevel = 'apps'; let selectedAppName = ''; let localCustomCards = []; let editingCardIndex = -1;
-let isAdmin = false; let currentSubFilter = 'ทั้งหมด';
+let isAdmin = false;
 
 window.addEventListener('scroll', () => {
     const tc = document.getElementById('tabContainer');
@@ -474,13 +451,6 @@ function toggleStepsBox() {
     if (!box) return;
     box.classList.toggle('open');
     if (arrow) arrow.innerText = box.classList.contains('open') ? '▴' : '▾';
-}
-
-function filterSubCat(cat, btn) {
-    currentSubFilter = cat;
-    document.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('active'));
-    if (btn) btn.classList.add('active');
-    renderProducts();
 }
 
 async function recordVisit() {
@@ -579,16 +549,6 @@ function switchTab(tabName) {
   
   let searchInput = document.getElementById('searchInput'); if(searchInput) searchInput.value = '';
   document.getElementById('dynamicBackBtn').style.display = 'none';
-  
-  if (tabName === 'แอพพรีเมี่ยม' || tabName === 'แอพพรีเมียม') {
-      document.getElementById('filterPills').style.display = 'flex';
-  } else {
-      document.getElementById('filterPills').style.display = 'none';
-  }
-  currentSubFilter = 'ทั้งหมด';
-  document.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('active'));
-  let firstPill = document.querySelector('.pill-btn');
-  if (firstPill) firstPill.classList.add('active');
 
   if(tabName === 'info') {
       document.getElementById('stepsBox').style.display = 'none';
@@ -650,7 +610,7 @@ function renderModalPackages() {
     updateDynamicInfoBox();
 }
 
-// 🌟 แสดงรายละเอียดแพ็กเกจย่อยใน Pop-up (กล่องสีเหลือง) เฉพาะตอนเลือกสินค้า
+/* 🌟 แสดงรายละเอียดแพ็กเกจย่อยใน Pop-up (กล่องสีเหลือง) เฉพาะตอนเลือกสินค้า */
 function updateDynamicInfoBox() {
     const infoBox = document.getElementById('dynamicInfoBox');
     if (!infoBox) return;
@@ -726,20 +686,6 @@ function getAppIcon(appName) { const app = allProducts.find(p => p.cat === appNa
 function renderProducts() {
   const grid = document.getElementById('productGrid'); const sortType = document.getElementById('sortSelect').value;
   let products = allProducts.filter(p => p.tab === currentTab);
-  
-  if (currentTab === 'แอพพรีเมี่ยม' || currentTab === 'แอพพรีเมียม') {
-      if (currentSubFilter !== 'ทั้งหมด') {
-          products = products.filter(p => {
-              if (p.filterPill && p.filterPill === currentSubFilter) return true;
-              let name = (p.cat || p.name || '').toLowerCase();
-              if (currentSubFilter === 'ดูหนัง/ซีรีส์') return /netflix|disney|prime|hbo|iqiyi|viu|wetv|bilibili|youtube|apple tv|k-drama|หนัง|ซีรีส์/.test(name);
-              if (currentSubFilter === 'ฟังเพลง') return /spotify|music|tidal|joox|youtube music|ฟังเพลง/.test(name);
-              if (currentSubFilter === 'ทำงาน/เรียน') return /chatgpt|canva|office|microsoft|adobe|zoom|google|notion|grammarly|duolingo|goodnotes|gpt|ai|เรียน|ทำงาน/.test(name);
-              if (currentSubFilter === 'แอพจีน') return /iqiyi|wetv|bilibili|youku|mangotv|baidu|จีน/.test(name);
-              return false;
-          });
-      }
-  }
 
   if (sortType === 'name') products.sort((a,b) => (a.cat || a.name || '').localeCompare(b.cat || b.name || ''));
   if (sortType === 'price') products.sort((a,b) => a.price - b.price);
@@ -848,7 +794,7 @@ function renderProducts() {
   grid.innerHTML = html; applySearch(); 
 }
 
-/* 🌟 ฟังก์ชันสร้างการ์ดแพ็กเกจย่อย (ลบข้อความสีดำตรงกลางออกแล้ว) */
+/* 🌟 ฟังก์ชันสร้างการ์ดแพ็กเกจย่อย */
 function generatePackageCard(p) {
   const isSelected = cart.some(item => item.id === p.id);
   let statusColor = p.status === 'ready' ? '#00d300' : '#ff3b3b';
@@ -1123,7 +1069,6 @@ function clearAdminForm() {
     document.getElementById('a_id').value = ''; 
     document.getElementById('ia_group').value = '📱 แอพอื่นๆ'; 
     if(document.getElementById('ia_isNew')) document.getElementById('ia_isNew').checked = false;
-    if(document.getElementById('pg_filterPill')) document.getElementById('pg_filterPill').value = 'ดูหนัง/ซีรีส์';
 }
 
 function switchAdminFormTab(tabVal, btnElement) { document.getElementById('a_tab').value = tabVal; document.querySelectorAll('.admin-tab-btn').forEach(b => b.classList.remove('active')); if(btnElement) btnElement.classList.add('active'); toggleAdminFields(); }
@@ -1281,7 +1226,6 @@ function submitAdminAction(event, action) {
         payload.desc = document.getElementById('pg_desc')?.value || '';
         payload.price = Number(document.getElementById('pg_price')?.value) || 0;
         payload.icon = document.getElementById('pg_icon')?.value || '';
-        payload.filterPill = document.getElementById('pg_filterPill')?.value || '';
     }
 
     if (action === 'add' && (!payload.name && !payload.cat)) {
@@ -1320,6 +1264,7 @@ function sendAdminPost(payload) {
     });
 }
 
+/* 🌟 ปรับแต่งการแสดงผลส่วน "📦 สินค้าในแท็บนี้" ให้เหมือนรูปที่ 2 */
 function renderAdminProductList(tab) {
     const container = document.getElementById('admin-product-list');
     if (!container) return;
@@ -1332,21 +1277,36 @@ function renderAdminProductList(tab) {
     
     let html = '';
     products.forEach(p => {
-        let title = p.name || p.cat || 'ไม่ระบุชื่อ';
-        let sub = p.subCat || p.appDesc || p.desc || '';
-        let price = p.price !== undefined ? `${p.price}฿` : '';
+        let catText = p.cat ? `<span style="background: #2563eb; color: #fff; padding: 1px 6px; border-radius: 4px; font-weight: bold; font-size: 12px; margin-right: 4px;">[${p.cat}]</span>` : '';
+        let nameText = p.name ? `<strong> - ${p.name}</strong>` : '';
+        let descInfo = p.desc || p.subCat || '';
+        let descText = descInfo ? ` <span style="color: #2563eb; font-size: 12px;">[${descInfo}]</span>` : '';
+        let statusText = (p.status === 'ready' || !p.status) ? '🟢 พร้อมส่ง' : '🔴 ไม่พร้อม';
+
         html += `
-        <div class="admin-list-item">
-            <div class="admin-list-info">
-                <strong style="font-size:13px; color:#333;">${title} ${price ? `(${price})` : ''}</strong>
-                <span style="font-size:11px; color:#666;">${sub}</span>
+        <div class="admin-list-item" style="padding: 10px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; background: #fff;">
+            <div class="admin-list-info" style="display: flex; flex-direction: column; gap: 4px; flex: 1; padding-right: 10px;">
+                <div style="font-size: 13px; color: #111; word-break: break-word; line-height: 1.3;">
+                    ${catText}${nameText}${descText}
+                </div>
+                <div style="font-size: 12px; color: #666;">
+                    ราคา: <span style="color: #111; font-weight: bold;">${p.price || 0}฿</span> | สถานะ: ${statusText}
+                </div>
             </div>
-            <div class="admin-list-actions">
-                <button type="button" class="btn-sm-edit" onclick="selectProductForEdit('${p.id}')">✏️ เลือก</button>
+            <div class="admin-list-actions" style="display: flex; gap: 6px; flex-shrink: 0;">
+                <button type="button" class="btn-sm-edit" style="background: #ff9800; color: #fff; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-size: 13px;" onclick="selectProductForEdit('${p.id}')">✏️</button>
+                <button type="button" class="btn-sm-del" style="background: #ff3b3b; color: #fff; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-size: 13px;" onclick="deleteProductDirectly('${p.id}')">🗑️</button>
             </div>
         </div>`;
     });
     container.innerHTML = html;
+}
+
+function deleteProductDirectly(id) {
+    if (confirm("ยืนยันการลบสินค้านี้?")) {
+        document.getElementById('a_id').value = id;
+        submitAdminAction(null, 'delete_product');
+    }
 }
 
 function selectProductForEdit(id) {
@@ -1376,7 +1336,6 @@ function selectProductForEdit(id) {
         if (document.getElementById('pg_desc')) document.getElementById('pg_desc').value = p.desc || '';
         if (document.getElementById('pg_price')) document.getElementById('pg_price').value = p.price || '';
         if (document.getElementById('pg_icon')) document.getElementById('pg_icon').value = p.icon || '';
-        if (document.getElementById('pg_filterPill')) document.getElementById('pg_filterPill').value = p.filterPill || 'ดูหนัง/ซีรีส์';
     }
 }
 
