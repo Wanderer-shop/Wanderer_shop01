@@ -409,15 +409,14 @@ strong, b {
         </select>
       </div>
       
-      <!-- 🌟 ส่วนจัดการร้านค้า (ปรับระบบตั้งค่าสถานะและสเปก Value ให้ชัดเจน) -->
+      <!-- 🌟 ส่วนจัดการร้านค้า -->
       <div id="zone-store" style="display:none; border: 1px solid #ddd; padding: 10px; border-radius: 8px;">
         <label style="font-size: 13px; color: #555; font-weight:bold;">ตั้งค่าสถานะร้านค้า (แสดงที่ป้ายมุมซ้ายบนของเว็บ):</label>
         <select id="store_status" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 8px; font-family: inherit;">
-          <option value="AUTO">🟢 เปิดตามเวลาอัตโนมัติ (10:30 - 00:30น.)</option>
-          <option value="FORCE_OPEN">🟢 เปิดร้าน / พร้อมตอบ (บังคับเปิดร้าน)</option>
-          <option value="BUSY">🟠 ตอบช้า (ติดธุระ) (สีส้ม)</option>
-          <option value="REST">🟡 พักส่ง / ไม่ว่างตอบ (สีเหลือง)</option>
-          <option value="CLOSED">🔴 ปิดร้าน / ไม่พร้อมตอบ (บังคับปิดร้าน - สีแดง)</option>
+          <option value="เปิดตามเวลา (10:30-00:30)">🟢 เปิดตามเวลาอัตโนมัติ (10:30 - 00:30น.)</option>
+          <option value="ตอบช้า (ติดธุระ)">🟠 ตอบช้า (ติดธุระ) (สีส้ม)</option>
+          <option value="พักส่ง-ไม่ว่างตอบ">🟡 พักส่ง / ไม่ว่างตอบ (สีเหลือง)</option>
+          <option value="ปิดให้บริการชั่วคราว">🔴 ปิดร้าน / ไม่พร้อมตอบ (บังคับปิด - สีแดง)</option>
         </select>
 
         <label style="font-size: 13px; color: #555;">ลิงก์โลโก้ร้าน:</label>
@@ -478,7 +477,6 @@ function isIOSAndroidTab(tabName) {
 
 document.addEventListener("DOMContentLoaded", () => {
     loadData();
-    // ตั้งเวลาให้ระบบตรวจสถานะเวลาทุกๆ 1 นาที (Auto-Check)
     setInterval(updateShopStatusBadge, 60000);
 });
 
@@ -557,7 +555,7 @@ async function loadData() {
 
 function processLoadedData(data) {
   if (!data) return;
-  allProducts = (data.products || []).map((p, i) => { if (!p.id) p.id = 'temp_' + i; return p; });
+  allProducts = (data.products || []).map((p, i) => { if (p.id === undefined || p.id === null) p.id = 'temp_' + i; return p; });
   storeInfo = data.storeInfo || {}; 
   tabsList = data.tabs || []; 
   localCustomCards = storeInfo.customCards || [];
@@ -578,64 +576,56 @@ function processLoadedData(data) {
   }
 }
 
-/* 🌟 ฟังก์ชันคำนวณเวลาเปิด-ปิดร้านอัตโนมัติ (แก้ไข Regex ป้องกันอ่านภาษาไทย/เว้นวรรคผิดพลาด) */
+/* 🌟 คำนวณเวลาเปิด-ปิดร้านอัตโนมัติ */
 function isStoreOpenNow(hoursStr) {
-    let startMin = 10 * 60 + 30; // default 10:30
-    let endMin = 0 * 60 + 30;    // default 00:30 (วันถัดไป)
-
-    if (hoursStr && typeof hoursStr === 'string') {
+    let startMin = 10 * 60 + 30; // 10:30
+    let endMin = 0 * 60 + 30;    // 00:30
+    if (hoursStr) {
         const matches = hoursStr.match(/(\d{1,2})[:.](\d{2})\s*-\s*(\d{1,2})[:.](\d{2})/);
         if (matches) {
             startMin = parseInt(matches[1], 10) * 60 + parseInt(matches[2], 10);
             endMin = parseInt(matches[3], 10) * 60 + parseInt(matches[4], 10);
         }
     }
-
     const now = new Date();
     const currentMin = now.getHours() * 60 + now.getMinutes();
 
     if (startMin > endMin) {
-        // กรณีเวลาข้ามเที่ยงคืน (เช่น 10:30 ถึง 00:30)
         return (currentMin >= startMin || currentMin < endMin);
     } else if (startMin < endMin) {
-        // กรณีเวลาในวันเดียวกัน (เช่น 08:00 ถึง 20:00)
         return (currentMin >= startMin && currentMin < endMin);
     } else {
         return true;
     }
 }
 
-/* 🌟 ป้ายสถานะร้านค้า (ปรับแก้ระบบการตรวจสอบ Value ให้แม่นยำ 100%) */
+/* 🌟 ป้ายสถานะร้านค้า */
 function updateShopStatusBadge() {
     const badge = document.getElementById('shopStatusBadge');
-    if (!badge) return;
-    const indicator = badge.querySelector('.status-indicator');
-    const text = badge.querySelector('.status-text');
-    if (!indicator || !text) return;
+    const indicator = badge?.querySelector('.status-indicator');
+    const text = badge?.querySelector('.status-text');
+    if (!badge || !indicator || !text) return;
 
-    let rawStatus = (storeInfo.status || 'AUTO').trim();
-
-    // ล้าง Class เดิมออกก่อนอัปเดตสถานะใหม่
+    let rawStatus = storeInfo.status || 'เปิดตามเวลา (10:30-00:30)';
     indicator.className = 'status-indicator';
     text.className = 'status-text';
 
-    if (rawStatus === 'BUSY' || rawStatus.includes('ตอบช้า') || rawStatus.includes('🟠')) {
+    if (rawStatus.includes('ตอบช้า') || rawStatus.includes('🟠')) {
         indicator.classList.add('orange');
         text.classList.add('orange');
         text.innerText = 'ตอบช้า (ติดธุระ)';
-    } else if (rawStatus === 'REST' || rawStatus.includes('พักส่ง') || rawStatus.includes('🟡')) {
+    } else if (rawStatus.includes('พักส่ง') || rawStatus.includes('🟡')) {
         indicator.classList.add('yellow');
         text.classList.add('yellow');
         text.innerText = 'พักส่ง- / ไม่ว่างตอบ';
-    } else if (rawStatus === 'CLOSED' || rawStatus.includes('ปิดให้บริการ') || rawStatus.includes('🔴')) {
+    } else if (rawStatus.includes('ปิดให้บริการ') || rawStatus.includes('ปิดร้าน') || rawStatus.includes('🔴')) {
         indicator.classList.add('red');
         text.classList.add('red');
         text.innerText = 'ปิดให้บริการชั่วคราว';
-    } else if (rawStatus === 'FORCE_OPEN' || rawStatus.includes('บังคับเปิด')) {
+    } else if (rawStatus.includes('24')) {
         text.innerText = 'เปิดร้าน / พร้อมตอบ';
     } else {
-        // โหมดอัตโนมัติ (AUTO)
-        const isOpen = isStoreOpenNow(storeInfo.hours || '10:30 - 00:30น.');
+        const isOpen = isStoreOpenNow(storeInfo.hours || '10:30-00:30');
         if (isOpen) {
             text.innerText = 'เปิดร้าน / พร้อมตอบ';
         } else {
@@ -829,7 +819,7 @@ function renderProducts() {
           prices.push(item.price); let itemOsList = item.os ? item.os.split('/') : [];
           if (itemOsList.length === 0) { if ((item.cat || item.name || '').match(/Android/i)) itemOsList.push('Android'); else itemOsList.push('iOS'); }
           itemOsList.forEach(os => {
-            let isSelected = cart.some(c => c.id === item.id && c.selectedOs === os); if (isSelected) isCardSelected = true;
+            let isSelected = cart.some(c => String(c.id) === String(item.id) && c.selectedOs === os); if (isSelected) isCardSelected = true;
             let disabledClass = item.status === 'notready' ? 'disabled-btn' : '';
             osButtons += `<button class="os-btn ${isSelected ? 'active' : ''} ${disabledClass}" onclick="toggleItemOs(event, '${item.id}', '${os}')">${os}</button>`;
           });
@@ -887,13 +877,20 @@ function renderProducts() {
           }
       });
       
-      html = Object.values(uniqueApps).map(app => `
-        <div class="item-card" onclick="openPackages('${app.cat}')">
+      /* 🌟 ปรับปรุง: เช็คการเลือกของการ์ดหน้าหลักในโหมด Pop-up ให้แสดงกรอบฟ้า + ตะกร้าเมื่อมีสินค้าถูกเลือก */
+      html = Object.values(uniqueApps).map(app => {
+        let selectedInApp = cart.filter(item => item.cat === app.cat && item.tab === currentTab);
+        let isAppSelected = selectedInApp.length > 0;
+        let selectedBadge = isAppSelected ? `<div class="app-status status-ready">🛒 เลือกแล้ว (${selectedInApp.length})</div>` : '';
+
+        return `
+        <div class="item-card ${isAppSelected ? 'selected' : ''}" onclick="openPackages('${app.cat}')">
+          ${selectedBadge}
           ${app.icon ? `<img src="${app.icon}" loading="lazy" onerror="this.style.display='none'" class="card-icon">` : '<div class="card-icon"></div>'}
           <div class="card-title">${app.cat || 'ไม่ระบุชื่อ'}</div>
           ${app.appDesc ? `<div class="card-desc">${app.appDesc}</div>` : ''}
         </div>
-      `).join('');
+      `;}).join('');
     } else {
       let pkgProducts = products.filter(p => p.cat === selectedAppName);
       let appDescription = pkgProducts.length > 0 ? (pkgProducts[0].appDesc || '') : '';
@@ -917,8 +914,9 @@ function renderProducts() {
   grid.innerHTML = html; applySearch(); 
 }
 
+/* 🌟 แก้ไข: แปลงชนิดข้อมูล ID เป็น String เสมอใน generatePackageCard */
 function generatePackageCard(p) {
-  const isSelected = cart.some(item => item.id === p.id);
+  const isSelected = cart.some(item => String(item.id) === String(p.id));
   let statusColor = p.status === 'ready' ? '#00d300' : '#ff3b3b';
   let disabledClass = p.status === 'notready' ? 'disabled-item' : '';
 
@@ -964,10 +962,11 @@ function renderInfoPage() {
   `; 
 }
 
+/* 🌟 แก้ไข: เปรียบเทียบ String(x.id) === String(id) ป้องกันปัญหา Type mismatch */
 function toggleItem(id) { 
-    const p = allProducts.find(x => x.id === id); 
+    const p = allProducts.find(x => String(x.id) === String(id)); 
     if(!p || p.status === 'notready') return;
-    const idx = cart.findIndex(x => x.id === id); 
+    const idx = cart.findIndex(x => String(x.id) === String(id)); 
     if (idx > -1) cart.splice(idx, 1); else cart.push(p); 
     renderProducts(); 
     updateBottomBar(); 
@@ -976,11 +975,12 @@ function toggleItem(id) {
     }
 }
 
+/* 🌟 แก้ไข: เปรียบเทียบ String(x.id) === String(id) ในโหมด OS */
 function toggleItemOs(e, id, os) { 
     if(e) e.stopPropagation(); 
-    const p = allProducts.find(x => x.id === id); 
+    const p = allProducts.find(x => String(x.id) === String(id)); 
     if(!p || p.status === 'notready') return;
-    const idx = cart.findIndex(x => x.id === id && x.selectedOs === os); 
+    const idx = cart.findIndex(x => String(x.id) === String(id) && x.selectedOs === os); 
     if (idx > -1) { cart.splice(idx, 1); } else { cart.push({...p, selectedOs: os}); } 
     renderProducts(); updateBottomBar(); 
 }
@@ -1171,22 +1171,24 @@ function renderAdminTabButtons() {
     document.getElementById('adminTabButtons').innerHTML = html;
 }
 
-/* 🌟 ฟังก์ชันดึงค่าใน Admin ขึ้นมาแสดงอย่างแม่นยำ */
+function setSelectedOption(selectId, value) {
+    const select = document.getElementById(selectId);
+    if (!select || !value) return;
+    let matched = false;
+    for (let i = 0; i < select.options.length; i++) {
+        let optVal = select.options[i].value;
+        if (optVal === value || value.includes(optVal) || optVal.includes(value)) {
+            select.selectedIndex = i;
+            matched = true;
+            break;
+        }
+    }
+    if (!matched) select.selectedIndex = 0;
+}
+
 function openAdmin() { 
-    document.getElementById('adminOverlay').style.display = 'flex'; 
-    clearAdminForm(); 
-    renderAdminTabButtons(); 
-    
-    let currentStoreStatus = storeInfo.status || 'AUTO';
-    if (currentStoreStatus.includes('ตอบช้า')) currentStoreStatus = 'BUSY';
-    else if (currentStoreStatus.includes('พักส่ง')) currentStoreStatus = 'REST';
-    else if (currentStoreStatus.includes('ปิดให้บริการ') || currentStoreStatus.includes('บังคับปิด')) currentStoreStatus = 'CLOSED';
-    else if (currentStoreStatus.includes('บังคับเปิด')) currentStoreStatus = 'FORCE_OPEN';
-    else if (currentStoreStatus.includes('เปิดตามเวลา') || currentStoreStatus.includes('เปิดร้าน')) currentStoreStatus = 'AUTO';
-
-    const statusSelect = document.getElementById('store_status');
-    if (statusSelect) statusSelect.value = currentStoreStatus;
-
+    document.getElementById('adminOverlay').style.display = 'flex'; clearAdminForm(); renderAdminTabButtons(); 
+    setSelectedOption('store_status', storeInfo.status || 'เปิดตามเวลา (10:30-00:30)');
     document.getElementById('store_logo').value = storeInfo.logo || ''; 
     document.getElementById('store_media').value = storeInfo.mediaLink || ''; 
     document.getElementById('store_mediaText').value = storeInfo.mediaText || ''; 
@@ -1240,8 +1242,7 @@ function toggleAdminFields() {
 function submitStoreAction(event) {
     if (event) event.preventDefault();
     
-    // อัปเดตข้อมูลในความจำทันที (ไม่ต้องรอเซิร์ฟเวอร์ตอบกลับ)
-    storeInfo.status = document.getElementById('store_status')?.value || "AUTO";
+    storeInfo.status = document.getElementById('store_status')?.value || storeInfo.status || "เปิดตามเวลา (10:30-00:30)";
     storeInfo.line = document.getElementById('store_line')?.value || storeInfo.line || "";
     storeInfo.hours = document.getElementById('store_hours')?.value || storeInfo.hours || "";
     storeInfo.logo = document.getElementById('store_logo')?.value || storeInfo.logo || "";
@@ -1250,7 +1251,6 @@ function submitStoreAction(event) {
     storeInfo.warranty = document.getElementById('store_warranty')?.value || storeInfo.warranty || "";
     storeInfo.customCards = localCustomCards || [];
 
-    // อัปเดตสถานะป้ายปุ่มมุมซ้ายบนและหน้าข้อมูลร้านค้าเรียลไทม์
     updateShopStatusBadge();
     if (currentTab === 'info') renderInfoPage();
 
@@ -1443,8 +1443,9 @@ function renderAdminProductList(tab) {
     container.innerHTML = html;
 }
 
+/* 🌟 แก้ไข: เปรียบเทียบ String(item.id) === String(id) ในแอดมิน */
 function selectProductForEdit(id) {
-    const p = allProducts.find(item => item.id === id);
+    const p = allProducts.find(item => String(item.id) === String(id));
     if (!p) return;
     
     document.getElementById('a_id').value = p.id || '';
